@@ -24,7 +24,5 @@ use App\Http\Controllers\LoginController;
 
 Route::post('/loginHotspot', [LoginController::class, 'index'])->name('hotspot.login');
 
-// ifLoginError
-Route::get('/loginHotspot', [LoginController::class, 'ifErrorLogin'])->name('hotspot.error');
-
-Route::get('/registerHotspot ', [LoginController::class, 'create'])->name('hotspot.create');
+Route::post('/daftar ', [LoginController::class, 'create'])->name('hotspot.register.view');
+Route::post('/daftar/register ', [LoginController::class, 'daftar'])->name('hotspot.register');

@@ -30,10 +30,16 @@
 					<img src="{{asset('login/images/Lambang_Kabupaten_Badung.png')}}" alt="IMG">
 				</div>
 
-				<form class="login100-form validate-form">
+				<form class="login100-form validate-form" action="{{route('hotspot.register')}}" method="POST">
+					
+					{{ csrf_field() }}
+
 					<span class="login100-form-title">
 						Registrasi Akun Hotspot
 					</span>
+
+					<input type="hidden" name="ip" value="{{$request['ip']}}">
+					<input type="hidden" name="mac" value="{{$request['mac']}}">
 
 					<div class="wrap-input100">
 						<input class="input100" type="text" name="nik" placeholder="NIK">
@@ -42,7 +48,6 @@
 							<i class="fa fa-id-card-o" aria-hidden="true"></i>
 						</span>
 					</div>
-
 
                     <div class="wrap-input100">
 						<input class="input100" type="text" name="username" placeholder="Username">
@@ -53,7 +58,7 @@
 					</div>
 
 					<div class="wrap-input100">
-						<input class="input100" type="password" name="pass" placeholder="Password">
+						<input class="input100" type="password" name="password" placeholder="Password">
 						<span class="focus-input100"></span>
 						<span class="symbol-input100">
 							<i class="fa fa-lock" aria-hidden="true"></i>

@@ -82,8 +82,9 @@
 					</div>
 				</form>
 
-					<div class="login100-form">
-						<div class="text-center p-t-12">
+				<div class="login100-form">
+
+					<div class="text-center p-t-12">
 						<span class="txt1">
 							Lupa 
 						</span>
@@ -91,7 +92,7 @@
 							Username / Password?
 						</a>
 					</div>
-
+	
 					<div class="text-center p-t-136">
 						<span class="txt1">
 							Belum Punya akun?
@@ -104,7 +105,7 @@
 
 				</div>
 
-				
+
 			</div>
 		</div>
 	</div>

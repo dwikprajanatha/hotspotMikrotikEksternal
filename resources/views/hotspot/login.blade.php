@@ -51,12 +51,10 @@
 					<span class="login100-form-title">
 						Login Hotspot Badung
 					</span>
-
-					@php dd($request) @endphp
 					
-					@if($request->error)
+					@if($request['error'] != null)
 					<div class="alert alert-danger" role="alert">
-						<p class="text-danger">{{$request->error}}</p>
+						<p class="text-danger">{{$request['error']}}</p>
 					</div>
 					@endif
 				

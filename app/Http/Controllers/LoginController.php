@@ -13,10 +13,7 @@ class LoginController extends Controller
      */
     public function index(Request $request)
     {
-
-        dd($request);
-
-        return view('hotspot/login');
+        return view('hotspot/login', ['request' => $request->all()]);
     }
 
     /**

@@ -55,7 +55,7 @@
 					
 					@if($request['error'] != null)
 					<div class="alert alert-danger" role="alert">
-						<p class="text-danger">{{$request['error']}}</p>
+						<p class="text-danger text-center">{{$request['error']}}</p>
 					</div>
 					@endif
 				
@@ -80,30 +80,29 @@
 							Masuk Hotspot
 						</button>
 					</div>
-
-					<div class="text-center p-t-12">
-						<span class="txt1">
-							Lupa 
-						</span>
-						<a class="txt2" href="#">
-                            Username / Password?
-						</a>
-					</div>
-
-					<div class="text-center p-t-136">
-                        <span class="txt1">
-                            Belum Punya akun?
-                        </span>
-						<a class="txt2" href="{{route('hotspot.create')}}">
-							Buat Akun disini
-							<i class="fa fa-long-arrow-right m-l-5" aria-hidden="true"></i>
-						</a>
-					</div>
 				</form>
+
+				<div class="text-center p-t-12">
+					<span class="txt1">
+						Lupa 
+					</span>
+					<a class="txt2" href="#">
+						Username / Password?
+					</a>
+				</div>
+
+				<div class="text-center p-t-136">
+					<span class="txt1">
+						Belum Punya akun?
+					</span>
+					<a class="txt2" href="{{route('hotspot.create')}}">
+						Buat Akun disini
+						<i class="fa fa-long-arrow-right m-l-5" aria-hidden="true"></i>
+					</a>
+				</div>
 			</div>
 		</div>
 	</div>
-	
 	
 
 	
@@ -123,9 +122,6 @@
 	</script>
 <!--===============================================================================================-->
 	<script src="{{asset('login/js/main.js')}}"></script>
-
-
-
 
 </body>
 </html>

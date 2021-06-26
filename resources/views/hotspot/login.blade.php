@@ -51,6 +51,8 @@
 					<span class="login100-form-title">
 						Login Hotspot Badung
 					</span>
+
+					@php dd($request->error) @endphp
 					
 					@if($request->error)
 					<div class="alert alert-danger" role="alert">

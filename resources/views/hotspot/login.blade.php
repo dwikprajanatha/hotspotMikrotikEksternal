@@ -52,7 +52,7 @@
 						Login Hotspot Badung
 					</span>
 
-					@php dd($request->error) @endphp
+					@php dd($request) @endphp
 					
 					@if($request->error)
 					<div class="alert alert-danger" role="alert">

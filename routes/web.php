@@ -22,6 +22,6 @@ use App\Http\Controllers\LoginController;
 //     return view('hotspot/login');
 // });
 
-Route::get('/loginHotspot', [LoginController::class, 'index'])->name('hotspot.login');
+Route::post('/loginHotspot', [LoginController::class, 'index'])->name('hotspot.login');
 
 Route::get('/registerHotspot ', [LoginController::class, 'create'])->name('hotspot.create');

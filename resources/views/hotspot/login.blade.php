@@ -30,14 +30,14 @@
 					<img src="{{asset('login/images/Lambang_Kabupaten_Badung.png')}}" alt="IMG">
 				</div>
 
+				@php 
+				dd($request)
+				@endphp
+
 				<form class="login100-form validate-form" name="login" action="{{$request->link-login-only}}">
 					<span class="login100-form-title">
 						Login Hotspot Badung
 					</span>
-
-					@php 
-					dd($request)
-					@endphp
 
 					<div class="wrap-input100">
 						<input class="input100" type="text" name="username" placeholder="Username">

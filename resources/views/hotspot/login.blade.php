@@ -81,7 +81,6 @@
 						</button>
 					</div>
 
-					<form action="#" method="post">
 						<div class="text-center p-t-12">
 							<span class="txt1">
 								Lupa 
@@ -90,23 +89,22 @@
 								Username / Password?
 							</a>
 						</div>
-					</form>
-					
-					<form id="formCreateUser" action="{{route('hotspot.register.view')}}" method="post">
 
-						<input type="hidden" name="ip" value="{{$request['ip']}}">
-						<input type="hidden" name="mac" value="{{$request['mac']}}">
-						
-						<div class="text-center p-t-136">
-							<span class="txt1">
-								Belum Punya akun?
-							</span>
-							<a class="txt2" onclick="document.getElementById('formCreateUser').submit()">
-								Buat Akun disini
-								<i class="fa fa-long-arrow-right m-l-5" aria-hidden="true"></i>
-							</a>
-						</div>
-					</form>
+					<div class="text-center p-t-136">
+						<span class="txt1">
+							Belum Punya akun?
+						</span>
+
+						@php
+						$request->session()->put('request', $request->only(['ip', 'mac', 'chap-id', 'chap-challenge']))
+						@endphp
+
+						<a class="txt2" href="{{route('hotspot.register.view')}}">
+							Buat Akun disini
+							<i class="fa fa-long-arrow-right m-l-5" aria-hidden="true"></i>
+						</a>
+					</div>
+					
 
 				</form>
 

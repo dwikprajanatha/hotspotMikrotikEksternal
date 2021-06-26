@@ -82,24 +82,29 @@
 					</div>
 				</form>
 
-				<div class="text-center p-t-12">
-					<span class="txt1">
-						Lupa 
-					</span>
-					<a class="txt2" href="#">
-						Username / Password?
-					</a>
+					<div class="login100-form">
+						<div class="text-center p-t-12">
+						<span class="txt1">
+							Lupa 
+						</span>
+						<a class="txt2" href="#">
+							Username / Password?
+						</a>
+					</div>
+
+					<div class="text-center p-t-136">
+						<span class="txt1">
+							Belum Punya akun?
+						</span>
+						<a class="txt2" href="{{route('hotspot.create')}}">
+							Buat Akun disini
+							<i class="fa fa-long-arrow-right m-l-5" aria-hidden="true"></i>
+						</a>
+					</div>
+
 				</div>
 
-				<div class="text-center p-t-136">
-					<span class="txt1">
-						Belum Punya akun?
-					</span>
-					<a class="txt2" href="{{route('hotspot.create')}}">
-						Buat Akun disini
-						<i class="fa fa-long-arrow-right m-l-5" aria-hidden="true"></i>
-					</a>
-				</div>
+				
 			</div>
 		</div>
 	</div>

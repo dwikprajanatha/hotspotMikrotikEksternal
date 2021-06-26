@@ -28,10 +28,12 @@
 	<script type="text/javascript">
 
 	    function doLogin() {
-		var hash_pass = hexMD5('{{$request["chap-id"]}}' + document.login.password.value + '{{$request["chap-challenge"}}');
-		document.login.password.value = hash_pass;
-		document.login.submit();
-		return false;
+			var chap_id = <?php $request['chap-id'] ?>
+			var chap_challenge = <?php $request['chap-challenge'] ?>
+			var hash_pass = hexMD5(chap_id + document.login.password.value + chap_challenge);
+			document.login.password.value = hash_pass;
+			document.login.submit();
+			return false;
 	    }
 
 	</script>

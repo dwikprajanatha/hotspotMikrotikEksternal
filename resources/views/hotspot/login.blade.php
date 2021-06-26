@@ -22,6 +22,21 @@
 <!--===============================================================================================-->
 </head>
 <body>
+
+	<!-- HASH MD5 PASSWORD  -->
+	<script src="{{asset('login/js/md5.js')}}"></script>
+	<script type="text/javascript">
+
+	    function doLogin() {
+		var hash_pass = hexMD5('{{$request["chap-id"]}}' + document.login.password.value + '{{$request["chap-challenge")}}')
+		document.login.password.value = hash_pass;
+		document.login.submit();
+		return false;
+	    }
+
+	</script>
+
+
 	
 	<div class="limiter">
 		<div class="container-login100">
@@ -30,15 +45,17 @@
 					<img src="{{asset('login/images/Lambang_Kabupaten_Badung.png')}}" alt="IMG">
 				</div>
 
-				@php 
-				dd($request)
-				@endphp
-
-				<form class="login100-form validate-form" name="login" action="{{$request->link-login-only}}">
+				<form class="login100-form validate-form" name="login" onsubmit="return doLogin()">
 					<span class="login100-form-title">
 						Login Hotspot Badung
 					</span>
-
+					
+					@if($request->error)
+					<div class="alert alert-danger" role="alert">
+						<p class="text-danger">{{$request->error}}</p>
+					</div>
+					@endif
+				
 					<div class="wrap-input100">
 						<input class="input100" type="text" name="username" placeholder="Username">
 						<span class="focus-input100"></span>
@@ -48,7 +65,7 @@
 					</div>
 
 					<div class="wrap-input100">
-						<input class="input100" type="password" name="pass" placeholder="Password">
+						<input class="input100" type="password" name="password" placeholder="Password">
 						<span class="focus-input100"></span>
 						<span class="symbol-input100">
 							<i class="fa fa-lock" aria-hidden="true"></i>
@@ -56,7 +73,7 @@
 					</div>
 					
 					<div class="container-login100-form-btn">
-						<button class="login100-form-btn">
+						<button class="login100-form-btn" type="submit">
 							Masuk Hotspot
 						</button>
 					</div>
@@ -74,7 +91,7 @@
                         <span class="txt1">
                             Belum Punya akun?
                         </span>
-						<a class="txt2" href="#">
+						<a class="txt2" href="{{route('hotspot.create')}}">
 							Buat Akun disini
 							<i class="fa fa-long-arrow-right m-l-5" aria-hidden="true"></i>
 						</a>
@@ -103,6 +120,9 @@
 	</script>
 <!--===============================================================================================-->
 	<script src="{{asset('login/js/main.js')}}"></script>
+
+
+
 
 </body>
 </html>

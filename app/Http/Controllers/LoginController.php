@@ -16,6 +16,14 @@ class LoginController extends Controller
         return view('hotspot/login', ['request' => $request->all()]);
     }
 
+    public function ifErrorLogin(Request $request)
+    {
+
+        dd($request->all());
+        return view('hotspot/login', ['request' => $request->all()]);
+        
+    }
+
     /**
      * Show the form for creating a new resource.
      *

@@ -95,12 +95,7 @@
 							Belum Punya akun?
 						</span>
 
-						@php
-							// $request->session()->put('mac', $request['mac']);
-							// $request->session()->put('ip', $request['ip']);
-
-							{{ session()->push('request',$request) }}
-						@endphp
+						{{ session()->push('request', $request) }}
 
 						<a class="txt2" href="{{route('hotspot.register.view')}}">
 							Buat Akun disini

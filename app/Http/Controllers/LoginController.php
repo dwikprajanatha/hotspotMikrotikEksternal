@@ -15,7 +15,7 @@ class LoginController extends Controller
 
     public function create(Request $request)
     {
-        return view('hotspot/register',['request' => $request->all()]);
+        return view('hotspot/register');
     }
 
     public function daftar(Request $request)

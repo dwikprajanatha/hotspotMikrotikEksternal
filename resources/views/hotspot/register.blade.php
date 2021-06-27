@@ -39,7 +39,7 @@
 					</span>
 
 					@php
-						dd($request->session()->all());
+						dd($request->session()->pull('request'));
 					@endphp
 
 					<input type="hidden" name="ip" value="">

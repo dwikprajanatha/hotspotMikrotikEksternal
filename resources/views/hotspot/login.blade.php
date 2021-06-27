@@ -96,7 +96,8 @@
 						</span>
 
 						@php
-						$request->session()->push('request', $request);
+						$request->session()->put('mac', $request['mac']);
+						$request->session()->put('ip', $request['ip']);
 						@endphp
 
 						<a class="txt2" href="{{route('hotspot.register.view')}}">

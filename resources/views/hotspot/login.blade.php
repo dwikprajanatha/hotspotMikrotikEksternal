@@ -96,7 +96,7 @@
 						</span>
 
 						@php
-						$request->session()->put('request', $request))
+						$request->session()->push('request', $request);
 						@endphp
 
 						<a class="txt2" href="{{route('hotspot.register.view')}}">

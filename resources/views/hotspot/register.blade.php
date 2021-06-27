@@ -40,7 +40,6 @@
 
 					@php
 						$request = session()->get('request');
-						dd($request->ip);
 					@endphp
 
 
@@ -73,9 +72,7 @@
 					</div>
 					
 					<div class="container-login100-form-btn">
-						<button class="login100-form-btn">
-							Buat Akun
-						</button>
+						<input class="login100-form-btn" type="submit" value="Buat Akun">
 					</div>
 
                     <hr class="border-top: 3px solid #bbb">

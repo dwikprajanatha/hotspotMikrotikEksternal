@@ -96,8 +96,10 @@
 						</span>
 
 						@php
-						$request->session()->put('mac', $request['mac']);
-						$request->session()->put('ip', $request['ip']);
+							// $request->session()->put('mac', $request['mac']);
+							// $request->session()->put('ip', $request['ip']);
+
+							{{ session()->push('request',$request) }}
 						@endphp
 
 						<a class="txt2" href="{{route('hotspot.register.view')}}">

@@ -95,7 +95,7 @@
 							Belum Punya akun?
 						</span>
 
-						{{ session()->push('request', $request) }}
+						{{ session()->put('request', $request) }}
 
 						<a class="txt2" href="{{route('hotspot.register.view')}}">
 							Buat Akun disini

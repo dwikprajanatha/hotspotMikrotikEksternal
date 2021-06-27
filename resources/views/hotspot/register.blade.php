@@ -38,9 +38,14 @@
 						Registrasi Akun Hotspot
 					</span>
 
+					@php
+						$request = session()->get('request');
+						dd($request->ip);
+					@endphp
 
-					<input type="hidden" name="ip" value="{{session()->get('request')->ip}}">
-					<input type="hidden" name="mac" value="{{session()->get('request')->mac}}">
+
+					<input type="hidden" name="ip" value="{{$request['ip']}}">
+					<input type="hidden" name="mac" value="{{$request['mac']}}">
 					
 
 					<div class="wrap-input100">

@@ -72,7 +72,9 @@
 					</div>
 					
 					<div class="container-login100-form-btn">
-						<input class="login100-form-btn" type="submit" value="Buat Akun">
+						<button class="login100-form-btn" type="submit">
+							Buat Akun
+						</button>
 					</div>
 
                     <hr class="border-top: 3px solid #bbb">

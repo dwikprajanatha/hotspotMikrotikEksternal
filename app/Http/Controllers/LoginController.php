@@ -20,7 +20,12 @@ class LoginController extends Controller
 
     public function daftar(Request $request)
     {
-        dd($request->all());
+        //cek NIK
+
+
+        //buat akun
+
+        
     }
 
 }

@@ -32,6 +32,8 @@
 			var chap_challenge = "<?php $request['chap-challenge'] ?>";
 			var hash_pass = hexMD5(chap_id + document.login.password.value + chap_challenge);
 			document.login.password.value = hash_pass;
+			console.log(chap_id);
+			console.log(chap_challenge);
 			console.log(hash_pass);
 			document.login.submit();
 			return false;

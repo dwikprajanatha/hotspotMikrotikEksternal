@@ -39,7 +39,12 @@
 					</span>
 
 					@php
-						$request = session()->get('request');
+						if(session()->has('request')){
+							$request = session()->get('request');
+						} else {
+							$request = ['mac' => '00:00:00:00:00', 'ip' => '0.0.0.0'];
+						}
+						
 					@endphp
 
 

@@ -17,8 +17,8 @@ class TbUserHotspot extends Migration
             $table->id();
             $table->foreignId('nik_id')->constrained('tb_nik');
             $table->string('username');
-            $table->string('password');
-            $table->string('radgroup');
+            // $table->string('password');
+            $table->string('kategori');
             $table->string('mac');
             $table->string('ip');
         });
@@ -31,6 +31,6 @@ class TbUserHotspot extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tb_user_hotspot');
+        Schema::connection('mysql')->dropIfExists('tb_user_hotspot');
     }
 }

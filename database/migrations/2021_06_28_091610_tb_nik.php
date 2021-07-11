@@ -28,6 +28,6 @@ class TbNik extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tb_nik');
+        Schema::connection('mysql')->dropIfExists('tb_nik');
     }
 }

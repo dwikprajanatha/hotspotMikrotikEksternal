@@ -31,6 +31,7 @@
 				</div>
 
 				@if($request->session()->has('error'))
+					@dd($request->session('error'))
 					<div class="alert alert-danger" role="alert">
 						{{$request->session('error')}}
 					</div>

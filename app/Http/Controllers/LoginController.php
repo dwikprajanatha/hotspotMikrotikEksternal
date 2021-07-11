@@ -24,7 +24,7 @@ class LoginController extends Controller
     {
 
         //verifikasi nik
-        $cek = DB::connection('mysql')->table('tb_user_hotspot')->where('nik',$request->nik)->first();
+        $cek = DB::connection('mysql')->table('tb_nik')->where('nik',$request->nik)->first();
         
         if($cek == null){
             return redirect()->back()->with('error', 'NIK Tidak Terdaftar!');

@@ -30,9 +30,9 @@
 					<img src="{{asset('login/images/Lambang_Kabupaten_Badung.png')}}" alt="IMG">
 				</div>
 
-				@if($session()->has('error'))
+				@if($request->session()->has('error'))
 					<div class="alert alert-danger" role="alert">
-						{{$session('error')}}
+						{{$request->session('error')}}
 					</div>
 				@endif
 

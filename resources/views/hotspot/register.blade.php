@@ -31,7 +31,6 @@
 				</div>
 
 				@if($error = Session::get('error'))
-					@dd(session()->error)
 					<div class="alert alert-danger" role="alert">
 						{{ $error }}
 					</div>

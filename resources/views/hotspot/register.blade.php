@@ -30,6 +30,12 @@
 					<img src="{{asset('login/images/Lambang_Kabupaten_Badung.png')}}" alt="IMG">
 				</div>
 
+				@if($session()->has('error'))
+					<div class="alert alert-danger" role="alert">
+						{{$session('error')}}
+					</div>
+				@endif
+
 				<form class="login100-form validate-form" action="{{route('hotspot.register')}}" method="POST">
 					
 					{{ csrf_field() }}

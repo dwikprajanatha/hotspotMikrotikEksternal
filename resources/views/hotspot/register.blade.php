@@ -30,15 +30,15 @@
 					<img src="{{asset('login/images/Lambang_Kabupaten_Badung.png')}}" alt="IMG">
 				</div>
 
-				@if($error = Session::get('error'))
-					<div class="alert alert-danger" role="alert">
-						{{ $error }}
-					</div>
-				@endif
-
 				<form class="login100-form validate-form" action="{{route('hotspot.register')}}" method="POST">
 					
 					{{ csrf_field() }}
+
+					@if($error = Session::get('error'))
+						<div class="alert alert-danger" role="alert">
+							{{ $error }}
+						</div>
+					@endif
 
 					<span class="login100-form-title">
 						Registrasi Akun Hotspot

@@ -30,10 +30,10 @@
 					<img src="{{asset('login/images/Lambang_Kabupaten_Badung.png')}}" alt="IMG">
 				</div>
 
-				@if(session('error'))
+				@if($error = Session::get('error'))
 					@dd(session()->error)
 					<div class="alert alert-danger" role="alert">
-						{{ session('error') }}
+						{{ $error }}
 					</div>
 				@endif
 

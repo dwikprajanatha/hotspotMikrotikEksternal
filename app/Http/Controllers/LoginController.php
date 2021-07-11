@@ -27,7 +27,8 @@ class LoginController extends Controller
         $cek = DB::connection('mysql')->table('tb_nik')->where('nik',$request->nik)->first();
         
         if($cek == null){
-            return redirect()->back()->with('error', 'NIK Tidak Terdaftar!');
+            Session::flash('error', 'NIK Tidak Terdaftar!');
+            return redirect()->back();
         }
 
         //pisah NIK

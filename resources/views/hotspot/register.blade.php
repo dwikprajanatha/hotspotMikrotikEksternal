@@ -34,15 +34,16 @@
 					
 					{{ csrf_field() }}
 
+
+					<span class="login100-form-title">
+						Registrasi Akun Hotspot
+					</span>
+
 					@if($error = Session::get('error'))
 						<div class="alert alert-danger" role="alert">
 							{{ $error }}
 						</div>
 					@endif
-
-					<span class="login100-form-title">
-						Registrasi Akun Hotspot
-					</span>
 
 					@php
 						if(session()->has('request')){

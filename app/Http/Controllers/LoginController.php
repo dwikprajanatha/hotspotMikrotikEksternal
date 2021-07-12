@@ -67,7 +67,7 @@ class LoginController extends Controller
         //start DB transaction
         DB::transaction(function() use(&$request, &$kategori, &$cek){
 
-            dd($request,$kategori,$cek);
+            // dd($request,$kategori,$cek);
 
             DB::connection('mysql')->transaction(function() use(&$request, &$kategori, &$cek){
 

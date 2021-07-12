@@ -54,7 +54,6 @@
 						
 					@endphp
 
-
 					<input type="hidden" name="ip" value="{{$request['ip']}}">
 					<input type="hidden" name="mac" value="{{$request['mac']}}">
 					

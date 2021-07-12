@@ -25,13 +25,21 @@ class LoginController extends Controller
     {
 
         //verifikasi nik
-        $cek = DB::connection('mysql')->table('tb_nik')->where('nik',$request->nik)->first();
+        $cek = DB::connection('mysql')->table('tb_nik')->select('id')->where('nik',$request->nik)->first();
         
         if($cek == null){
             Session::flash('error', 'NIK Tidak Terdaftar!');
             return redirect()->back();
         }
 
+        //check if exists
+        $cek_ada = DB::connection('mysql')->table('tb_user_hotspot')->where('nik_id',$request->nik)->first();
+
+        if($cek_ada != null){
+            Session::flash('error', 'NIK Sudah terdaftar!');
+            return redirect()->back();
+        }
+        
         //pisah NIK
         $nik_pisah = str_split($request->nik);
 
@@ -57,9 +65,9 @@ class LoginController extends Controller
         }
 
         //start DB transaction
-        DB::transaction(function($conn){
+        DB::transaction(function($conn) use(&$request, &$kategori){
 
-            DB::connection('mysql')->transaction(function($conn){
+            DB::connection('mysql')->transaction(function($conn) use(&$request, &$kategori){
 
                 //buat akun di DB local
                $user_local = DB::connection('mysql')->table('tb_user_hotspot')->insert([
@@ -73,7 +81,7 @@ class LoginController extends Controller
 
            });
 
-           DB::connection('mysql_radius')->transaction(function($conn){
+           DB::connection('mysql_radius')->transaction(function($conn) use(&$request, &$kategori){
                $radcheck = DB::connection('mysql_radius')->table('radcheck')->insert([
                    'UserName' => $request->username,
                    'Attribute' => 'Cleartext-Password',

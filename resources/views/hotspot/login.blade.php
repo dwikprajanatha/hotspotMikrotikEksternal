@@ -53,7 +53,7 @@
 					</span>
 
 					@if($success = Session::get('userSuccess'))
-						<div class="alert alert-danger" role="alert">
+						<div class="alert alert-success" role="alert">
 							{{ $success }}
 						</div>
 						{{ $request->session()->forget('userSuccess') }}

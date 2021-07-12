@@ -65,9 +65,11 @@ class LoginController extends Controller
         }
 
         //start DB transaction
-        DB::transaction(function($conn) use(&$request, &$kategori, &$cek){
+        DB::transaction(function() use(&$request, &$kategori, &$cek){
 
-            DB::connection('mysql')->transaction(function($conn) use(&$request, &$kategori, &$cek){
+            dd($request,$kategori,$cek);
+
+            DB::connection('mysql')->transaction(function() use(&$request, &$kategori, &$cek){
 
                 //buat akun di DB local
                $user_local = DB::connection('mysql')->table('tb_user_hotspot')->insert([
@@ -81,10 +83,10 @@ class LoginController extends Controller
 
            });
 
-           DB::connection('mysql_radius')->transaction(function($conn) use(&$request, &$kategori){
+           DB::connection('mysql_radius')->transaction(function() use(&$request, &$kategori){
                $radcheck = DB::connection('mysql_radius')->table('radcheck')->insert([
-                   'UserName' => $request->username,
-                   'Attribute' => 'Cleartext-Password',
+                   'username' => $request->username,
+                   'attribute' => 'Cleartext-Password',
                    'op' => ':=',
                    'value' => $request->password,
                ]);
@@ -98,6 +100,8 @@ class LoginController extends Controller
            });
 
         });
+
+        return redirect()->intended('http://10.0.0.1/');
         
     }
 

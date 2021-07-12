@@ -73,7 +73,7 @@ class LoginController extends Controller
 
                 //buat akun di DB local
                $user_local = DB::connection('mysql')->table('tb_user_hotspot')->insert([
-                   'nik_id' => $cek, //sementara
+                   'nik_id' => $cek->id, //sementara
                    'username' => $request->username,
                    // 'password' => $request->password,
                    'kategori' => $kategori,

@@ -221,6 +221,18 @@ iframe {
 }
 
 
+.socialmedia-text {
+  font-family: Poppins-Bold;
+  font-size: 14px;
+  color: #5e5e5e;
+  line-height: 1.2;
+  text-align: center;
+
+  width: 100%;
+  display: block;
+  padding-bottom: 10px;
+}
+
 /*---------------------------------------------*/
 .wrap-input100 {
   position: relative;
@@ -322,6 +334,19 @@ iframe {
   padding-top: 20px;
 }
 
+.container-login-social-form-btn {
+  width: 100%;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding-top: 10px;
+}
+
+
 .login100-form-btn {
   font-family: Montserrat-Bold;
   font-size: 15px;
@@ -352,6 +377,67 @@ iframe {
   background: #333333;
 }
 
+
+.login-form-btn-facebook {
+  font-family: Montserrat-Bold;
+  font-size: 15px;
+  line-height: 1.5;
+  color: #fff;
+  text-transform: uppercase;
+
+  width: 100%;
+  height: 50px;
+  border-radius: 25px;
+  background: #3b5998;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 25px;
+
+  -webkit-transition: all 0.4s;
+  -o-transition: all 0.4s;
+  -moz-transition: all 0.4s;
+  transition: all 0.4s;
+}
+
+.login-form-btn-facebook:hover {
+  background: #4e75c7;
+}
+
+
+.login-form-btn-google {
+  font-family: Montserrat-Bold;
+  font-size: 15px;
+  line-height: 1.5;
+  color: #fff;
+  text-transform: uppercase;
+
+  width: 100%;
+  height: 50px;
+  border-radius: 25px;
+  background: #DB4437;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 25px;
+
+  -webkit-transition: all 0.4s;
+  -o-transition: all 0.4s;
+  -moz-transition: all 0.4s;
+  transition: all 0.4s;
+}
+
+.login-form-btn-google:hover {
+  background: #c22d1f;
+}
 
 
 /*------------------------------------------------------------------

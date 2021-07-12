@@ -89,6 +89,21 @@
 					</div>
 
                     <hr class="border-top: 3px solid #bbb">
+						<span class="socialmedia-text">
+							Bukan warga desa Punggul? <br> Login pakai Social Media aja!
+						</span>
+
+						<div class="container-login-social-form-btn">
+							<button class="login-form-btn-facebook">
+								Login with Facebook
+							</button>
+						</div>
+
+						<div class="container-login-social-form-btn">
+							<button class="login-form-btn-google">
+								Login with Google
+							</button>
+						</div>
                     
 
 					<div class="text-center p-t-136">

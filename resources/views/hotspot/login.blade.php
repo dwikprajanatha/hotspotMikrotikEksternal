@@ -56,7 +56,7 @@
 						<div class="alert alert-success" role="alert">
 							{{ $success }}
 						</div>
-						{{ $request->session()->forget('userSuccess') }}
+						{{ session()->forget('userSuccess') }}
 					@endif
 					
 					@if($request['error'] != null)

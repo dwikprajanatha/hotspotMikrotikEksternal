@@ -101,6 +101,7 @@ class LoginController extends Controller
 
         });
 
+        $request->session()->put('userSuccess', 'Akun Berhasil dibuat!, Silahkan Login');
         return redirect()->intended('http://10.0.0.1/');
         
     }

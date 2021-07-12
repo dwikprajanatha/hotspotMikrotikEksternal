@@ -51,6 +51,13 @@
 					<span class="login100-form-title">
 						Login Hotspot Badung
 					</span>
+
+					@if($success = Session::get('userSuccess'))
+						<div class="alert alert-danger" role="alert">
+							{{ $success }}
+						</div>
+						{{ $request->session()->forget('userSuccess') }}
+					@endif
 					
 					@if($request['error'] != null)
 					<div class="alert alert-danger" role="alert">

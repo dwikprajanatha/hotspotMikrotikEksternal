@@ -65,13 +65,13 @@ class LoginController extends Controller
         }
 
         //start DB transaction
-        DB::transaction(function($conn) use(&$request, &$kategori){
+        DB::transaction(function($conn) use(&$request, &$kategori, &$cek){
 
-            DB::connection('mysql')->transaction(function($conn) use(&$request, &$kategori){
+            DB::connection('mysql')->transaction(function($conn) use(&$request, &$kategori, &$cek){
 
                 //buat akun di DB local
                $user_local = DB::connection('mysql')->table('tb_user_hotspot')->insert([
-                   'nik_id' => 0, //sementara
+                   'nik_id' => $cek, //sementara
                    'username' => $request->username,
                    // 'password' => $request->password,
                    'kategori' => $kategori,

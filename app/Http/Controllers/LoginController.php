@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use DateTime;
 use Illuminate\Support\Facades\DB;
 use Session;
+use Laravel\Socialite\Facades\Socialite;
 
 class LoginController extends Controller
 {
@@ -23,7 +24,7 @@ class LoginController extends Controller
 
     public function daftar(Request $request)
     {
-
+        
         //verifikasi nik
         $cek = DB::connection('mysql')->table('tb_nik')->select('id')->where('nik',$request->nik)->first();
         
@@ -105,5 +106,34 @@ class LoginController extends Controller
         return redirect()->intended('http://10.0.0.1/');
         
     }
+
+    public function redirect($provider)
+    {
+        return Socialite::driver($provider)->redirect();
+    }
+
+    public function callback($provider)
+    {
+        try {
+            
+            $user = Socialite::driver($provider)->stateless()->user();
+ 
+            // dd($user);
+
+            /// lakukan pengecekan apakah facebook id nya sudah ada apa belum
+            $id_user = DB::connection('mysql')->table('users')->where('social_id', $user->id)->first();
+            
+            // if($id_user != null){
+            //     //loginkan gan
+            // } else {
+                
+            // }
+
+
+        } catch (\Throwable $th) {
+            //throw $th;
+        }
+    }
+    
 
 }

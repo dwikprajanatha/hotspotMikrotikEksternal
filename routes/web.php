@@ -26,3 +26,7 @@ Route::post('/loginHotspot', [LoginController::class, 'index'])->name('hotspot.l
 
 Route::get('/daftar', [LoginController::class, 'create'])->name('hotspot.register.view');
 Route::post('/daftar', [LoginController::class, 'daftar'])->name('hotspot.register');
+
+//SOCIAL MEDIA LOGIN
+Route::get('auth/{provider}', [LoginController::class, 'redirect']);
+Route::get('auth/{provider}/callback', [LoginController::class, 'callback']);

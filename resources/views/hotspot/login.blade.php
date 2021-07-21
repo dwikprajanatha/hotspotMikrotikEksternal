@@ -47,7 +47,7 @@
 					<img src="{{asset('login/images/Lambang_Kabupaten_Badung.png')}}" alt="IMG">
 				</div>
 
-				<form class="login100-form validate-form" name="login" action="{{$request['link-login-only']}}" onsubmit="return doLogin()">
+				<form class="login100-form validate-form" name="login" action="{{$request['link-login-only']}}" method="post" onsubmit="return doLogin()">
 					<span class="login100-form-title">
 						Login Hotspot Badung
 					</span>

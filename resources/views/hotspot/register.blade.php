@@ -22,7 +22,7 @@
 <!--===============================================================================================-->
 </head>
 <body>
-	
+
 	<div class="limiter">
 		<div class="container-login100">
 			<div class="wrap-login100">
@@ -30,86 +30,95 @@
 					<img src="{{asset('login/images/Lambang_Kabupaten_Badung.png')}}" alt="IMG">
 				</div>
 
-				<form class="login100-form validate-form" action="{{route('hotspot.register')}}" method="POST">
+				<div class="login100-form validate-form">
+
+
+					<form action="{{route('hotspot.register')}}" method="POST">
 					
-					{{ csrf_field() }}
-
-
-					<span class="login100-form-title">
-						Registrasi Akun Hotspot
-					</span>
-
-					@if($error = Session::get('error'))
-						<div class="alert alert-danger" role="alert">
-							{{ $error }}
+						{{ csrf_field() }}
+	
+	
+						<span class="login100-form-title">
+							Registrasi Akun Hotspot
+						</span>
+	
+						@if($error = Session::get('error'))
+							<div class="alert alert-danger" role="alert">
+								{{ $error }}
+							</div>
+						@endif
+	
+						@php
+							if(session()->has('request')){
+								$request = session()->get('request');
+							} else {
+								$request = ['mac' => '00:00:00:00:00', 'ip' => '0.0.0.0'];
+							}
+							
+						@endphp
+	
+						<input type="hidden" name="ip" value="{{$request['ip']}}">
+						<input type="hidden" name="mac" value="{{$request['mac']}}">
+						{{-- <input type="hidden" name="chap-id" value="{{$request['chap-id']}}">
+						<input type="hidden" name="chap-challenge" value="{{$request['chap-challenge']}}"> --}}
+	
+						<div class="wrap-input100">
+							<input class="input100" type="text" name="nik" placeholder="NIK">
+							<span class="focus-input100"></span>
+							<span class="symbol-input100">
+								<i class="fa fa-id-card-o" aria-hidden="true"></i>
+							</span>
 						</div>
-					@endif
-
-					@php
-						if(session()->has('request')){
-							$request = session()->get('request');
-						} else {
-							$request = ['mac' => '00:00:00:00:00', 'ip' => '0.0.0.0'];
-						}
+	
+						<div class="wrap-input100">
+							<input class="input100" type="text" name="username" placeholder="Username">
+							<span class="focus-input100"></span>
+							<span class="symbol-input100">
+								<i class="fa fa-user" aria-hidden="true"></i>
+							</span>
+						</div>
+	
+						<div class="wrap-input100">
+							<input class="input100" type="password" name="password" placeholder="Password">
+							<span class="focus-input100"></span>
+							<span class="symbol-input100">
+								<i class="fa fa-lock" aria-hidden="true"></i>
+							</span>
+						</div>
 						
-					@endphp
-
-					<input type="hidden" name="ip" value="{{$request['ip']}}">
-					<input type="hidden" name="mac" value="{{$request['mac']}}">
-					
-
-					<div class="wrap-input100">
-						<input class="input100" type="text" name="nik" placeholder="NIK">
-						<span class="focus-input100"></span>
-						<span class="symbol-input100">
-							<i class="fa fa-id-card-o" aria-hidden="true"></i>
-						</span>
-					</div>
-
-                    <div class="wrap-input100">
-						<input class="input100" type="text" name="username" placeholder="Username">
-						<span class="focus-input100"></span>
-						<span class="symbol-input100">
-							<i class="fa fa-user" aria-hidden="true"></i>
-						</span>
-					</div>
-
-					<div class="wrap-input100">
-						<input class="input100" type="password" name="password" placeholder="Password">
-						<span class="focus-input100"></span>
-						<span class="symbol-input100">
-							<i class="fa fa-lock" aria-hidden="true"></i>
-						</span>
-					</div>
-					
-					<div class="container-login100-form-btn">
-						<button class="login100-form-btn" type="submit">
-							Buat Akun
-						</button>
-					</div>
-
-                    <hr class="border-top: 3px solid #bbb">
-						<span class="socialmedia-text">
-							Bukan warga desa Punggul? <br> Login pakai Social Media aja!
-						</span>
-
-						<div class="container-login-social-form-btn">
-							<button class="login-form-btn-facebook">
-								Login with Facebook
+						<div class="container-login100-form-btn">
+							<button class="login100-form-btn" type="submit">
+								Buat Akun
 							</button>
 						</div>
+	
+					</form>
 
-						<div class="container-login-social-form-btn">
-							<button class="login-form-btn-google">
-								Login with Google
-							</button>
-						</div>
-                    
+					<hr class="border-top: 3px solid #bbb">
+							<span class="socialmedia-text">
+								Bukan warga desa Punggul? <br> Login pakai Social Media aja!
+							</span>
+							
+							<a href="{{url('auth/facebook')}}">
+								<div class="container-login-social-form-btn">
+									<button id="facebook-btn" class="login-form-btn-facebook">
+										Login with Facebook
+									</button>
+								</div>
+							</a>
+							
+							<a href="{{url('auth/google')}}">
+								<div class="container-login-social-form-btn">
+									<button id="google-btn" class="login-form-btn-google">
+										Login with Google
+									</button>
+								</div>
+							</a>
 
-					<div class="text-center p-t-136">
+	
+						<div class="text-center p-t-136">
 
-					</div>
-				</form>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -133,6 +142,19 @@
 	</script>
 <!--===============================================================================================-->
 	<script src="{{asset('login/js/main.js')}}"></script>
+
+
+	<script type="text/javascript">
+
+		function facebook() {
+			location.href = "<?= url('auth/facebook')?>";
+		};
+
+		function google() {
+			location.href = "<?= url('auth/google')?>";
+		};
+
+	</script>
 
 </body>
 </html>

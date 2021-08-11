@@ -115,23 +115,39 @@ class LoginController extends Controller
     public function callback($provider)
     {
         try {
+
+            //get the request
+            $request = Session::get('request');
             
             $user = Socialite::driver($provider)->stateless()->user();
- 
+            
+
             // dd($user);
 
-            /// lakukan pengecekan apakah facebook id nya sudah ada apa belum
-            $id_user = DB::connection('mysql')->table('users')->where('social_id', $user->id)->first();
+            /// lakukan pengecekan apakah facebook/google id nya sudah ada apa belum
+            $id_user = DB::connection('mysql')->table('tb_user_social')->where('social_id', $user->id)->first();
             
-            // if($id_user != null){
-            //     //loginkan gan
-            // } else {
-                
-            // }
+            if($id_user != null){
+
+                return view('hotspot/loginAfterRegister',['request' => $request, 'provider' => $provider]);
+
+            } else {
+
+                DB::connection('mysql')->table('tb_user_social')->insert([
+                    'social_id' => $user->id,
+                    'username' => $user->email,
+                    'platform' => $provider,
+                    'created_at' => date('Y-m-d'),
+                ]);
+
+                return view('hotspot/loginAfterRegister',['request' => $request, 'provider' => $provider]);
+ 
+            }
+
 
 
         } catch (\Throwable $th) {
-            //throw $th;
+            echo("<h1> 500 Internal Server Error </h1>");
         }
     }
     

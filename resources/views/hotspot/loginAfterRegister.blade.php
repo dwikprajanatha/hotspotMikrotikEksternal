@@ -23,13 +23,34 @@
 	</script>
 	
 
-				<form class="login100-form validate-form" name="login" action="{{$request['link-login-only']}}" method="post" onsubmit="return doLogin()">
+				<form name="login" action="{{$request['link-login-only']}}" method="post" onsubmit="return doLogin()">
 				
-
+				@if($provider == 'facebook')
+					<input type="hidden" name="username" value="facebook_user">
+					<input type="hidden" name="password" value="facebook_user1234">
+				@else
+					<input type="hidden" name="username" value="google_user">
+					<input type="hidden" name="password" value="google_user1234">
+				@endif
 					
 
 				</form>
 
+				<script type="text/javascript">
+					window.onload=function(){
+						var auto = setTimeout(function(){ autoRefresh(); }, 100);
+				
+						function submitform(){
+						//   alert('test');
+						  document.forms["login"].submit();
+						}
+				
+						function autoRefresh(){
+						   clearTimeout(auto);
+						   auto = setTimeout(function(){ submitform(); autoRefresh(); }, 10000);
+						}
+					}
+				</script>
 
 </body>
 </html>

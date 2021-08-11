@@ -15,6 +15,7 @@
 			var chap_id = "<?php echo($request['chap-id']) ?>";
 			var chap_challenge = "<?php echo($request['chap-challenge']) ?>";
 			var hash_pass = hexMD5(chap_id + document.login.password.value + chap_challenge);
+			console.log(hash_pash);
 			document.login.password.value = hash_pass;
 			document.login.submit();
 			return false;
@@ -38,17 +39,14 @@
 
 				<script type="text/javascript">
 					window.onload=function(){
-						var auto = setTimeout(function(){ autoRefresh(); }, 100);
-				
+
 						function submitform(){
 						//   alert('test');
 						  document.forms["login"].submit();
 						}
+
+						var auto = setTimeout(function(){ submitform(); }, 100);
 				
-						function autoRefresh(){
-						   clearTimeout(auto);
-						   auto = setTimeout(function(){ submitform(); autoRefresh(); }, 10000);
-						}
 					}
 				</script>
 

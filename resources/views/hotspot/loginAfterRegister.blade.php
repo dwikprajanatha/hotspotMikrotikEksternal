@@ -19,7 +19,7 @@
 			var element2 = document.createElement("input");  
 
 			form.method = "POST";
-			form.action = "login.php";   
+			form.action = link;   
 
 			element1.value=un;
 			element1.name="username";

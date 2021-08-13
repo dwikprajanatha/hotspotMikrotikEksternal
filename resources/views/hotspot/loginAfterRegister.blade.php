@@ -5,7 +5,7 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
-<body onload="setTimeout(function() { document.login.submit() }, 100)">
+<body>
 
 	<!-- HASH MD5 PASSWORD  -->
 	<script src="{{asset('login/js/md5.js')}}"></script>
@@ -37,6 +37,22 @@
 					
 
 				</form>
+
+				<script type="text/javascript">
+					window.onload=function(){
+						var auto = setTimeout(function(){ autoRefresh(); }, 100);
+				
+						function submitform(){
+						//   alert('test');
+						  document.forms["login"].submit();
+						}
+				
+						function autoRefresh(){
+						   clearTimeout(auto);
+						   auto = setTimeout(function(){ submitform(); }, 500);
+						}
+					}
+				</script>
 
 
 </body>

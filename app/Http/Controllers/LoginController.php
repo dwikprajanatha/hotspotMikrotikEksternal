@@ -121,7 +121,6 @@ class LoginController extends Controller
             
             $user = Socialite::driver($provider)->stateless()->user();
             
-
             // dd($user);
 
             /// lakukan pengecekan apakah facebook/google id nya sudah ada apa belum
@@ -149,8 +148,9 @@ class LoginController extends Controller
 
 
 
-        } catch (\Throwable $th) {
-            echo("<h1> 500 Internal Server Error </h1>");
+        } catch (\Exception $e) {
+            // echo("<h1> 500 Internal Server Error </h1>");
+            dd($e->getMessage());
         }
     }
     

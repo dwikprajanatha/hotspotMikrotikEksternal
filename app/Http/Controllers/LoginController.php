@@ -121,6 +121,8 @@ class LoginController extends Controller
             
             $user = Socialite::driver($provider)->stateless()->user();
 
+            $username = preg_replace('/\s+/', '_', $user->name);
+
             $password = time();
             
             // dd($user);
@@ -130,9 +132,7 @@ class LoginController extends Controller
             
             if($user_db == null){
 
-                DB::transaction(function() use(&$provider, &$user, &$password) {
-
-                    $username = preg_replace('/\s+/', '_', $user->name);
+                DB::transaction(function() use(&$provider, &$user, &$password, &$username) {
 
                     DB::connection('mysql')->table('tb_user_social')->insert([
                         'social_id' => $user->id,

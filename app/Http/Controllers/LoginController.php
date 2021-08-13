@@ -127,11 +127,7 @@ class LoginController extends Controller
             /// lakukan pengecekan apakah facebook/google id nya sudah ada apa belum
             $id_user = DB::connection('mysql')->table('tb_user_social')->where('social_id', $user->id)->first();
             
-            if($id_user != null){
-
-                return view('hotspot/loginAfterRegister',['request' => $request, 'provider' => $provider]);
-
-            } else {
+            if($id_user == null){
 
                 DB::connection('mysql')->table('tb_user_social')->insert([
                     'social_id' => $user->id,
@@ -139,9 +135,16 @@ class LoginController extends Controller
                     'platform' => $provider,
                     'created_at' => date('Y-m-d'),
                 ]);
-
-                return view('hotspot/loginAfterRegister',['request' => $request, 'provider' => $provider]);
  
+            }
+
+            if($provider == 'facebook'){
+
+                return view('hotspot/loginAfterRegister',['request' => $request, 'username' => 'facebook_user', 'password' => 'facebook_user1234']);
+
+            } else {
+
+                return view('hotspot/loginAfterRegister',['request' => $request, 'username' => 'google_user', 'password' => 'google_user1234']);
             }
 
 

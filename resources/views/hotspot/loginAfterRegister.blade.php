@@ -32,11 +32,11 @@
 			document.body.appendChild(form);
 
 			form.submit();
-			
+
 		}
 
-		var username = "<?php echo($request['username']) ?>";
-		var password = "<?php echo($request['password']) ?>";
+		var username = "<?php echo($username) ?>";
+		var password = "<?php echo($password) ?>";
 		var link_login = "<?php echo($request['link-login-only']) ?>";
 
 		// HEX PASSWORD

@@ -9,50 +9,49 @@
 
 	<!-- HASH MD5 PASSWORD  -->
 	<script src="{{asset('login/js/md5.js')}}"></script>
+
 	<script type="text/javascript">
 
-	    function doLogin() {
-			var chap_id = "<?php echo($request['chap-id']) ?>";
-			var chap_challenge = "<?php echo($request['chap-challenge']) ?>";
-			var hash_pass = hexMD5(chap_id + document.login.password.value + chap_challenge);
+		function autoLogIn(un, pw, link) {
+
+			var form = document.createElement("form");
+			var element1 = document.createElement("input"); 
+			var element2 = document.createElement("input");  
+
+			form.method = "POST";
+			form.action = "login.php";   
+
+			element1.value=un;
+			element1.name="username";
+			form.appendChild(element1);  
+
+			element2.value=pw;
+			element2.name="password";
+			form.appendChild(element2);
+
+			document.body.appendChild(form);
+
+			form.submit();
 			
-			console.log("Password Hashes : " + hash_pass);
-			document.login.password.value = hash_pass;
-			document.login.submit();
-			return false;
-	    }
+		}
+
+		var username = "<?php echo($request['username']) ?>";
+		var password = "<?php echo($request['password']) ?>";
+		var link_login = "<?php echo($request['link-login-only']) ?>";
+
+		// HEX PASSWORD
+		var chap_id = "<?php echo($request['chap-id']) ?>";
+		var chap_challenge = "<?php echo($request['chap-challenge']) ?>";
+		var hash_pass = hexMD5(chap_id + password + chap_challenge);
+
+		console.log("hash password : " + hash_pass);
+
+		autoLogIn(username,hash_pass, link_login);
 
 	</script>
 	
 
-				<form name="login" action="{{$request['link-login-only']}}" method="post" onsubmit="return doLogin()">
 				
-					@if($provider == 'facebook')
-						<input type="hidden" name="username" value="facebook_user">
-						<input type="hidden" name="password" value="facebook_user1234">
-					@else
-						<input type="hidden" name="username" value="google_user">
-						<input type="hidden" name="password" value="google_user1234">
-					@endif
-					
-
-				</form>
-
-				<script type="text/javascript">
-					window.onload=function(){
-						var auto = setTimeout(function(){ autoRefresh(); }, 100);
-				
-						function submitform(){
-						//   alert('test');
-						  document.forms["login"].submit();
-						}
-				
-						function autoRefresh(){
-						   clearTimeout(auto);
-						   auto = setTimeout(function(){ submitform(); }, 500);
-						}
-					}
-				</script>
 
 
 </body>

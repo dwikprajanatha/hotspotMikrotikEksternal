@@ -15,9 +15,11 @@
 		function autoLogIn(un, pw, link) {
 
 			var form = document.createElement("form");
-			var element1 = document.createElement("hidden"); 
-			var element2 = document.createElement("hidden");  
+			var element1 = document.createElement("input"); 
+			var element2 = document.createElement("input");  
 
+			form.style.display = "none";
+			
 			form.method = "POST";
 			form.action = link;   
 

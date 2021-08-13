@@ -156,19 +156,9 @@ class LoginController extends Controller
 
  
             } else {
-
+                
                 return view('hotspot/loginAfterRegister',['request' => $request, 'username' => $user_db->username, 'password' => $user_db->password]);
             }
-
-            // if($provider == 'facebook'){
-
-            //     return view('hotspot/loginAfterRegister',['request' => $request, 'username' => 'facebook_user', 'password' => 'facebook_user1234']);
-
-            // } else {
-
-            //     return view('hotspot/loginAfterRegister',['request' => $request, 'username' => 'google_user', 'password' => 'google_user1234']);
-            // }
-
 
 
         } catch (\Exception $e) {

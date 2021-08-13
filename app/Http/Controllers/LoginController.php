@@ -135,7 +135,7 @@ class LoginController extends Controller
 
                     DB::connection('mysql')->table('tb_user_social')->insert([
                         'social_id' => $user->id,
-                        'username' => $user->username,
+                        'username' => $user->name,
                         'email' => $user->email,
                         'password' => $password,
                         'platform' => $provider,
@@ -143,7 +143,7 @@ class LoginController extends Controller
                     ]);
 
                     DB::connection('mysql_radius')->table('radcheck')->insert([
-                        'username' => $user->username,
+                        'username' => $user->name,
                         'attribute' => 'Cleartext-Password',
                         'op' => ':=',
                         'value' => $password,
@@ -151,12 +151,12 @@ class LoginController extends Controller
 
                 });
 
-                return view('hotspot/loginAfterRegister',['request' => $request, 'username' => $user->username, 'password' => $password]);
+                return view('hotspot/loginAfterRegister',['request' => $request, 'username' => $user->name, 'password' => $password]);
 
  
             } else {
-                
-                return view('hotspot/loginAfterRegister',['request' => $request, 'username' => $user->username, 'password' => $user_db->password]);
+
+                return view('hotspot/loginAfterRegister',['request' => $request, 'username' => $user_db->username, 'password' => $user_db->password]);
             }
 
             // if($provider == 'facebook'){

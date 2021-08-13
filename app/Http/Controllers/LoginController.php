@@ -130,7 +130,7 @@ class LoginController extends Controller
             
             if($user_db == null){
 
-                DB::transaction(function() use(&$request, &$user, &$password) {
+                DB::transaction(function() use(&$provider, &$user, &$password) {
 
 
                     DB::connection('mysql')->table('tb_user_social')->insert([

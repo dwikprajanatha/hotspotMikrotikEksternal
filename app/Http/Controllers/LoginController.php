@@ -120,31 +120,53 @@ class LoginController extends Controller
             $request = Session::get('request');
             
             $user = Socialite::driver($provider)->stateless()->user();
+
+            $password = time();
             
             // dd($user);
 
             /// lakukan pengecekan apakah facebook/google id nya sudah ada apa belum
-            $id_user = DB::connection('mysql')->table('tb_user_social')->where('social_id', $user->id)->first();
+            $user_db = DB::connection('mysql')->table('tb_user_social')->where('social_id', $user->id)->first();
             
-            if($id_user == null){
+            if($user_db == null){
 
-                DB::connection('mysql')->table('tb_user_social')->insert([
-                    'social_id' => $user->id,
-                    'username' => $user->email,
-                    'platform' => $provider,
-                    'created_at' => date('Y-m-d'),
-                ]);
+                DB::transaction(function() use(&$request, &$user, &$password) {
+
+
+                    DB::connection('mysql')->table('tb_user_social')->insert([
+                        'social_id' => $user->id,
+                        'username' => $user->username,
+                        'email' => $user->email,
+                        'password' => $password,
+                        'platform' => $provider,
+                        'created_at' => date('Y-m-d'),
+                    ]);
+
+                    DB::connection('mysql_radius')->table('radcheck')->insert([
+                        'username' => $user->username,
+                        'attribute' => 'Cleartext-Password',
+                        'op' => ':=',
+                        'value' => $password,
+                    ]);
+
+                });
+
+                return view('hotspot/loginAfterRegister',['request' => $request, 'username' => $user->username, 'password' => $password]);
+
  
-            }
-
-            if($provider == 'facebook'){
-
-                return view('hotspot/loginAfterRegister',['request' => $request, 'username' => 'facebook_user', 'password' => 'facebook_user1234']);
-
             } else {
-
-                return view('hotspot/loginAfterRegister',['request' => $request, 'username' => 'google_user', 'password' => 'google_user1234']);
+                
+                return view('hotspot/loginAfterRegister',['request' => $request, 'username' => $user->username, 'password' => $user_db->password]);
             }
+
+            // if($provider == 'facebook'){
+
+            //     return view('hotspot/loginAfterRegister',['request' => $request, 'username' => 'facebook_user', 'password' => 'facebook_user1234']);
+
+            // } else {
+
+            //     return view('hotspot/loginAfterRegister',['request' => $request, 'username' => 'google_user', 'password' => 'google_user1234']);
+            // }
 
 
 
@@ -153,6 +175,6 @@ class LoginController extends Controller
             dd($e->getMessage());
         }
     }
-    
+
 
 }

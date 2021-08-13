@@ -18,6 +18,7 @@ class TbUserSocial extends Migration
             $table->string('social_id');
             $table->string('username');
             $table->string('email');
+            $table->string('password');
             $table->string('platform');
             $table->date('created_at');
         });

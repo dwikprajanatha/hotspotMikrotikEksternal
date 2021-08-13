@@ -132,10 +132,11 @@ class LoginController extends Controller
 
                 DB::transaction(function() use(&$provider, &$user, &$password) {
 
+                    $username = preg_replace('/\s+/', '_', $user->name);
 
                     DB::connection('mysql')->table('tb_user_social')->insert([
                         'social_id' => $user->id,
-                        'username' => $user->name,
+                        'username' => $username,
                         'email' => $user->email,
                         'password' => $password,
                         'platform' => $provider,
@@ -143,7 +144,7 @@ class LoginController extends Controller
                     ]);
 
                     DB::connection('mysql_radius')->table('radcheck')->insert([
-                        'username' => $user->name,
+                        'username' => $username,
                         'attribute' => 'Cleartext-Password',
                         'op' => ':=',
                         'value' => $password,
@@ -151,7 +152,7 @@ class LoginController extends Controller
 
                 });
 
-                return view('hotspot/loginAfterRegister',['request' => $request, 'username' => $user->name, 'password' => $password]);
+                return view('hotspot/loginAfterRegister',['request' => $request, 'username' => $username, 'password' => $password]);
 
  
             } else {

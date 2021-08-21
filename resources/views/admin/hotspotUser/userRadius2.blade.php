@@ -30,13 +30,12 @@
                         <tr>
                             <th>No.</th>
                             <th>Nama</th>
-                            <th>Alamat</th>
-                            <th>Kategori</th>
+                            <th>Email</th>
+                            <th>Platform</th>
                             <th>Action</th>
                         </tr>
 
                     </thead>
-
                     <tbody>
 
                     @foreach ($users as $u)
@@ -44,15 +43,14 @@
                         <tr>
                             <th>{{$loop->iteration}}</th>
                             <th>{{$u->nama}}</th>
-                            <th>{{$u->alamat}}</th>
-                            <th>{{$u->kategori}}</th>
+                            <th>{{$u->email}}</th>
+                            <th>{{$u->platform}}</th>
                             <th>
                                 <button class="btn btn-primary"><i class="fa fa-pencil"></i></button>
                                 <button class="btn btn-danger"><i class="fa fa-times"></i></button>
                             </th>
                         </tr>
-
-
+                        
                     @endforeach
 
                     </tbody>
@@ -62,8 +60,8 @@
                         <tr>
                             <th>No.</th>
                             <th>Nama</th>
-                            <th>Alamat</th>
-                            <th>Kategori</th>
+                            <th>Email</th>
+                            <th>Platform</th>
                             <th>Action</th>
                         </tr>
 

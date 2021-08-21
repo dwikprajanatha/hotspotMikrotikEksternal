@@ -48,13 +48,16 @@ class AdminController extends Controller
                     //  ->select('tb_nik.nama', 'tb_user_hotspot.*')
                      ->get();
 
+            return view('admin.hotspotUser.userRadius', ['users' => $Users]);
+
         } else {
 
             $Users = DB::connection('mysql')->table('tb_user_social')->where('platform', $user)->get();
 
+            return view('admin.hotspotUser.userRadius2', ['users' => $Users]);
         }
         
-        return view('admin.hotspotUser.userRadius', ['users' => $Users]);
+        
     }
 
     public function report()

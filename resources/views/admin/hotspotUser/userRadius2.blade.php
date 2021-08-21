@@ -55,18 +55,6 @@
 
                     </tbody>
 
-                    <tfoot>
-
-                        <tr>
-                            <th>No.</th>
-                            <th>Nama</th>
-                            <th>Email</th>
-                            <th>Platform</th>
-                            <th>Action</th>
-                        </tr>
-
-                    </tfoot>
-
                 </table>
               </div><!-- /.card-body -->
 

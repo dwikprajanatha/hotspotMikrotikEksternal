@@ -57,18 +57,6 @@
 
                     </tbody>
 
-                    <tfoot>
-
-                        <tr>
-                            <th>No.</th>
-                            <th>Nama</th>
-                            <th>Alamat</th>
-                            <th>Kategori</th>
-                            <th>Action</th>
-                        </tr>
-
-                    </tfoot>
-
                 </table>
               </div><!-- /.card-body -->
 

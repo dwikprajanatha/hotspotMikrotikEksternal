@@ -16,6 +16,7 @@ class TbUserSocial extends Migration
         Schema::connection('mysql')->create('tb_user_social', function (Blueprint $table) {
             $table->id();
             $table->string('social_id');
+            $table->string('nama');
             $table->string('username');
             $table->string('email');
             $table->string('password');

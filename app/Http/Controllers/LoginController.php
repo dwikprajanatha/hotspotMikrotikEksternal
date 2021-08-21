@@ -136,6 +136,7 @@ class LoginController extends Controller
 
                     DB::connection('mysql')->table('tb_user_social')->insert([
                         'social_id' => $user->id,
+                        'nama' => $user->name,
                         'username' => $username,
                         'email' => $user->email,
                         'password' => $password,

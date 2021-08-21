@@ -47,7 +47,7 @@
                             <th>{{$u->alamat}}</th>
                             <th>{{$u->kategori}}</th>
                             <th>
-                                <button class="btn btn-primary"><i class="fa fa-pencil"></i></button>
+                                <button class="btn btn-primary"><i class="fas fa-edit"></i></button>
                                 <button class="btn btn-danger"><i class="fa fa-times"></i></button>
                             </th>
                         </tr>

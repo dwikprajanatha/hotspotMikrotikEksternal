@@ -44,7 +44,7 @@ class AdminController extends Controller
         if($user == 'organik'){
 
             $Users = DB::connection('mysql')->table('tb_user_hotspot')
-                     ->join('tb_nik', 'tb_user_hotspot.id_nik', '=', 'tb_nik.id')
+                     ->join('tb_nik', 'tb_user_hotspot.nik_id', '=', 'tb_nik.id')
                     //  ->select('tb_nik.nama', 'tb_user_hotspot.*')
                      ->get();
 

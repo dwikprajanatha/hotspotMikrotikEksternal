@@ -24,7 +24,7 @@
 <body>
 
 	<!-- HASH MD5 PASSWORD  -->
-	<script src="{{asset('login/js/md5.js')}}"></script>
+	{{-- <script src="{{asset('login/js/md5.js')}}"></script>
 	<script type="text/javascript">
 
 	    function doLogin() {
@@ -36,10 +36,9 @@
 			return false;
 	    }
 
-	</script>
+	</script> --}}
 
 
-	
 	<div class="limiter">
 		<div class="container-login100">
 			<div class="wrap-login100">
@@ -47,7 +46,7 @@
 					<img src="{{asset('login/images/Lambang_Kabupaten_Badung.png')}}" alt="IMG">
 				</div>
 
-				<form class="login100-form validate-form" name="login" action="{{$request['link-login-only']}}" method="post" onsubmit="return doLogin()">
+				<form class="login100-form validate-form" name="login" action="{{$request['link-login-only']}}" method="post">
 					<span class="login100-form-title">
 						Login Hotspot Badung
 					</span>

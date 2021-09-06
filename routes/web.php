@@ -7,7 +7,6 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\AdminController;
 
 
-
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -39,8 +38,11 @@ Route::get('auth/{provider}/callback', [LoginController::class, 'callback']);
 Route::get('/admin/login', [AdminController::class, 'showFormLogin'])->name('admin.login.view');
 Route::post('/admin/login', [AdminController::class, 'loginAdmin'])->name('admin.login');
 
-//Dashboard
+// Dashboard
 Route::get('/admin/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
 
-//Hotspot User
+// Hotspot User
 Route::get('/admin/hotspot/{user}', [AdminController::class, 'HotspotUser'])->name('admin.user');
+
+// Report
+Route::get('/admin/report/{range}', [AdminController::class, 'reportUsage'])->name('admin.report.usage');

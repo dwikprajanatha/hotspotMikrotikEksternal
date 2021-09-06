@@ -21,6 +21,7 @@ class TbUserHotspot extends Migration
             $table->string('kategori');
             $table->string('mac');
             $table->string('ip');
+            $table->date('created_at');
         });
     }
 

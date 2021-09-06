@@ -143,7 +143,7 @@
   <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
     <a href="index3.html" class="brand-link">
-      <img src="dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
+      <img src="{{asset('admin/dist/img/AdminLTELogo.png')}}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
       <span class="brand-text font-weight-light">AdminLTE 3</span>
     </a>
 
@@ -165,7 +165,7 @@
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
-               
+
           <li class="nav-item menu-open">
             <a href="#" class="nav-link active">
               <i class="nav-icon fas fa-tachometer-alt"></i>
@@ -217,13 +217,70 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="#" class="nav-link" style="margin-left: 20px">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>uPlot</p>
+                <a href="{{route('admin.report.usage', ['range' => 'daily'])}}" class="nav-link" style="margin-left: 20px">
+                  <i class="fas fa-chart-line nav-icon"></i>
+                  <p>Harian</p>
                 </a>
               </li>
+
+              <li class="nav-item">
+                <a href="{{route('admin.report.usage', ['range' => 'weekly'])}}" class="nav-link" style="margin-left: 20px">
+                  <i class="fas fa-chart-line nav-icon"></i>
+                  <p>Mingguan</p>
+                </a>
+              </li>
+
+              <li class="nav-item">
+                <a href="{{route('admin.report.usage', ['range' => 'monthly'])}}" class="nav-link" style="margin-left: 20px">
+                  <i class="fas fa-chart-line nav-icon"></i>
+                  <p>Bulanan</p>
+                </a>
+              </li>
+
+              <li class="nav-item">
+                <a href="{{route('admin.report.usage', ['range' => 'yearly'])}}" class="nav-link" style="margin-left: 20px">
+                  <i class="fas fa-chart-line nav-icon"></i>
+                  <p>Tahunan</p>
+                </a>
+              </li>
+
             </ul>
           </li>
+
+          <li class="nav-item">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-chart-pie"></i>
+              <p>
+                Mikrotik Management
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              
+              <li class="nav-item">
+                <a href="#" class="nav-link" style="margin-left: 20px">
+                  <i class="fas fa-users-cog nav-icon"></i>
+                  <p>Hotspot User</p>
+                </a>
+              </li>
+
+              <li class="nav-item">
+                <a href="#" class="nav-link" style="margin-left: 20px">
+                  <i class="fab fa-buffer nav-icon"></i>
+                  <p>Queue</p>
+                </a>
+              </li>
+
+              <li class="nav-item">
+                <a href="#" class="nav-link" style="margin-left: 20px">
+                  <i class="fas fa-wifi nav-icon"></i>
+                  <p>Hotspot</p>
+                </a>
+              </li>
+
+            </ul>
+          </li>
+
 
 
         </ul>

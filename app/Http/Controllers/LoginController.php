@@ -151,10 +151,15 @@ class LoginController extends Controller
                         'value' => $password,
                     ]);
 
+                    $radusergroup = DB::connection('mysql_radius')->table('radusergroup')->insert([
+                        'username' => $request->username,
+                        'groupname' => "social_media",
+                        'priority' => 10,
+                    ]);
+
                 });
 
                 return view('hotspot/loginAfterRegister',['request' => $request, 'username' => $username, 'password' => $password]);
-
  
             } else {
                 
@@ -167,6 +172,5 @@ class LoginController extends Controller
             dd($e->getMessage());
         }
     }
-
 
 }

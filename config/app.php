@@ -178,6 +178,9 @@ return [
         //SOCIAL MEDIA
         Laravel\Socialite\SocialiteServiceProvider::class, 
 
+        //Mikrotik
+        RouterOS\Laravel\ServiceProvider::class,
+
     ],
 
     /*
@@ -233,6 +236,9 @@ return [
 
         //SOCIAL MEDIA
         'Socialite' => Laravel\Socialite\Facades\Socialite::class, 
+
+        //Mikrotik
+        'RouterOS' => RouterOS\Laravel\ServiceProvider::class,
 
     ],
 

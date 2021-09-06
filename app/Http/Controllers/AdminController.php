@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Session;
 use Auth;
+use Illuminate\Support\Str;
+use DateTime;
 
 class AdminController extends Controller
 {
@@ -24,6 +26,10 @@ class AdminController extends Controller
 
         if(Auth::attempt($credentials)){
             $request->session()->regenerate();
+
+            DB::connection('mysql')->table('users')
+                ->where('id', Auth::id())
+                ->update(['api_token' => Str::random(60)]);
 
             return redirect()->intended(route('admin.dashboard'));
 
@@ -60,9 +66,124 @@ class AdminController extends Controller
         
     }
 
-    public function report()
+    public function reportUsage(Request $request, $range)
+    {
+        if(in_array($range, ['daily', 'weekly', 'monthly', 'yearly'])){
+            
+            return view('admin.report.bandwidthReport');
+
+        } else {
+
+            abort(404);
+
+        }
+        
+    }
+
+
+    // ALL API for report start here
+    public function apiDataPertumbuhanPengguna($range)
+    {
+        try {
+            
+            if($range == 'weekly'){
+
+                $date = new DateTime(date('Y-m-d', strtotime("last week monday")));
+                // $end = date('Y-m-d', strtotime("last week sunday"));
+
+                // dd($date);
+                $array = [];
+
+                for ($i=0; $i < 7; $i++) {
+
+                    // array_push($array,[$date->format('Y-m-d')]);
+                    $userOrganikCount = DB::connection('mysql')->table('tb_user_hotspot')
+                                            ->whereDate('created_at',$date->format('Y-m-d'))->count();
+
+                    $userSocialCount = DB::connection('mysql')->table('tb_user_social')
+                                            ->whereDate('created_at',$date->format('Y-m-d'))->count();
+
+                    // $date = date('Y-m-d', strtotime())
+                    array_push($array, [$userOrganikCount + $userSocialCount]);
+
+                    $date->modify('+1 day');
+
+                }
+
+            } elseif($range == 'monthly'){
+                
+                $date = new DateTime;
+
+
+                //get first day of month
+                $weekOfMonth = date('W', strtotime('first day of this month'));
+
+                // dd($weekOfMonth);
+
+                $array = [];
+
+                for ($i=0; $i < 4; $i++) { 
+                    $date->setISODate(date('Y'), $weekOfMonth);
+                    $senin = $date->format('Y-m-d');
+                    // print($senin->format('Y-m-d'));
+
+                    $date->modify("sunday this week");
+                    $minggu = $date->format('Y-m-d');
+                    
+                    $userOrganikCount = DB::connection('mysql')->table('tb_user_hotspot')
+                                            ->whereBetween('created_at',[$senin,$minggu])->count();
+
+                    $userSocialCount = DB::connection('mysql')->table('tb_user_social')
+                                            ->whereBetween('created_at',[$senin,$minggu])->count();
+
+
+
+                    // print($senin->format('Y-m-d'));
+                    // dd();
+
+                    array_push($array,[$userOrganikCount + $userSocialCount]);
+
+                    $weekOfMonth++;
+
+                }
+                
+                // dd($array);
+
+            } elseif($range == 'yearly'){
+
+                $array = [];
+                
+                for ($i=1; $i <= 12 ; $i++) {
+
+                    $userOrganikCount = DB::connection('mysql')->table('tb_user_hotspot')
+                                            ->whereMonth('created_at',$i)->count();
+
+                    $userSocialCount = DB::connection('mysql')->table('tb_user_social')
+                                            ->whereMonth('created_at',$i)->count();
+
+                    array_push($array,[$userOrganikCount + $userSocialCount]);
+                }
+                
+
+            }
+
+
+            return response()->json([
+                'status' => 200,
+                'data' => $array,
+            ]);
+
+
+        } catch (\Execption $th) {
+            dd($th);
+        }
+    }
+
+
+    public function FunctionName(Type $var = null)
     {
         # code...
     }
+
 
 }

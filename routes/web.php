@@ -22,6 +22,7 @@ use App\Http\Controllers\AdminController;
 //     return view('hotspot/login');
 // });
 
+
 Route::post('/loginHotspot', [LoginController::class, 'index'])->name('hotspot.login');
 
 Route::get('/daftar', [LoginController::class, 'create'])->name('hotspot.register.view');
@@ -33,6 +34,9 @@ Route::get('auth/{provider}/callback', [LoginController::class, 'callback']);
 
 
 /* WEB UI START HERE !*/
+
+//User Privacy
+Route::get('user/privacy-policy',[LoginController::class, 'privacy'])->name('hotspot.privacy');
 
 // Login
 Route::get('/admin/login', [AdminController::class, 'showFormLogin'])->name('admin.login.view');

@@ -16,6 +16,11 @@ class LoginController extends Controller
         return view('hotspot/login', ['request' => $request->all()]);
     }
 
+    public function privacy(Request $request)
+    {
+        return view('hotspot.privacy');
+    }
+
 
     public function create(Request $request)
     {
@@ -44,9 +49,14 @@ class LoginController extends Controller
         //pisah NIK
         $nik_pisah = str_split($request->nik);
 
+        
         $tgl_lahir = implode('',[$nik_pisah[6],$nik_pisah[7]]);
         $bulan_lahir = implode('',[$nik_pisah[8],$nik_pisah[9]]);
         $tahun_lahir = implode('',[$nik_pisah[10],$nik_pisah[11]]);
+        
+        if($tgl_lahir > 31){
+            $tgl_lahir = $tgl_lahir - 40;
+        }
 
         //cek umur
         $bday = DateTime::createFromFormat('d-m-y',join('-',[$tgl_lahir,$bulan_lahir,$tahun_lahir]));
@@ -102,8 +112,9 @@ class LoginController extends Controller
 
         });
 
-        $request->session()->put('userSuccess', 'Akun Berhasil dibuat!, Silahkan Login');
-        return redirect()->intended('http://10.0.0.1/');
+        return view('hotspot/loginAfterRegister',['request' => $request, 'username' => $request->username, 'password' => $request->password]);
+        // $request->session()->put('userSuccess', 'Akun Berhasil dibuat!, Silahkan Login');
+        // return redirect()->intended('http://10.0.0.1/');
         
     }
 
@@ -132,6 +143,12 @@ class LoginController extends Controller
             
             if($user_db == null){
 
+                $cek_username = DB::connection('mysql')->table('tb_user_social')->where('username', $username)->first();
+                
+                if($cek_username != null){
+                    $username = $username . "_" . $provider;
+                }
+
                 DB::transaction(function() use(&$provider, &$user, &$password, &$username) {
 
                     DB::connection('mysql')->table('tb_user_social')->insert([
@@ -145,7 +162,7 @@ class LoginController extends Controller
                     ]);
 
                     DB::connection('mysql_radius')->table('radcheck')->insert([
-                        'username' => $username,
+                        'username' => $username ."_".$provider,
                         'attribute' => 'Cleartext-Password',
                         'op' => ':=',
                         'value' => $password,

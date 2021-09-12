@@ -68,9 +68,9 @@ class AdminController extends Controller
 
     public function reportUsage(Request $request, $range)
     {
-        if(in_array($range, ['daily', 'weekly', 'monthly', 'yearly'])){
+        if(in_array($range, ['weekly', 'monthly', 'yearly'])){
             
-            return view('admin.report.bandwidthReport');
+            return view('admin.report.bandwidthReport',['range' => $range]);
 
         } else {
 
@@ -82,29 +82,38 @@ class AdminController extends Controller
 
 
     // ALL API for report start here
-    public function apiDataPertumbuhanPengguna($range)
+
+    public function apiDataPertumbuhanPengguna($range, $tgl)
     {
         try {
+
+            $date_now = DateTime::createFromFormat('dmY', $tgl);
+            // dd($date);
+
+            $year = $date_now->format('Y');
+            $month = $date_now->format('m');
+            $week = $date_now->format('W');
             
             if($range == 'weekly'){
+            
+                $date = new DateTime();
+                $date->setISODate($year, $week);
 
-                $date = new DateTime(date('Y-m-d', strtotime("last week monday")));
-                // $end = date('Y-m-d', strtotime("last week sunday"));
-
-                // dd($date);
-                $array = [];
+                $array_label = [];
 
                 for ($i=0; $i < 7; $i++) {
 
                     // array_push($array,[$date->format('Y-m-d')]);
-                    $userOrganikCount = DB::connection('mysql')->table('tb_user_hotspot')
-                                            ->whereDate('created_at',$date->format('Y-m-d'))->count();
+                    // $userOrganikCount = DB::connection('mysql')->table('tb_user_hotspot')
+                    //                         ->whereDate('created_at',$date->format('Y-m-d'))->count();
 
-                    $userSocialCount = DB::connection('mysql')->table('tb_user_social')
-                                            ->whereDate('created_at',$date->format('Y-m-d'))->count();
+                    // $userSocialCount = DB::connection('mysql')->table('tb_user_social')
+                    //                         ->whereDate('created_at',$date->format('Y-m-d'))->count();
 
                     // $date = date('Y-m-d', strtotime())
-                    array_push($array, [$userOrganikCount + $userSocialCount]);
+                    // array_push($array, [ "data" => $userOrganikCount + $userSocialCount, "label" => $date->format('Y-m-d')]);
+                    
+                    array_push($array, $date->format('Y-m-d'));
 
                     $date->modify('+1 day');
 
@@ -114,54 +123,52 @@ class AdminController extends Controller
                 
                 $date = new DateTime;
 
-
-                //get first day of month
-                $weekOfMonth = date('W', strtotime('first day of this month'));
-
-                // dd($weekOfMonth);
-
                 $array = [];
 
                 for ($i=0; $i < 4; $i++) { 
-                    $date->setISODate(date('Y'), $weekOfMonth);
+                    $date->setISODate($year, $week);
                     $senin = $date->format('Y-m-d');
-                    // print($senin->format('Y-m-d'));
 
                     $date->modify("sunday this week");
                     $minggu = $date->format('Y-m-d');
                     
-                    $userOrganikCount = DB::connection('mysql')->table('tb_user_hotspot')
-                                            ->whereBetween('created_at',[$senin,$minggu])->count();
+                    // $userOrganikCount = DB::connection('mysql')->table('tb_user_hotspot')
+                    //                         ->whereBetween('created_at',[$senin,$minggu])->count();
 
-                    $userSocialCount = DB::connection('mysql')->table('tb_user_social')
-                                            ->whereBetween('created_at',[$senin,$minggu])->count();
+                    // $userSocialCount = DB::connection('mysql')->table('tb_user_social')
+                    //                         ->whereBetween('created_at',[$senin,$minggu])->count();
 
+                    // array_push($array, [ "data" => $userOrganikCount + $userSocialCount, "label" => $date->format('W')]);
+                    
+                    array_push($array, "awal : ". $senin . " | " . "akhir : ". $minggu);
 
-
-                    // print($senin->format('Y-m-d'));
-                    // dd();
-
-                    array_push($array,[$userOrganikCount + $userSocialCount]);
-
-                    $weekOfMonth++;
+                    $week++;
 
                 }
-                
-                // dd($array);
 
             } elseif($range == 'yearly'){
 
+                $date = new DateTime;
+                $date->setISODate($year, $week);
+
                 $array = [];
-                
+               
                 for ($i=1; $i <= 12 ; $i++) {
 
-                    $userOrganikCount = DB::connection('mysql')->table('tb_user_hotspot')
-                                            ->whereMonth('created_at',$i)->count();
+                    $month = $date->format('n');
+                    
+                    // $userOrganikCount = DB::connection('mysql')->table('tb_user_hotspot')
+                    //                         ->whereMonth('created_at',$i)->whereYear('created_at', $year)->count();
 
-                    $userSocialCount = DB::connection('mysql')->table('tb_user_social')
-                                            ->whereMonth('created_at',$i)->count();
+                    // $userSocialCount = DB::connection('mysql')->table('tb_user_social')
+                    //                         ->whereMonth('created_at',$i)->whereYear('created_at', $year)->count();
 
-                    array_push($array,[$userOrganikCount + $userSocialCount]);
+                    array_push($array, [ "data" => $userOrganikCount + $userSocialCount, "label" => $date->format('F')]);
+
+                    array_push($array, "bulan ke : ". $month);
+                    
+                    $date->modify('+1 Month');
+
                 }
                 
 
@@ -180,10 +187,412 @@ class AdminController extends Controller
     }
 
 
-    public function FunctionName(Type $var = null)
-    {
-        # code...
+    public function apiDataPenggunaan($range, $tgl)
+    {   
+        try {
+            
+            $date_now = DateTime::createFromFormat('dmY', $tgl);
+            // dd($date);
+
+            $year = $date_now->format('Y');
+            $month = $date_now->format('m');
+            $week = $date_now->format('W');
+
+            if($range == 'weekly'){
+            
+                $date = new DateTime();
+                $date->setISODate($year, $week);
+
+                $array = [];
+
+                for ($i=0; $i < 7; $i++) {
+
+                    $penggunaanTotal = DB::connection('mysql_radius')->table('data_usage_by_period')
+                                            ->select(DB::raw('(SUM(acctinputoctets)/1000/1000/1000) + (SUM(acctoutputoctets)/1000/1000/1000) as GB_total'))
+                                            ->whereNotNull('period_end')
+                                            ->whereDay('period_start', $date->format('Y-m-d'))
+                                            ->groupBy(DB::raw('DAY(period_start)'))->get();
+                    
+                    array_push($array, ['data' => $penggunaanTotal[0]['GB_total'], 'label' => $date->format('d-m-Y')]);
+
+                    // array_push($array, $date->format('Y-m-d'));
+
+                    $date->modify('+1 day');
+                }
+
+            } elseif($range == 'monthly'){
+                
+                $date = new DateTime;
+
+                $array = [];
+
+                for ($i=0; $i < 4; $i++) { 
+
+                    $date->setISODate($year, $week);
+                    $senin = $date->format('Y-m-d');
+
+                    $date->modify("sunday this week");
+                    $minggu = $date->format('Y-m-d');
+                    
+                    $penggunaanTotal = DB::connection('mysql_radius')->table('data_usage_by_period')
+                                            ->select(DB::raw('(SUM(acctinputoctets)/1000/1000/1000) + (SUM(acctoutputoctets)/1000/1000/1000) as GB_total'))
+                                            ->whereNotNull('period_end')
+                                            ->whereBetween('period_start',[$senin,$minggu])
+                                            ->groupBy(DB::raw('WEEK(period_start)'))->get();
+
+                    // array_push($array, "awal : ". $senin . " | " . "akhir : ". $minggu);
+                    array_push($array, ['data' => $penggunaanTotal[0]['GB_total'], 'label' => $date->format('W')]);
+
+                    $week++;
+
+                }
+
+            } elseif($range == 'yearly'){
+
+                $date = new DateTime;
+                $date->setISODate($year, $week);
+                
+                $array = [];
+                
+                for ($i=1; $i <= 12 ; $i++) {
+                    
+                    $penggunaanTotal = DB::connection('mysql_radius')->table('data_usage_by_period')
+                                        ->select(DB::raw('(SUM(acctinputoctets)/1000/1000/1000) + (SUM(acctoutputoctets)/1000/1000/1000) as GB_total'))
+                                        ->whereNotNull('period_end')
+                                        ->whereMonth('period_start',$i)
+                                        ->whereYear('period_start', $year)
+                                        ->groupBy(DB::raw('MONTH(period_start)'))->get();
+                   
+                    array_push($array, ['data' => $penggunaanTotal[0]['GB_total'], 'label' => $date->format('F')]);
+
+                    $date->modify('+1 month');
+                }
+            }
+
+
+            return response()->json([
+                'status' => 200,
+                'data' => $array,
+            ]);
+
+
+        } catch (\Execption $th) {
+            dd($th);
+        }
+        
     }
 
+    public function apiProporsiPlatform($range, $tgl)
+    {
+        try {
+            
+            $date_now = DateTime::createFromFormat('dmY', $tgl);
+            // dd($date);
+
+            $year = $date_now->format('Y');
+            $month = $date_now->format('m');
+            $week = $date_now->format('W');
+
+            if($range == 'weekly'){
+            
+                $date = new DateTime();
+                $date->setISODate($year, $week);
+
+                $senin = $date->format('Y-m-d');
+                
+                $date->modify('sunday this week');
+
+                $minggu = $date->format('Y-m-d');
+
+                
+
+                $organik = DB::connection('mysql')->table('tb_user_hotspot')
+                            ->whereBetween('created_at',[$senin,$minggu])->count();
+
+                $google = DB::connection('mysql')->table('tb_user_social')
+                            ->where('platform','google')
+                            ->whereBetween('created_at',[$senin,$minggu])->count();
+
+                $facebook = DB::connection('mysql')->table('tb_user_social')
+                            ->where('platform','facebook')
+                            ->whereBetween('created_at',[$senin,$minggu])->count();
+
+                $array = [$organik,$google,$facebook];
+
+
+            } elseif($range == 'monthly'){
+
+                $organik = DB::connection('mysql')->table('tb_user_hotspot')
+                            ->whereMonth('created_at',$month)->count();
+
+                $google = DB::connection('mysql')->table('tb_user_social')
+                            ->where('platform','google')
+                            ->whereMonth('created_at',$month)->count();
+
+                $facebook = DB::connection('mysql')->table('tb_user_social')
+                            ->where('platform','facebook')
+                            ->whereMonth('created_at',$month)->count();
+
+                $array = [$organik,$google,$facebook];
+
+            } elseif($range == 'yearly'){
+
+                $organik = DB::connection('mysql')->table('tb_user_hotspot')
+                            ->whereYear('created_at',$year)->count();
+
+                $google = DB::connection('mysql')->table('tb_user_social')
+                            ->where('platform','google')
+                            ->whereYear('created_at',$year)->count();
+
+                $facebook = DB::connection('mysql')->table('tb_user_social')
+                            ->where('platform','facebook')
+                            ->whereYear('created_at',$year)->count();
+
+                $array = [$organik,$google,$facebook];
+
+            }
+
+
+            return response()->json([
+                'status' => 200,
+                'data' => $array,
+            ]);
+
+
+        } catch (\Execption $th) {
+            dd($th);
+        }
+    }
+
+    public function apiProporsiUmur($range, $tgl)
+    {
+        try {
+            
+            $date_now = DateTime::createFromFormat('dmY', $tgl);
+            // dd($date);
+
+            $year = $date_now->format('Y');
+            $month = $date_now->format('m');
+            $week = $date_now->format('W');
+
+            if($range == 'weekly'){
+            
+                $date = new DateTime();
+                $date->setISODate($year, $week);
+
+                $senin = $date->format('Y-m-d');
+                
+                $date->modify('sunday this week');
+
+                $minggu = $date->format('Y-m-d');
+
+                
+
+                $dewasa = DB::connection('mysql')->table('tb_user_hotspot')
+                            ->where('kategori','dewasa')
+                            ->whereBetween('created_at',[$senin,$minggu])->count();
+
+                $remaja = DB::connection('mysql')->table('tb_user_hotspot')
+                            ->where('kategori','remaja')
+                            ->whereBetween('created_at',[$senin,$minggu])->count();
+
+                $anak = DB::connection('mysql')->table('tb_user_hotspot')
+                            ->where('kategori','anak')
+                            ->whereBetween('created_at',[$senin,$minggu])->count();
+
+
+                // $google = DB::connection('mysql')->table('tb_user_social')
+                //             ->where('platform','google')
+                //             ->whereBetween('created_at',[$senin,$minggu])->count();
+
+                // $facebook = DB::connection('mysql')->table('tb_user_social')
+                //             ->where('platform','facebook')
+                //             ->whereBetween('created_at',[$senin,$minggu])->count();
+
+                $array = [$dewasa,$remaja,$anak];
+
+
+            } elseif($range == 'monthly'){
+
+                $dewasa = DB::connection('mysql')->table('tb_user_hotspot')
+                            ->where('kategori','dewasa')
+                            ->whereMonth('created_at',$month)->count();
+
+                $remaja = DB::connection('mysql')->table('tb_user_hotspot')
+                            ->where('kategori','remaja')
+                            ->whereMonth('created_at',$month)->count();
+
+                $anak = DB::connection('mysql')->table('tb_user_hotspot')
+                            ->where('kategori','anak')
+                            ->whereMonth('created_at',$month)->count();
+
+                // $google = DB::connection('mysql')->table('tb_user_social')
+                //             ->where('platform','google')
+                //             ->whereMonth('created_at',$month)->count();
+
+                // $facebook = DB::connection('mysql')->table('tb_user_social')
+                //             ->where('platform','facebook')
+                //             ->whereMonth('created_at',$month)->count();
+
+                $array = [$dewasa,$remaja,$anak];
+
+            } elseif($range == 'yearly'){
+
+                $dewasa = DB::connection('mysql')->table('tb_user_hotspot')
+                            ->where('kategori','dewasa')
+                            ->whereYear('created_at',$year)->count();
+
+                $remaja = DB::connection('mysql')->table('tb_user_hotspot')
+                            ->where('kategori','remaja')
+                            ->whereYear('created_at',$year)->count();
+
+                $anak = DB::connection('mysql')->table('tb_user_hotspot')
+                            ->where('kategori','anak')
+                            ->whereYear('created_at',$year)->count();
+
+                $array = [$dewasa,$remaja,$anak];
+
+                // $google = DB::connection('mysql')->table('tb_user_social')
+                //             ->where('platform','google')
+                //             ->whereYear('created_at',$year)->count();
+
+                // $facebook = DB::connection('mysql')->table('tb_user_social')
+                //             ->where('platform','facebook')
+                //             ->whereYear('created_at',$year)->count();
+
+                // $array = [$organik,$google,$facebook];
+
+            }
+
+
+            return response()->json([
+                'status' => 200,
+                'data' => $array,
+            ]);
+
+
+        } catch (\Execption $th) {
+            dd($th);
+        }
+    }
+
+    public function apiPenggunaanPerUser($range, $tgl)
+    {
+        try {
+            
+            $date_now = DateTime::createFromFormat('dmY', $tgl);
+            // dd($date);
+
+            $year = $date_now->format('Y');
+            $month = $date_now->format('m');
+            $week = $date_now->format('W');
+
+            if($range == 'weekly'){
+            
+                $date = new DateTime();
+                $date->setISODate($year, $week);
+
+                $senin = $date->format('Y-m-d');
+                
+                $date->modify('sunday this week');
+
+                $minggu = $date->format('Y-m-d');
+
+                $array = [];
+
+
+                $users_radius = DB::connection('mysql_radius')->table('data_usage_by_period')
+                        ->select('username','acctstarttime AS start_time', DB::raw('(SUM(acctinputoctets)/1000/1000/1000) + (SUM(acctoutputoctets)/1000/1000/1000) AS GB_total'))
+                        ->whereNotNull('period_end')
+                        ->whereBetween('period_start',[$senin,$minggu])
+                        ->orderBy('GB_total', 'desc')->get();
+
+                
+                foreach ($users_radius as $user) {
+                    
+                    $detail = DB::connection('mysql')->table('tb_user_hotspot')
+                                ->where('username',$user->username)->first();
+                    
+                    if(is_null($detail)){
+
+                        $detail = DB::connection('mysql')->table('tb_user_social')
+                        ->where('username',$user->username)->first();
+            
+                    }
+
+                    $det_user = [
+                        'username' => $user->username,
+                        // 'kategori' => ,
+                    ];
+
+                    array_push($array, $detail);
+                }
+
+                $array = [$dewasa,$remaja,$anak];
+
+
+            } elseif($range == 'monthly'){
+
+                $dewasa = DB::connection('mysql')->table('tb_user_hotspot')
+                            ->where('kategori','dewasa')
+                            ->whereMonth('created_at',$month)->count();
+
+                $remaja = DB::connection('mysql')->table('tb_user_hotspot')
+                            ->where('kategori','remaja')
+                            ->whereMonth('created_at',$month)->count();
+
+                $anak = DB::connection('mysql')->table('tb_user_hotspot')
+                            ->where('kategori','anak')
+                            ->whereMonth('created_at',$month)->count();
+
+                // $google = DB::connection('mysql')->table('tb_user_social')
+                //             ->where('platform','google')
+                //             ->whereMonth('created_at',$month)->count();
+
+                // $facebook = DB::connection('mysql')->table('tb_user_social')
+                //             ->where('platform','facebook')
+                //             ->whereMonth('created_at',$month)->count();
+
+                $array = [$dewasa,$remaja,$anak];
+
+            } elseif($range == 'yearly'){
+
+                $dewasa = DB::connection('mysql')->table('tb_user_hotspot')
+                            ->where('kategori','dewasa')
+                            ->whereYear('created_at',$year)->count();
+
+                $remaja = DB::connection('mysql')->table('tb_user_hotspot')
+                            ->where('kategori','remaja')
+                            ->whereYear('created_at',$year)->count();
+
+                $anak = DB::connection('mysql')->table('tb_user_hotspot')
+                            ->where('kategori','anak')
+                            ->whereYear('created_at',$year)->count();
+
+                $array = [$dewasa,$remaja,$anak];
+
+                // $google = DB::connection('mysql')->table('tb_user_social')
+                //             ->where('platform','google')
+                //             ->whereYear('created_at',$year)->count();
+
+                // $facebook = DB::connection('mysql')->table('tb_user_social')
+                //             ->where('platform','facebook')
+                //             ->whereYear('created_at',$year)->count();
+
+                // $array = [$organik,$google,$facebook];
+
+            }
+
+
+            return response()->json([
+                'status' => 200,
+                'data' => $array,
+            ]);
+
+
+        } catch (\Execption $th) {
+            dd($th);
+        }
+    }
 
 }

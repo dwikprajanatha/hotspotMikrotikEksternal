@@ -23,6 +23,8 @@
   <div class="preloader flex-column justify-content-center align-items-center">
     <img class="animation__shake" src="{{asset('admin/dist/img/AdminLTELogo.png')}}" alt="AdminLTELogo" height="60" width="60">
   </div>
+  
+@if (Request::segment(1) != 'user')
 
   <!-- Navbar -->
   <nav class="main-header navbar navbar-expand navbar-white navbar-light">
@@ -181,7 +183,7 @@
               <p>
                 Hotspot User
                 <i class="fas fa-angle-left right"></i>
-                {{-- <span class="badge badge-info right">6</span> --}}
+                 <!-- <span class="badge badge-info right">6</span> -->
               </p>
             </a>
             <ul class="nav nav-treeview">
@@ -216,12 +218,6 @@
               </p>
             </a>
             <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="{{route('admin.report.usage', ['range' => 'daily'])}}" class="nav-link" style="margin-left: 20px">
-                  <i class="fas fa-chart-line nav-icon"></i>
-                  <p>Harian</p>
-                </a>
-              </li>
 
               <li class="nav-item">
                 <a href="{{route('admin.report.usage', ['range' => 'weekly'])}}" class="nav-link" style="margin-left: 20px">
@@ -290,6 +286,67 @@
     <!-- /.sidebar -->
   </aside>
 
+@else
+
+<aside class="main-sidebar sidebar-dark-primary elevation-4">
+  <!-- Brand Logo -->
+  <a href="index3.html" class="brand-link">
+    <img src="{{asset('admin/dist/img/AdminLTELogo.png')}}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
+    <span class="brand-text font-weight-light">AdminLTE 3</span>
+  </a>
+
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <!-- Sidebar user panel (optional) -->
+
+
+
+    <!-- Sidebar Menu -->
+    <nav class="mt-2">
+      <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+        <!-- Add icons to the links using the .nav-icon class
+             with font-awesome or any other icon font library -->
+
+        <li class="nav-item">
+          <a href="#" class="nav-link">
+            <i class="nav-icon fas fa-user"></i>
+            <p>
+              Privacy Policy
+            </p>
+          </a>
+        </li>
+
+        
+        <li class="nav-item">
+          <a href="#" class="nav-link">
+            <i class="nav-icon fas fa-user"></i>
+            <p>
+              Terms & Condition
+            </p>
+          </a>
+        </li>
+        
+        <li class="nav-item">
+          <a href="#" class="nav-link">
+            <i class="nav-icon fas fa-user"></i>
+            <p>
+              Remove Social Media
+            </p>
+          </a>
+        </li>
+        
+
+
+
+      </ul>
+    </nav>
+    <!-- /.sidebar-menu -->
+  </div>
+  <!-- /.sidebar -->
+</aside>
+
+@endif
+
 
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
@@ -300,12 +357,18 @@
                 <div class="col-sm-6">
                     <h1 class="m-0">@yield('header')</h1>
                 </div><!-- /.col -->
+                
+                @if (Request::segment(1) != 'user')
+
                 <div class="col-sm-6">
-                    <ol class="breadcrumb float-sm-right">
-                    <li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}">Home</a></li>
-                    <li class="breadcrumb-item active">Dashboard v1</li>
-                    </ol>
+                  <ol class="breadcrumb float-sm-right">
+                  <li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}">Home</a></li>
+                  <li class="breadcrumb-item active">Dashboard v1</li>
+                  </ol>
                 </div><!-- /.col -->
+                  
+                @endif
+               
             </div><!-- /.row -->
         </div><!-- /.container-fluid -->
         </div>

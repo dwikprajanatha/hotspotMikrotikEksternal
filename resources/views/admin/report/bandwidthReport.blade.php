@@ -8,6 +8,9 @@
 <link rel="stylesheet" href="{{asset('admin/plugins/datatables-responsive/css/responsive.bootstrap4.min.css')}}">
 <link rel="stylesheet" href="{{asset('admin/plugins/datatables-buttons/css/buttons.bootstrap4.min.css')}}">
 
+ <!-- Tempusdominus Bootstrap 4 -->
+ <link rel="stylesheet" href="{{asset('admin/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css')}}">
+ 
 @endpush
 
 @section('body')
@@ -15,40 +18,72 @@
     <!-- Main content -->
     <section class="content">
       <div class="container-fluid">
-        
-      <div class="row">
-        <div class="col-12">
 
-          <div class="card">
-            <div class="card-header">
-              <h3 class="card-title">Pertumbuhan Pengguna</h3>
+      {{-- REPORT OPTIONS --}}
+        <div class="row">
+          <div class="col-3">
 
-              <div class="card-tools">
-                <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                  <i class="fas fa-minus"></i>
-                </button>
-                <button type="button" class="btn btn-tool" data-card-widget="remove">
-                  <i class="fas fa-times"></i>
-                </button>
+              @if ($range == 'weekly')
+
+              <div class="form-group">
+                <label>Pilih Minggu :</label>
+                <div class="input-group date" id="datepickerMinggu" data-target-input="nearest">
+                  <input type="text" class="form-control datetimepicker-input" id="datepickerInput" data-target="#datepickerMinggu"/>
+                  <div class="input-group-append" data-target="#datepickerMinggu" data-toggle="datetimepicker">
+                      <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                  </div>
+                </div>
+              </div>
+
+              @elseif ($range == 'monthly')
+
+              <div class="form-group">
+                <label>Pilih Bulan :</label>
+                <div class="input-group date" id="datepickerBulan" data-target-input="nearest">
+                  <input type="text" class="form-control datetimepicker-input" id="datepickerInput" data-target="#datepickerBulan"/>
+                  <div class="input-group-append" data-target="#datepickerBulan" data-toggle="datetimepicker">
+                      <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                  </div>
+                </div>
+              </div>
+
+
+              @elseif ($range == 'yearly')
+
+              <div class="form-group">
+                <label>Pilih Tahun :</label>
+                <div class="input-group date" id="datepickerTahun" data-target-input="nearest">
+                  <input type="text" class="form-control datetimepicker-input" id="datepickerInput" data-target="#datepickerTahun"/>
+                  <div class="input-group-append" data-target="#datepickerTahun" data-toggle="datetimepicker">
+                      <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                  </div>
+                </div>
+              </div>
+
+              @endif
+              
+          </div>
+
+          <div class="col-4">
+            <div class="form-group">
+              <label>&nbsp</label>
+              <div>
+                {{-- <input type="text" class="form-control datetimepicker-input" id="datepickerMingguValue" data-target="#datepickerMinggu"/> --}}
+                <button class="btn btn-primary" id="reload">Reload!</button>
               </div>
             </div>
-            <div class="card-body">
-              <canvas id="chartPertumbuhanUser" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
-            </div><!-- /.card-body -->
-          </div><!-- /.card -->
+          </div>
 
-        </div><!-- /.col-12 -->
-
-      </div><!-- /.row -->
+        </div>
 
 
-      <div class="row">
-        <div class="col-12">
+        <div class="row">
+          <div class="col-12">
 
             <div class="card">
               <div class="card-header">
-                <h3 class="card-title">Penggunaan Bandwidth</h3>
-  
+                <h3 class="card-title">Pertumbuhan Pengguna</h3>
+
                 <div class="card-tools">
                   <button type="button" class="btn btn-tool" data-card-widget="collapse">
                     <i class="fas fa-minus"></i>
@@ -59,65 +94,22 @@
                 </div>
               </div>
               <div class="card-body">
-                <canvas id="chartPenggunaanBandwidth" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+                <canvas id="chartPertumbuhanUser" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
               </div><!-- /.card-body -->
             </div><!-- /.card -->
+
           </div><!-- /.col-12 -->
 
-      </div><!-- /.row -->
+        </div><!-- /.row -->
 
-      <div class="row">
-        <div class="col-6">
 
-            <div class="card">
-                <div class="card-header">
-                  <h3 class="card-title">Proporsi Pengguna</h3>
-      
-                  <div class="card-tools">
-                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                      <i class="fas fa-minus"></i>
-                    </button>
-                    <button type="button" class="btn btn-tool" data-card-widget="remove">
-                      <i class="fas fa-times"></i>
-                    </button>
-                  </div>
-                </div>
-                <div class="card-body">
-                  <canvas id="chartProporsiPengguna" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
-                </div><!-- /.card-body -->
-              </div><!-- /.card -->
-
-        </div>
-
-        <div class="col-6">
-
-            <div class="card">
-                <div class="card-header">
-                  <h3 class="card-title">Proporsi Umur User</h3>
-      
-                  <div class="card-tools">
-                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                      <i class="fas fa-minus"></i>
-                    </button>
-                    <button type="button" class="btn btn-tool" data-card-widget="remove">
-                      <i class="fas fa-times"></i>
-                    </button>
-                  </div>
-                </div>
-                <div class="card-body">
-                    <canvas id="chartProporsiUmur" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
-                </div><!-- /.card-body -->
-            </div><!-- /.card -->
-
-        </div>
-      </div><!-- /.row -->
-
-      <div class="row">
+        <div class="row">
           <div class="col-12">
-               <div class="card">
+
+              <div class="card">
                 <div class="card-header">
-                  <h3 class="card-title">Penggunaan Per User</h3>
-      
+                  <h3 class="card-title">Penggunaan Bandwidth</h3>
+    
                   <div class="card-tools">
                     <button type="button" class="btn btn-tool" data-card-widget="collapse">
                       <i class="fas fa-minus"></i>
@@ -127,67 +119,136 @@
                     </button>
                   </div>
                 </div>
-                <!-- /.card-header -->
                 <div class="card-body">
-                <table id="datatablePenggunaanUser" class="table table-bordered table-hover">
-                    <thead>
-                    <tr>
-                        <th>No.</th>
-                        <th>Username</th>
-                        <th>Kategori</th>
-                        <th>Platform</th>
-                        <th>Penggunaan</th>
-                        <th>last login</th>
-                    </tr>
-                    </thead>
-
-                    <tbody>
-                    <tr>
-                        <td>1</td>
-                        <td>MadeMade</td>
-                        <td>Dewasa</td>
-                        <td>Original</td>
-                        <td>4.1 GB</td>
-                        <td>22-02-2021</td>
-                    </tr>
-                    <tr>
-                        <td>2</td>
-                        <td>MadeCenik</td>
-                        <td>Remaja</td>
-                        <td>Facebook</td>
-                        <td>5.2 GB</td>
-                        <td>21-02-2021</td>
-                    </tr>
-                    </tbody>
-
-                </table>
+                  <canvas id="chartPenggunaanBandwidth" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
                 </div><!-- /.card-body -->
               </div><!-- /.card -->
-          </div>
-      </div>
+            </div><!-- /.col-12 -->
 
-      <div class="row">
-        <div class="col-12">
+        </div><!-- /.row -->
 
-            <div class="card">
-                <div class="card-header">
-                  <h3 class="card-title">Penggunaan Berdasarkan Waktu</h3>
-      
-                  <div class="card-tools">
-                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                      <i class="fas fa-minus"></i>
-                    </button>
-                    <button type="button" class="btn btn-tool" data-card-widget="remove">
-                      <i class="fas fa-times"></i>
-                    </button>
+        <div class="row">
+          <div class="col-6">
+
+              <div class="card">
+                  <div class="card-header">
+                    <h3 class="card-title">Proporsi Pengguna</h3>
+        
+                    <div class="card-tools">
+                      <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                        <i class="fas fa-minus"></i>
+                      </button>
+                      <button type="button" class="btn btn-tool" data-card-widget="remove">
+                        <i class="fas fa-times"></i>
+                      </button>
+                    </div>
                   </div>
-                </div>
-                <div class="card-body">
-                    <canvas id="chartWaktuPenggunaan" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
-                </div><!-- /.card-body -->
-            </div><!-- /.card -->
-        </div><!-- /.col-12 -->
-      </div><!-- /.row -->
+                  <div class="card-body">
+                    <canvas id="chartProporsiPengguna" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+                  </div><!-- /.card-body -->
+                </div><!-- /.card -->
+
+          </div>
+
+          <div class="col-6">
+
+              <div class="card">
+                  <div class="card-header">
+                    <h3 class="card-title">Proporsi Umur User</h3>
+        
+                    <div class="card-tools">
+                      <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                        <i class="fas fa-minus"></i>
+                      </button>
+                      <button type="button" class="btn btn-tool" data-card-widget="remove">
+                        <i class="fas fa-times"></i>
+                      </button>
+                    </div>
+                  </div>
+                  <div class="card-body">
+                      <canvas id="chartProporsiUmur" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+                  </div><!-- /.card-body -->
+              </div><!-- /.card -->
+
+          </div>
+        </div><!-- /.row -->
+
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                  <div class="card-header">
+                    <h3 class="card-title">Penggunaan Per User</h3>
+        
+                    <div class="card-tools">
+                      <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                        <i class="fas fa-minus"></i>
+                      </button>
+                      <button type="button" class="btn btn-tool" data-card-widget="remove">
+                        <i class="fas fa-times"></i>
+                      </button>
+                    </div>
+                  </div>
+                  <!-- /.card-header -->
+                  <div class="card-body">
+                  <table id="datatablePenggunaanUser" class="table table-bordered table-hover">
+                      <thead>
+                      <tr>
+                          <th>No.</th>
+                          <th>Username</th>
+                          <th>Kategori</th>
+                          <th>Platform</th>
+                          <th>Penggunaan</th>
+                          <th>last login</th>
+                      </tr>
+                      </thead>
+
+                      <tbody>
+                      <tr>
+                          <td>1</td>
+                          <td>MadeMade</td>
+                          <td>Dewasa</td>
+                          <td>Original</td>
+                          <td>4.1 GB</td>
+                          <td>22-02-2021</td>
+                      </tr>
+                      <tr>
+                          <td>2</td>
+                          <td>MadeCenik</td>
+                          <td>Remaja</td>
+                          <td>Facebook</td>
+                          <td>5.2 GB</td>
+                          <td>21-02-2021</td>
+                      </tr>
+                      </tbody>
+
+                  </table>
+                  </div><!-- /.card-body -->
+                </div><!-- /.card -->
+            </div>
+        </div>
+
+        <div class="row">
+          <div class="col-12">
+
+              <div class="card">
+                  <div class="card-header">
+                    <h3 class="card-title">Penggunaan Berdasarkan Waktu</h3>
+        
+                    <div class="card-tools">
+                      <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                        <i class="fas fa-minus"></i>
+                      </button>
+                      <button type="button" class="btn btn-tool" data-card-widget="remove">
+                        <i class="fas fa-times"></i>
+                      </button>
+                    </div>
+                  </div>
+                  <div class="card-body">
+                      <canvas id="chartWaktuPenggunaan" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+                  </div><!-- /.card-body -->
+              </div><!-- /.card -->
+          </div><!-- /.col-12 -->
+        </div><!-- /.row -->
 
       </div><!-- /.container-fluid -->
     </section>
@@ -213,11 +274,15 @@
 <script src="{{asset('admin/plugins/datatables-buttons/js/buttons.print.min.js')}}"></script>
 <script src="{{asset('admin/plugins/datatables-buttons/js/buttons.colVis.min.js')}}"></script>
 
+<!-- Tempusdominus Bootstrap 4 -->
+<script src="{{asset('admin/plugins/moment/moment.min.js')}}"></script>
+<script src="{{asset('admin/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js')}}"></script>
+
+
+
 <script>
 
-$(document).ready(function(){
-
-    //all options and dataset configuration start here
+ //all options and dataset configuration start here
 
     // LINE CHART OPTIONS
     var lineChartOptions = {
@@ -309,75 +374,36 @@ $(document).ready(function(){
         }
       ]
     };
-
-
+    
     //all options and dataset configuration end here
 
-    //Line Chart Pertumbuhan User
-    var ctx_lineChartPertumbuhanUser = $('#chartPertumbuhanUser').get(0).getContext('2d');
 
-    var dataPertumbuhanUser = $.extend(true,{},lineChartData);
-    dataPertumbuhanUser.datasets[0].label = "User";
-    dataPertumbuhanUser.datasets[0].data = [1,2,3,4,5,6,7];
+    //all function goes here
 
-    var optionsLineChartPertumbuhan = lineChartOptions;
+function lineChart(ctx, options, data){
 
-    var lineChartPertumbuhanUser = new Chart(ctx_lineChartPertumbuhanUser, {
-      type: 'line',
-      data: dataPertumbuhanUser,
-      options: optionsLineChartPertumbuhan,
-    });
+  var line = new Chart(ctx, {
+    type: 'line',
+    data: data,
+    options: options,
+  });
 
-    // Line Chart Penggunaan Bandwidth
-    var ctx_lineChartPenggunaanBandwidth = $('#chartPenggunaanBandwidth').get(0).getContext('2d');
+};
 
-    var dataPenggunaanBandwidth = $.extend(true,{},lineChartData);
-    dataPenggunaanBandwidth.datasets[0].label = "Penggunaan";
-    dataPenggunaanBandwidth.datasets[0].data = [7,6,5,4,3,2,1];
 
-    var optionsLinePenggunaanBandwidth = lineChartOptions;
+function pieChart(ctx, options, data){
 
-    var lineChartPenggunaanBandwidth = new Chart(ctx_lineChartPenggunaanBandwidth, {
-        type: 'line',
-        data: dataPenggunaanBandwidth,
-        options: optionsLinePenggunaanBandwidth,
-    });
-    
-    // Pie Chart Proporsi Asal User
-    var ctx_pieChartProporsiUser = $('#chartProporsiPengguna').get(0).getContext('2d');
+  var pie = new Chart(ctx, {
+    type : 'pie',
+    options : options,
+    data : data,
+  });
 
-    var dataProporsiUser =  $.extend(true,{},pieChartData);
-    dataProporsiUser.labels = ['Organik','Facebook','Google'];
+};
 
-    dataProporsiUser.datasets[0].data = [10,20,25];
-    dataProporsiUser.datasets[0].backgroundColor = ['#0F9D58', '#3b5998', '#DB4437'];
+function datatables(element,data){
 
-    var optionsProporsiUser = pieChartOptions;
-
-    var pieChartProporsiUser = new Chart(ctx_pieChartProporsiUser, {
-        type : 'pie',
-        options : optionsProporsiUser,
-        data : dataProporsiUser,
-    });
-
-    //Pie Chart Proporsi Umur
-    var ctx_pieChartProporsiUmur = $('#chartProporsiUmur').get(0).getContext('2d');
-
-    var dataProporsiUmur = $.extend(true,{},pieChartData);
-    dataProporsiUmur.labels = ['Dewasa', 'Remaja', 'Anak'];
-    dataProporsiUmur.datasets[0].data = [30,50,20];
-    dataProporsiUmur.datasets[0].backgroundColor = ['#0F9D58', '#3b5998', '#DB4437'];
-
-    var optionsProporsiUmur = pieChartOptions;
-
-    var pieChartProporsiUmur = new Chart(ctx_pieChartProporsiUmur, {
-        type : 'pie',
-        options : optionsProporsiUmur,
-        data : dataProporsiUmur,
-    });
-
-    //Datatables penggunaan per user
-    $('#datatablePenggunaanUser').DataTable({
+      element.DataTable({
       "paging": true,
       "lengthChange": false,
       "searching": true,
@@ -385,24 +411,161 @@ $(document).ready(function(){
       "info": true,
       "autoWidth": false,
       "responsive": true,
+      "ajax" : data,
     });
 
-    //Bar Chart Waktu Penggunaan
-    var ctx_chartWaktuPenggunaan = $('#chartWaktuPenggunaan').get(0).getContext('2d');
+}
+
+function barChart(ctx, options, data){
+
+  var bar = new Chart(ctx, {
+    type    : 'bar',
+    options : options,
+    data    : data,
+  });
+
+};
+
+  
+//Line Chart Pertumbuhan User
+function pertumbuhanUser(data){
+  var ctx_lineChartPertumbuhanUser = $('#chartPertumbuhanUser').get(0).getContext('2d');
+
+  var dataPertumbuhanUser = $.extend(true,{},lineChartData);
+  dataPertumbuhanUser.datasets[0].label = "User";
+  dataPertumbuhanUser.datasets[0].data = data;
+
+  var optionsLineChartPertumbuhan = lineChartOptions;
+
+  lineChart(ctx_lineChartPertumbuhanUser,optionsLineChartPertumbuhan, dataPertumbuhanUser);
+}
+
+function penggunaanBandwidth(data){
+  
+  // Line Chart Penggunaan Bandwidth
+  var ctx_lineChartPenggunaanBandwidth = $('#chartPenggunaanBandwidth').get(0).getContext('2d');
+
+  var dataPenggunaanBandwidth = $.extend(true,{},lineChartData);
+  dataPenggunaanBandwidth.datasets[0].label = "Penggunaan";
+  dataPenggunaanBandwidth.datasets[0].data = data;
+
+  var optionsLinePenggunaanBandwidth = lineChartOptions;
+
+  lineChart(ctx_lineChartPenggunaanBandwidth,optionsLinePenggunaanBandwidth,dataPenggunaanBandwidth);
+
+
+}
+
+function proporsiPengguna(data){
+  
+  // Pie Chart Proporsi Asal User
+  var ctx_pieChartProporsiUser = $('#chartProporsiPengguna').get(0).getContext('2d');
+
+  var dataProporsiUser =  $.extend(true,{},pieChartData);
+  dataProporsiUser.labels = ['Organik','Facebook','Google'];
+
+  dataProporsiUser.datasets[0].data = data;
+  dataProporsiUser.datasets[0].backgroundColor = ['#0F9D58', '#3b5998', '#DB4437'];
+
+  var optionsProporsiUser = pieChartOptions;
+
+  pieChart(ctx_pieChartProporsiUser, optionsProporsiUser, dataProporsiUser);
+
+}
+
+function proporsiUmurPengguna(data){
+
+  //Pie Chart Proporsi Umur
+  var ctx_pieChartProporsiUmur = $('#chartProporsiUmur').get(0).getContext('2d');
+
+  var dataProporsiUmur = $.extend(true,{},pieChartData);
+  dataProporsiUmur.labels = ['Dewasa', 'Remaja', 'Anak'];
+
+  dataProporsiUmur.datasets[0].data = data;
+  dataProporsiUmur.datasets[0].backgroundColor = ['#0F9D58', '#3b5998', '#DB4437'];
+
+  var optionsProporsiUmur = pieChartOptions;
+
+  pieChart(ctx_pieChartProporsiUmur, optionsProporsiUmur, dataProporsiUmur);
+
+}
+
+function penggunaanBerdasarkanWaktu(data) {
+     //Bar Chart Waktu Penggunaan
+  var ctx_chartWaktuPenggunaan = $('#chartWaktuPenggunaan').get(0).getContext('2d');
+
+  var optionChartWaktuPenggunaan = barChartOptions;
+
+  var dataChartWaktuPenggunaan = barChartData;
+  dataChartWaktuPenggunaan.datasets[0].label = "Jumlah Penggunaan";
+  dataChartWaktuPenggunaan.labels = ["00:00", "01:00", "02:00", "03:00", "04:00", "05:00", "06:00", "07:00", "08:00", "09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00", "20:00", "21:00", "22:00", "23:00"]
+  dataChartWaktuPenggunaan.datasets[0].data = data;
+  // [19, 36, 26, 7, 12, 36, 46, 16, 41, 22, 6, 38, 41, 23, 43, 14, 26, 19, 43, 46, 9, 44, 27, 23]
+  barChart(ctx_chartWaktuPenggunaan, optionChartWaktuPenggunaan, dataChartWaktuPenggunaan);
+
+}
+
+function penggunaanPerUser(data) {
+
+    datatablesID = $("#datatablePenggunaanUser");
+    datatables(datatablesID, data);
+  
+}
+
+    //all function end here
+
+$(document).ready(function(){
+
+    var range = "<?php echo($range) ?>";
+
+
+    $('#datepickerMinggu').datetimepicker({
+        format    : "L",
+      
+    });
+
+    $('#datepickerBulan').datetimepicker({
+        viewMode : "years",
+        format  : 'MM'
+    });
+
+    $('#datepickerTahun').datetimepicker({
+        format  : 'YYYY'
+    });
+
+    $("#reload").click(function(){
+
+      var date = $('.input-group.date').data('datetimepicker').date();
+      
+      date_str = moment(date).format('DDMMYYYY');
+      var base_url = window.location.origin;
+
+      // get data pertumbuhan user
+      $.get(base_url + '/api/report/pertumbuhan/'+ range +'/'+ date_str, function(data){
+          var arr_data = data.data;
+          console.log(arr_data);
+          // pertumbuhanUser(arr_data);
+      })
+
+
+      
+    });
+
+   
+
+
+
+   
+
     
-    var optionChartWaktuPenggunaan = barChartOptions;
 
-    var dataChartWaktuPenggunaan = barChartData;
-    dataChartWaktuPenggunaan.datasets[0].label = "Jumlah Penggunaan";
-    dataChartWaktuPenggunaan.labels = ["00:00", "01:00", "02:00", "03:00", "04:00", "05:00", "06:00", "07:00", "08:00", "09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00", "20:00", "21:00", "22:00", "23:00"]
-    dataChartWaktuPenggunaan.datasets[0].data = [19, 36, 26, 7, 12, 36, 46, 16, 41, 22, 6, 38, 41, 23, 43, 14, 26, 19, 43, 46, 9, 44, 27, 23]
+  
+    
 
-    var chartWaktuPenggunaan = new Chart(ctx_chartWaktuPenggunaan, {
-        type    : 'bar',
-        options : optionChartWaktuPenggunaan,
-        data    : dataChartWaktuPenggunaan,
-    });
 
+
+
+ 
 });
 
 </script>

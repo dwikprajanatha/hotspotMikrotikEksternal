@@ -43,5 +43,5 @@ Route::get('check/queue', [MikrotikController::class, 'showQueue']);
 
 
 //Report
-Route::get('report/{range}/{start?}/{end?}', [AdminController::class, 'apiDataPertumbuhanPengguna']);
+Route::get('report/pertumbuhan/{range}/{tgl}', [AdminController::class, 'apiDataPertumbuhanPengguna']);
 

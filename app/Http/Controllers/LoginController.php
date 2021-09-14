@@ -190,4 +190,120 @@ class LoginController extends Controller
         }
     }
 
+
+
+
+
+
+
+    public function deleteCallbackFacebook(Request $request)
+    {
+
+        try {
+            
+
+            $signed_request = $request->get('signed_request');
+            $data = $this->parse_signed_request($signed_request);
+            $user_id = $data['user_id'];
+
+            //get username
+            $username = DB::connection('mysql')->table('tb_user_social')
+                            ->select('username')
+                            ->where('social_id',$user_id)->first();
+
+            if(!is_null($username)){
+
+                $code = $this->random_strings(5);
+
+                DB::transaction(function() use(&$user_id, &$username, &$code){
+
+                    $deleteLaravel = DB::connection('mysql')->table('tb_user_social')
+                                            ->where('social_id', $user_id)->delete();
+    
+    
+                    $deleteRadiusUser = DB::connection('mysql_radius')->table('radcheck')
+                                            ->where('username', $username)->delete();
+    
+                                            
+                    $deleteRadiusGroup = DB::connection('mysql_radius')->table('radgroup')
+                                            ->where('username', $username)->delete();
+                    
+                                            
+                    $createTicket = DB::connection('mysql')->table('tb_deletion_ticket')
+                                            ->insert([
+                                                'ticket' => $code,
+                                                'status' => "Success",
+                                                'platform' => "facebook",
+                                                'created_at' => date('Y-m-d'),
+                                                'updated_at' => null,
+                                            ]);
+    
+    
+                    if ($deleteLaravel && $deleteRadiusGroup && $deleteRadiusUser) {
+                        return response()->json([
+                            'url' => route('user.facebook.delete.track', ['code' => $code]), // <------ i dont know what to put on this or what should it do
+                            'confirmation_code' => $code, // <------ i dont know what is the logic of this code
+                        ]);
+                    }
+    
+                });
+
+            }
+
+            // here will delete the user base on the user_id from facebook
+
+
+            return response()->json([
+                'message' => 'operation not successful'
+            ], 500);
+
+
+        } catch (\Execption $th) {
+            dd($th);
+        }
+        
+    }
+
+
+
+    private function random_strings($length_of_string) {
+  
+        // random_bytes returns number of bytes
+        // bin2hex converts them into hexadecimal format
+        return substr(bin2hex(random_bytes($length_of_string)), 
+                                          0, $length_of_string);
+    }
+
+
+
+    private function parse_signed_request($signed_request)
+    {
+        list($encoded_sig, $payload) = explode('.', $signed_request, 2);
+
+        $secret = $_ENV('FACEBOOK_SECRET');// Use your app secret here
+
+        // decode the data
+        $sig = $this->base64_url_decode($encoded_sig);
+        $data = json_decode($this->base64_url_decode($payload), true);
+
+        // confirm the signature
+        $expected_sig = hash_hmac('sha256', $payload, $secret, $raw = true);
+        if ($sig !== $expected_sig) {
+            error_log('Bad Signed JSON signature!');
+            return null;
+        }
+
+        return $data;
+    }
+
+
+    public function deleteTracker(Request $request, $code)
+    {
+        $confirmation_code = $code;
+
+        $data = DB::connection('mysql')->table('tb_deletion_ticket')->where('ticket',$confirmation_code)->first();
+
+        return view('', ['$data' => $data]);
+    }
+
 }

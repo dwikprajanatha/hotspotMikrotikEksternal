@@ -35,8 +35,15 @@ Route::get('auth/{provider}/callback', [LoginController::class, 'callback']);
 
 /* WEB UI START HERE !*/
 
-//User Privacy
+// User Privacy
 Route::get('user/privacy-policy',[LoginController::class, 'privacy'])->name('hotspot.privacy');
+
+// Delete Callback Facebook
+Route::post('user/facebook/delete',[LoginController::class, 'deleteCallbackFacebook'])->name('user.facebook.delete');
+
+// Tracking Facebook Deletion Request
+Route::get('user/facebook/delete/track/{code}',[LoginController::class, 'deleteTracker'])->name('user.facebook.delete.track');
+
 
 // Login
 Route::get('/admin/login', [AdminController::class, 'showFormLogin'])->name('admin.login.view');

@@ -23,6 +23,8 @@ use App\Http\Controllers\AdminController;
 // });
 
 
+// Route::post('/', [LoginController::class, 'home'])->name('hotspot.home');
+
 Route::post('/loginHotspot', [LoginController::class, 'index'])->name('hotspot.login');
 
 Route::get('/daftar', [LoginController::class, 'create'])->name('hotspot.register.view');
@@ -32,14 +34,18 @@ Route::post('/daftar', [LoginController::class, 'daftar'])->name('hotspot.regist
 Route::get('auth/{provider}', [LoginController::class, 'redirect']);
 Route::get('auth/{provider}/callback', [LoginController::class, 'callback']);
 
+// Delete Callback Facebook
+Route::post('user/facebook/delete',[LoginController::class, 'deleteCallbackFacebook'])->name('user.facebook.delete');
+
 
 /* WEB UI START HERE !*/
 
 // User Privacy
 Route::get('user/privacy-policy',[LoginController::class, 'privacy'])->name('hotspot.privacy');
 
-// Delete Callback Facebook
-Route::post('user/facebook/delete',[LoginController::class, 'deleteCallbackFacebook'])->name('user.facebook.delete');
+// Terms of Service
+Route::get('user/terms-of-service',[LoginController::class, 'termsOfService'])->name('hotspot.tos');
+
 
 // Tracking Facebook Deletion Request
 Route::get('user/facebook/delete/track/{code}',[LoginController::class, 'deleteTracker'])->name('user.facebook.delete.track');

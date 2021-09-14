@@ -21,7 +21,15 @@ class LoginController extends Controller
         return view('hotspot.privacy');
     }
 
+    public function termsOfService(Request $request)
+    {
+        return view('hotspot.termsOfService');
+    }
 
+
+
+
+    
     public function create(Request $request)
     {
         return view('hotspot/register',['request' => $request]);
@@ -228,7 +236,7 @@ class LoginController extends Controller
                     $deleteRadiusGroup = DB::connection('mysql_radius')->table('radgroup')
                                             ->where('username', $username)->delete();
                     
-                                            
+
                     $createTicket = DB::connection('mysql')->table('tb_deletion_ticket')
                                             ->insert([
                                                 'ticket' => $code,

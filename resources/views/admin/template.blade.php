@@ -308,7 +308,7 @@
              with font-awesome or any other icon font library -->
 
         <li class="nav-item">
-          <a href="#" class="nav-link">
+          <a href="{{route('hotspot.privacy')}}" class="nav-link">
             <i class="nav-icon fas fa-user"></i>
             <p>
               Privacy Policy
@@ -318,24 +318,13 @@
 
         
         <li class="nav-item">
-          <a href="#" class="nav-link">
+          <a href="{{route('hotspot.tos')}}" class="nav-link">
             <i class="nav-icon fas fa-user"></i>
             <p>
               Terms & Condition
             </p>
           </a>
         </li>
-        
-        <li class="nav-item">
-          <a href="#" class="nav-link">
-            <i class="nav-icon fas fa-user"></i>
-            <p>
-              Remove Social Media
-            </p>
-          </a>
-        </li>
-        
-
 
 
       </ul>

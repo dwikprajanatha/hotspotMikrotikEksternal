@@ -309,9 +309,10 @@ class LoginController extends Controller
     {
         $confirmation_code = $code;
 
-        $data = DB::connection('mysql')->table('tb_deletion_ticket')->where('ticket',$confirmation_code)->first();
+        // $data = DB::connection('mysql')->table('tb_deletion_ticket')->where('ticket',$confirmation_code)->first();
 
-        return view('', ['$data' => $data]);
+        // return view('hotspot.deletion', ['$data' => $data]);
+        return view('hotspot.deletion');
     }
 
 }

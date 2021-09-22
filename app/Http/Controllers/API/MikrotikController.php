@@ -16,7 +16,7 @@ class MikrotikController extends Controller
     {
         try {
 
-            $host = '192.168.1.199';
+            $host = '192.168.40.138';
             $user = 'admin';
             $password = '';
             
@@ -57,7 +57,14 @@ class MikrotikController extends Controller
             
             $bandwidth = $this->formatBytes($response[0]['tx-byte']);
 
-            dd($bandwidth);
+            return json_encode([
+                'status' => 200,
+                'data' => [
+                    'bandwidth' => $bandwidth,
+                ]
+            ]);
+
+            // dd($bandwidth);
             
             // dd($this->formatBytes($response[0]['tx-byte']), $response[0]);
 
@@ -76,7 +83,13 @@ class MikrotikController extends Controller
 
             $response = $client->query($query)->read();
 
-            dd($response);
+            
+            
+            // dd($response);
+            return json_encode([
+                'status' => 200,
+                'data' => $response[0],
+            ]);
 
         } catch (\Exception $th) {
             dd($th);
@@ -94,20 +107,30 @@ class MikrotikController extends Controller
 
             $result = $client->query($query)->read();
 
-            dd(count($result));
+            return json_encode([
+                'status' => 200,
+                'data' => [
+                    'user' => count($result),
+                ],
+            ]);
+            
+            // var_dump($result);
+            // dd(count($result));
 
         } catch (\Exception $th) {
-            dd($result);
+            dd($th);
         }
     }
 
 
 
+    /**
+     * QUEUE
+     */
 
 
 
-    
-    //SHOW 
+    // Show Queue 
     public function showQueue(Request $request)
     {
         try {
@@ -117,7 +140,12 @@ class MikrotikController extends Controller
 
             $response = $client->query($query)->read();
 
-            dd($response);
+            return json_encode([
+                'status' => 200,
+                'data' => $response,
+            ]);
+
+            // dd($response);
 
         } catch (\Exception $th) {
             dd($th);
@@ -125,15 +153,153 @@ class MikrotikController extends Controller
     }
 
 
- 
+    // Add Queue
+    public function addQueue(Request $request)
+    {
+        try {
+
+            $client = $this->connectRouterOS();
+
+            $maxDownUp =  $request->maxUp .'/'. $request->maxDown;
+            $limitDownUp =  $request->limitUp.'/'.$request->limitDown;
+            
+            $query = (new Query('queue/simple/add'))
+                            ->equal('name', $request->name)
+                            ->equal('target', $request->target)
+                            ->equal('max-limit', $maxDownUp)
+                            ->equal('limit-at', $limitDownUp)
+                            ->equl('parent', isset($request->parent) ? $request->parent : 'none')
+                            ->equal('disabled', 'no');
+                
+            $response = $client->query($query)->read();
 
 
+        } catch (\Exception $th) {
+            dd($th);
+        }
+    }
+
+    // Update Queue
+    public function updateQueue(Request $request)
+    {
+        try {
+            
+            $client = $this->connectRouterOS();
+
+            $maxDownUp =  $request->maxUp .'/'. $request->maxDown;
+            $limitDownUp =  $request->limitUp.'/'.$request->limitDown;
+
+            $query = (new query('queue/simple/set'))
+                         ->equal('name', $request->name)
+                            ->equal('target', $request->target)
+                            ->equal('max-limit', $maxDownUp)
+                            ->equal('limit-at', $limitDownUp)
+                            ->equl('parent', isset($request->parent) ? $request->parent : 'none')
+                            ->equal('disabled', $request->status)
+                            ->tag($request->number);
+
+            $response = $client->query($query)->read();
+
+        } catch (\Exception $th) {
+            dd($th);
+        }
+    }
+
+    // Disable Queue
+    public function disableQueue(Request $request)
+    {
+        try {
+            
+            $client = $this->connectRouterOS();
+
+            $maxDownUp =  $request->maxUp .'/'. $request->maxDown;
+            $limitDownUp =  $request->limitUp.'/'.$request->limitDown;
+
+            $query = (new query('queue/simple/set'))
+                            ->equal('disabled', yes)
+                            ->tag($request->number);
+
+            $response = $client->query($query)->read();
+
+        } catch (\Exception $th) {
+            dd($th);
+        }
+    }
 
 
+    /**
+     * END QUEUE
+     */
 
 
+    /**
+     * HOTSPOT
+     */
+    public function addScheduleHotspot(Request $request)
+    {
+        try {
+            
+            $client = $this->connectRouterOS();
 
+            $startDate = date('M/d/Y');
 
+            $query1 = (new query('system/schedule/add'))
+                        ->equal('name', $request->name)
+                        ->equal('start-date', $startDate)
+                        ->equal('start-time', $startTime)
+                        ->equal('interval', '1d')
+                        ->equal('on-event','turn_on_hotspot');
+
+            $query2 = (new query('system/schedule/add'))
+                        ->equal('name', $request->name)
+                        ->equal('start-date', $startDate)
+                        ->equal('start-time', $endTime)
+                        ->equal('interval', '1d')
+                        ->equal('on-event','turn_on_hotspot');
+
+            $response1 = $client->query($query1)->read();
+            $response2 = $client->query($query2)->read();
+
+        } catch (\Exception $th) {
+            dd($th);
+        }
+    }
+
+    public function editScheduleHotspot(Request $request)
+    {
+        try {
+            
+            $client = $this->connectRouterOS();
+
+            $startDate = date('M/d/Y');
+
+            $query1 = (new query('system/schedule/add'))
+                        ->equal('name', $request->name)
+                        ->equal('start-date', $startDate)
+                        ->equal('start-time', $startTime)
+                        ->equal('interval', '1d')
+                        ->equal('on-event','turn_on_hotspot')
+                        ->tag($request->number);
+
+            $query2 = (new query('system/schedule/add'))
+                        ->equal('name', $request->name)
+                        ->equal('start-date', $startDate)
+                        ->equal('start-time', $endTime)
+                        ->equal('interval', '1d')
+                        ->equal('on-event','turn_off_hotspot')
+                        ->tag($request->number);
+
+            $response1 = $client->query($query1)->read();
+            $response2 = $client->query($query2)->read();
+
+        } catch (\Exception $th) {
+            dd($th);
+        }
+    }
+
+    /**
+     * END HOTSPOT
+     */
 
 
 
@@ -175,6 +341,13 @@ class MikrotikController extends Controller
                 'activeUsers' => $activeUsers,
                 'usersMikrotik' => $usersMikrotik,
             ];
+
+            return json_encode([
+                'status' => 200,
+                'data' => $response,
+            ]);
+
+            
 
             dd($response);
 

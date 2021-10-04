@@ -8,9 +8,16 @@ use Session;
 use Auth;
 use Illuminate\Support\Str;
 use DateTime;
+use Hash;
 
 class AdminController extends Controller
 {
+
+    public function dashboard(Request $request)
+    {   
+        // $request->session()->flash('success', 'SUKSES');
+        return view('admin.dashboard.dashboardAdmin');
+    }
 
     public function showFormLogin()
     {
@@ -20,8 +27,8 @@ class AdminController extends Controller
     public function loginAdmin(Request $request)
     {
         $credentials = $request->validate([
-            'email' => ['required'],
-            'password' => ['required', 'min:8'],
+            'username' => ['required'],
+            'password' => ['required'],
         ]);
 
         if(Auth::attempt($credentials)){
@@ -30,22 +37,125 @@ class AdminController extends Controller
             DB::connection('mysql')->table('users')
                 ->where('id', Auth::id())
                 ->update(['api_token' => Str::random(60)]);
-
+        
+            $request->session()->flash('success', 'Selamat Datang, ' . Auth::user()->nama );
             return redirect()->intended(route('admin.dashboard'));
 
         } else {
             return back()->withErrors([
-                'email' => 'Email dan Password tidak cocok',
+                'error' => 'Username dan Password tidak cocok',
             ]);
         }
     }
 
-    public function dashboard(Request $request)
+
+    public function showCreateAccount(Request $request)
     {
-        return view('admin.dashboard.dashboardAdmin');
+        return view('admin.account.createAccount');
     }
 
-    public function HotspotUser(Request $request, $user)
+    public function createAccount(Request $request)
+    {
+        $data = $request->validate([
+            'nip' => ['required'],
+            'nama' => ['required'],
+            'username' => ['required', 'alpha_num'],
+            'email' => ['required', 'email'],
+            'password' => ['required', 'min:8'],
+            'role' => ['required', 'numeric'],
+        ]);
+
+        DB::transaction(function() use(&$data) {
+            $admin = DB::connection('mysql')->table('users')->insert([
+                'nip' => $data['nip'],
+                'nama' => $data['nama'],
+                'username' => $data['username'],
+                'email' => $data['email'],
+                'password' => Hash::make($data['password']),
+                'role' => $data['role'],
+            ]);
+
+            if($admin){
+                // $request->session()->flash('success', 'Sukses bos!');
+                return redirect(route('admin.account'))->with('success', 'Akun berhasil dibuat!');
+            }
+        });
+
+    }
+
+    public function listAccount(Request $request)
+    {
+        $accounts = DB::connection('mysql')->table('users')->select('id','nip','nama','role')->get();
+        return view('admin.account.listAccount',['users' => $accounts]);
+    }
+
+    public function editAccount(Request $request)
+    {
+        $id = $request->validate([
+            'id' => 'numeric',
+        ]);
+
+        $user = DB::connection('mysql')->table('users')->select('id','nip','username','email','nama','role')->find($request->id);
+        
+        return view('admin.account.createAccount',['user' => $user]);
+
+    }
+
+    public function updateAccount(Request $request)
+    {
+        $data = $request->validate([
+            'nip' => ['required'],
+            'nama' => ['required'],
+            'username' => ['required', 'alpha_num'],
+            'email' => ['required', 'email'],
+            'password' => ['required', 'min:8'],
+            'role' => ['required', 'numeric'],
+            'id' => ['required', 'numerid'],
+        ]);
+
+
+        DB::beginTransaction();
+        try {
+            $update = DB::connection('mysql')->table('users')
+                        ->where('id', $data['id'])
+                        ->update([
+                            'nip' => $data['nip'],
+                            'nama' => $data['nama'],
+                            'username' => $data['username'],
+                            'email' => $data['email'],
+                            'role' => $data['role'],
+                        ]);
+            
+            DB::commit();
+        
+            return redirect(route('admin.account'))->with('success', 'Akun berhasil diupdate!');
+
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            return redirect()->back()->with('error', 'Hmm.. Ada yang salah..');
+        }
+    }
+
+    public function deleteAccount(Request $request)
+    {
+        $id = $request->validate([
+            'id' => 'numeric',
+        ]);
+
+        try {
+            $delete = DB::connection('mysql')->table('users')->where($request->id)->update(['isDelete', 1]);
+            
+            if($delete){
+                return redirect(route('admin.account'))->with('success', 'Akun berhasil dihapus!');
+            }
+        } catch (\Throwable $th) {
+
+            return redirect(route('admin.account'))->with('error', 'Hmm.. Sepertinya ada yang salah!');
+        }
+    }
+
+    //list hotspot user
+    public function hotspotUser(Request $request, $user)
     {
         if($user == 'organik'){
 
@@ -62,9 +172,14 @@ class AdminController extends Controller
 
             return view('admin.hotspotUser.userRadius2', ['users' => $Users]);
         }
-        
-        
     }
+
+    //disable user
+    public function deleteUser(Request $request)
+    {
+        # code...
+    }
+
 
     public function reportUsage(Request $request, $range)
     {

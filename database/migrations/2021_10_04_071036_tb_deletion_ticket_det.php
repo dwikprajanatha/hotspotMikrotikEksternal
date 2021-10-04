@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class TbDeletionTicket extends Migration
+class TbDeletionTicketDet extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,11 @@ class TbDeletionTicket extends Migration
      */
     public function up()
     {
-        Schema::connection('mysql')->create('tb_deletion_ticket', function (Blueprint $table) {
+        Schema::connection('mysql')->create('tb_deletion_ticket_det', function (Blueprint $table) {
             $table->id();
-            $table->string('ticket')->unique();
-            $table->string('platform');
+            $table->foreignId('id_deletion_ticket')->constrained('tb_deletion_ticket');
+            $table->string('status');
+            $table->date('created_at');
         });
     }
 
@@ -27,6 +28,6 @@ class TbDeletionTicket extends Migration
      */
     public function down()
     {
-        Schema::connection('mysql')->dropIfExists('tb_deletion_ticket');
+        Schema::connection('mysql')->dropIfExists('tb_deletion_ticket_det');
     }
 }

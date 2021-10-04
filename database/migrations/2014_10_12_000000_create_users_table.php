@@ -17,10 +17,12 @@ class CreateUsersTable extends Migration
             $table->id();
             $table->string('nip');
             $table->string('nama');
+            $table->string('username');
             $table->string('email')->unique();
             $table->string('password');
             $table->string('role');
             $table->string('api_token')->unique()->nullable()->default(null);
+            $table->string('isDeleted')->default(0);
         });
     }
 

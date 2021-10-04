@@ -22,6 +22,7 @@ class TbUserHotspot extends Migration
             $table->string('mac');
             $table->string('ip');
             $table->date('created_at');
+            $table->string('isDeleted');
         });
     }
 

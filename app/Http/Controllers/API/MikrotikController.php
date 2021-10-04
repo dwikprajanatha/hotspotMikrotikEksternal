@@ -43,7 +43,6 @@ class MikrotikController extends Controller
 
 
     //API Check
-
     public function checkBandwidth(Request $request)
     {
         try {
@@ -83,8 +82,6 @@ class MikrotikController extends Controller
 
             $response = $client->query($query)->read();
 
-            
-            
             // dd($response);
             return json_encode([
                 'status' => 200,
@@ -110,7 +107,7 @@ class MikrotikController extends Controller
             return json_encode([
                 'status' => 200,
                 'data' => [
-                    'user' => count($result),
+                    'users' => $result,
                 ],
             ]);
             
@@ -172,6 +169,8 @@ class MikrotikController extends Controller
                             ->equal('disabled', 'no');
                 
             $response = $client->query($query)->read();
+
+            dd($response);
 
 
         } catch (\Exception $th) {

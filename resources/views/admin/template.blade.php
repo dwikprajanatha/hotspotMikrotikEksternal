@@ -13,10 +13,12 @@
   <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
   <!-- Theme style -->
   <link rel="stylesheet" href="{{asset('admin/dist/css/adminlte.min.css')}}">
+  <link rel="stylesheet" href="{{asset('admin/plugins/toastr/toastr.min.css')}}">
   @stack('css')
 
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
+
 <div class="wrapper">
 
   <!-- Preloader -->
@@ -168,8 +170,8 @@
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
 
-          <li class="nav-item menu-open">
-            <a href="#" class="nav-link active">
+          <li class="nav-item {{Request::segment(2) == 'dashboard' ? 'menu-open' : ''}}">
+            <a href="{{route('admin.dashboard')}}" class="nav-link {{Request::segment(2) == 'dashboard' ? 'active' : ''}}">
               <i class="nav-icon fas fa-tachometer-alt"></i>
               <p>
                 Dashboard
@@ -177,7 +179,16 @@
             </a>
           </li>
 
-          <li class="nav-item">
+          <li class="nav-item {{Request::segment(2) == 'account' ? 'menu-open' : ''}}">
+            <a href="{{route('admin.account')}}" class="nav-link {{Request::segment(2) == 'account' ? 'active' : ''}}">
+              <i class="nav-icon fas fa-user"></i>
+              <p>
+                Admin Account
+              </p>
+            </a>
+          </li>
+
+          <li class="nav-item {{Request::segment(2) == 'hotspot' ? 'menu-open' : ''}}">
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-users"></i>
               <p>
@@ -188,19 +199,19 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="{{route('admin.user', ['user' => 'organik'])}}" class="nav-link" style="margin-left: 20px">
+                <a href="{{route('admin.user', ['user' => 'organik'])}}" class="nav-link {{Request::segment(3) == 'organik' ? 'active' : ''}}">
                   <i class="fas fa-users nav-icon"></i>
                   <p>Organik</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="{{route('admin.user', ['user' => 'facebook'])}}" class="nav-link" style="margin-left: 20px">
+                <a href="{{route('admin.user', ['user' => 'facebook'])}}" class="nav-link {{Request::segment(3) == 'facebook' ? 'active' : ''}}">
                   <i class="fab fa-facebook-square nav-icon"></i>
                   <p>Facebook</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="{{route('admin.user', ['user' => 'google'])}}" class="nav-link" style="margin-left: 20px">
+                <a href="{{route('admin.user', ['user' => 'google'])}}" class="nav-link {{Request::segment(3) == 'google' ? 'active' : ''}}">
                   <i class="fab fa-google-plus-g nav-icon"></i>
                   <p>Google</p>
                 </a>
@@ -209,7 +220,7 @@
           </li>
 
 
-          <li class="nav-item">
+          <li class="nav-item {{Request::segment(2) == 'report' ? 'menu-open' : ''}}">
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-chart-pie"></i>
               <p>
@@ -220,21 +231,21 @@
             <ul class="nav nav-treeview">
 
               <li class="nav-item">
-                <a href="{{route('admin.report.usage', ['range' => 'weekly'])}}" class="nav-link" style="margin-left: 20px">
+                <a href="{{route('admin.report.usage', ['range' => 'weekly'])}}" class="nav-link {{Request::segment(3) == 'weekly' ? 'active' : ''}}">
                   <i class="fas fa-chart-line nav-icon"></i>
                   <p>Mingguan</p>
                 </a>
               </li>
 
               <li class="nav-item">
-                <a href="{{route('admin.report.usage', ['range' => 'monthly'])}}" class="nav-link" style="margin-left: 20px">
+                <a href="{{route('admin.report.usage', ['range' => 'monthly'])}}" class="nav-link {{Request::segment(3) == 'monthly' ? 'active' : ''}}">
                   <i class="fas fa-chart-line nav-icon"></i>
                   <p>Bulanan</p>
                 </a>
               </li>
 
               <li class="nav-item">
-                <a href="{{route('admin.report.usage', ['range' => 'yearly'])}}" class="nav-link" style="margin-left: 20px">
+                <a href="{{route('admin.report.usage', ['range' => 'yearly'])}}" class="nav-link {{Request::segment(3) == 'yearly' ? 'active' : ''}}">
                   <i class="fas fa-chart-line nav-icon"></i>
                   <p>Tahunan</p>
                 </a>
@@ -245,7 +256,7 @@
 
           <li class="nav-item">
             <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-chart-pie"></i>
+              <i class="nav-icon fas fa-server"></i>
               <p>
                 Mikrotik Management
                 <i class="right fas fa-angle-left"></i>
@@ -254,21 +265,21 @@
             <ul class="nav nav-treeview">
               
               <li class="nav-item">
-                <a href="#" class="nav-link" style="margin-left: 20px">
+                <a href="#" class="nav-link">
                   <i class="fas fa-users-cog nav-icon"></i>
                   <p>Hotspot User</p>
                 </a>
               </li>
 
               <li class="nav-item">
-                <a href="#" class="nav-link" style="margin-left: 20px">
+                <a href="#" class="nav-link">
                   <i class="fab fa-buffer nav-icon"></i>
                   <p>Queue</p>
                 </a>
               </li>
 
               <li class="nav-item">
-                <a href="#" class="nav-link" style="margin-left: 20px">
+                <a href="#" class="nav-link">
                   <i class="fas fa-wifi nav-icon"></i>
                   <p>Hotspot</p>
                 </a>
@@ -307,7 +318,7 @@
         <!-- Add icons to the links using the .nav-icon class
              with font-awesome or any other icon font library -->
 
-        <li class="nav-item">
+        <li class="nav-item {{Request::segment(2) == 'p' ? 'privacy-policy' : ''}}">
           <a href="{{route('hotspot.privacy')}}" class="nav-link">
             <i class="nav-icon fas fa-user"></i>
             <p>
@@ -317,7 +328,7 @@
         </li>
 
         
-        <li class="nav-item">
+        <li class="nav-item {{Request::segment(2) == 'p' ? 'terms-of-service' : ''}}">
           <a href="{{route('hotspot.tos')}}" class="nav-link">
             <i class="nav-icon fas fa-user"></i>
             <p>
@@ -391,12 +402,56 @@
 <script src="{{asset('admin/plugins/jquery-ui/jquery-ui.min.js')}}"></script>
 <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
 <script>
-  $.widget.bridge('uibutton', $.ui.button)
+  $.widget.bridge('uibutton', $.ui.button);
 </script>
 <!-- Bootstrap 4 -->
 <script src="{{asset('admin/plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
 <!-- AdminLTE App -->
 <script src="{{asset('admin/dist/js/adminlte.js')}}"></script>
+<!-- Toastr -->
+<script src="{{asset('admin/plugins/toastr/toastr.min.js')}}"></script>
+
+<!-- TOAST START HERE -->
+
+<script>
+
+toastr.options = {
+  "closeButton": true,
+  "debug": false,
+  "newestOnTop": true,
+  "progressBar": true,
+  "positionClass": "toast-top-right",
+  "preventDuplicates": false,
+  "onclick": null,
+  "showDuration": "300",
+  "hideDuration": "1000",
+  "timeOut": "5000",
+  "extendedTimeOut": "1000",
+  "showEasing": "swing",
+  "hideEasing": "linear",
+  "showMethod": "fadeIn",
+  "hideMethod": "fadeOut"
+}
+
+$( document ).ready(function() { 
+
+    @if(session()->has('error'))
+      toastr['error']('<?php echo session()->pull('error'); ?>')
+    @elseif(session()->has('success'))
+      toastr['success']('<?php echo session()->pull('success'); ?>')
+    @endif
+});
+
+
+</script>
+
+
+
+
+
+
+<!-- TOAST END HERE -->
+
 @stack('javascript')
 
 </body>

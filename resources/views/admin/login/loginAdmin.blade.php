@@ -24,8 +24,9 @@
     <div class="card-body">
 
       <form action="{{route('admin.login')}}" method="post">
+        @csrf
         <div class="input-group mb-3">
-          <input type="email" class="form-control" name="username" placeholder="Username">
+          <input type="text" class="form-control" name="username" placeholder="Username">
           <div class="input-group-append">
             <div class="input-group-text">
               <span class="fas fa-envelope"></span>

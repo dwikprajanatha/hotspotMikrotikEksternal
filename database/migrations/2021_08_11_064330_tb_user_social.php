@@ -22,6 +22,7 @@ class TbUserSocial extends Migration
             $table->string('password');
             $table->string('platform');
             $table->date('created_at');
+            $table->string('isDeleted');
         });
     }
 

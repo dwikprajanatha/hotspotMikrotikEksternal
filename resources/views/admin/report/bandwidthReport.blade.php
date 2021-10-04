@@ -26,7 +26,7 @@
               @if ($range == 'weekly')
 
               <div class="form-group">
-                <label>Pilih Minggu :</label>
+                <label>Pilih Minggu ke :</label>
                 <div class="input-group date" id="datepickerMinggu" data-target-input="nearest">
                   <input type="text" class="form-control datetimepicker-input" id="datepickerInput" data-target="#datepickerMinggu"/>
                   <div class="input-group-append" data-target="#datepickerMinggu" data-toggle="datetimepicker">
@@ -518,7 +518,6 @@ $(document).ready(function(){
 
     var range = "<?php echo($range) ?>";
 
-
     $('#datepickerMinggu').datetimepicker({
         format    : "L",
       
@@ -544,11 +543,40 @@ $(document).ready(function(){
       $.get(base_url + '/api/report/pertumbuhan/'+ range +'/'+ date_str, function(data){
           var arr_data = data.data;
           console.log(arr_data);
-          // pertumbuhanUser(arr_data);
-      })
+          pertumbuhanUser(arr_data);
+      });
 
+      $.get(base_url + '/api/report/pengguna/'+ range +'/'+ date_str, function(data){
+          var arr_data = data.data;
+          console.log(arr_data);
+          penggunaanBandwidth(arr_data);
+      });
 
-      
+      $.get(base_url + '/api/report/platform/'+ range +'/'+ date_str, function(data){
+          var arr_data = data.data;
+          console.log(arr_data);
+          proporsiPengguna(arr_data)
+      });
+
+      $.get(base_url + '/api/report/umur/'+ range +'/'+ date_str, function(data){
+          var arr_data = data.data;
+          console.log(arr_data);
+          proporsiUmurPengguna(arr_data)
+      });
+
+      //  $.get(base_url + '/api/report/penggunaan/'+ range +'/'+ date_str, function(data){
+      //      var arr_data = data.data;
+      //      console.log(arr_data);
+      //      penggunaanBerdasarkanWaktu(arr_data)
+      //  });
+
+      $.get(base_url + '/api/report/penggunaan/'+ range +'/'+ date_str, function(data){
+          var arr_data = data.data;
+          console.log(arr_data);
+          penggunaanPerUser(arr_data)
+      });
+          
+                
     });
 
    

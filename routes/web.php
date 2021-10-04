@@ -46,20 +46,51 @@ Route::get('user/privacy-policy',[LoginController::class, 'privacy'])->name('hot
 // Terms of Service
 Route::get('user/terms-of-service',[LoginController::class, 'termsOfService'])->name('hotspot.tos');
 
-
 // Tracking Facebook Deletion Request
 Route::get('user/facebook/delete/track/{code}',[LoginController::class, 'deleteTracker'])->name('user.facebook.delete.track');
-
 
 // Login
 Route::get('/admin/login', [AdminController::class, 'showFormLogin'])->name('admin.login.view');
 Route::post('/admin/login', [AdminController::class, 'loginAdmin'])->name('admin.login');
 
-// Dashboard
-Route::get('/admin/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
 
-// Hotspot User
-Route::get('/admin/hotspot/{user}', [AdminController::class, 'HotspotUser'])->name('admin.user');
 
-// Report
-Route::get('/admin/report/{range}', [AdminController::class, 'reportUsage'])->name('admin.report.usage');
+/**
+ * 
+ * ADMIN START HERE
+ * 
+ */
+
+Route::group(['middleware' => 'auth:web'], function() {
+    
+    // Dashboard
+    Route::get('/admin/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
+    
+    // List Admin Account
+    Route::get('/admin/account', [AdminController::class, 'listAccount'])->name('admin.account');
+
+    // Create Admin Account
+    Route::get('/admin/account/create', [AdminController::class, 'showCreateAccount'])->name('admin.account.create.view');
+    Route::post('/admin/account/create', [AdminController::class, 'createAccount'])->name('admin.account.create');
+
+    // List Admin Account
+    Route::get('/admin/account', [AdminController::class, 'listAccount'])->name('admin.account');
+
+    // Edit Admin Account
+    Route::get('/admin/account/edit/{id}', [AdminController::class, 'editAccount'])->name('admin.account.edit');
+    Route::post('/admin/account/update', [AdminController::class, 'updateAccount'])->name('admin.account.update');
+
+    // Delete Admin Account
+    Route::get('/admin/account/delete/{id}', [AdminController::class, 'deleteAccount'])->name('admin.account.delete');
+
+    // Hotspot User
+    Route::get('/admin/hotspot/{user}', [AdminController::class, 'hotspotUser'])->name('admin.user');
+    
+    // Disable Hotspot User
+    Route::get('/admin/hotspot/delete/{id}', [AdminController::class, 'deleteUser'])->name('admin.user.delete');
+
+    // Report
+    Route::get('/admin/report/{range}', [AdminController::class, 'reportUsage'])->name('admin.report.usage');
+
+
+});

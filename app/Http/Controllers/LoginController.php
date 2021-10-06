@@ -153,7 +153,7 @@ class LoginController extends Controller
 
                 $cek_username = DB::connection('mysql')->table('tb_user_social')->select('username')->where('username', $username)->first();
                 
-                if(!is_null($cek_username->username)){
+                if(!is_null($cek_username)){
                     $username = $cek_username->username . "_" . $provider;
                 }
 

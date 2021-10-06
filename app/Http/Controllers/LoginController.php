@@ -157,7 +157,7 @@ class LoginController extends Controller
                     $username = $username . "_" . $provider;
                 }
 
-                DB::transaction(function() use(&$provider, &$user, &$password, &$username) {
+                DB::connection('mysql')->transaction(function() use(&$provider, &$user, &$password, &$username) {
 
                     DB::connection('mysql')->table('tb_user_social')->insert([
                         'social_id' => $user->id,
@@ -169,21 +169,25 @@ class LoginController extends Controller
                         'created_at' => date('Y-m-d'),
                     ]);
 
+                });
+
+                DB::connection('mysql_radius')->transaction(function() use(&$provider, &$password, &$username) {
+                    
                     DB::connection('mysql_radius')->table('radcheck')->insert([
                         'username' => $username ."_".$provider,
                         'attribute' => 'Cleartext-Password',
                         'op' => ':=',
                         'value' => $password,
                     ]);
-
+    
                     $radusergroup = DB::connection('mysql_radius')->table('radusergroup')->insert([
-                        'username' => $$username ."_".$provider,
+                        'username' => $username ."_".$provider,
                         'groupname' => "social_media",
                         'priority' => 10,
                     ]);
 
                 });
-
+                
                 return view('hotspot/loginAfterRegister',['username' => $username, 'password' => $password]);
  
             } else {

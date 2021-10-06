@@ -174,14 +174,14 @@ class LoginController extends Controller
                 DB::connection('mysql_radius')->transaction(function() use(&$provider, &$password, &$username) {
                     
                     DB::connection('mysql_radius')->table('radcheck')->insert([
-                        'username' => $username ."_".$provider,
+                        'username' => $username,
                         'attribute' => 'Cleartext-Password',
                         'op' => ':=',
                         'value' => $password,
                     ]);
     
                     $radusergroup = DB::connection('mysql_radius')->table('radusergroup')->insert([
-                        'username' => $username ."_".$provider,
+                        'username' => $username,
                         'groupname' => "social_media",
                         'priority' => 10,
                     ]);

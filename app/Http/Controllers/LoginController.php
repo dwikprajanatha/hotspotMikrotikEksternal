@@ -149,7 +149,7 @@ class LoginController extends Controller
             /// lakukan pengecekan apakah facebook/google id nya sudah ada apa belum
             $user_db = DB::connection('mysql')->table('tb_user_social')->where('social_id', $user->id)->first();
             
-            if($user_db == null){
+            if(is_null($user_db)){
 
                 $cek_username = DB::connection('mysql')->table('tb_user_social')->where('username', $username)->first();
                 

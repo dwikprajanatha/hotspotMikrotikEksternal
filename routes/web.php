@@ -83,12 +83,17 @@ Route::group(['middleware' => 'auth:web'], function() {
     // Delete Admin Account
     Route::get('/admin/account/delete/{id}', [AdminController::class, 'deleteAccount'])->name('admin.account.delete');
 
+    // Enable Admin Account
+    Route::get('/admin/account/enable/{id}', [AdminController::class, 'enableAccount'])->name('admin.account.enable');
+
     // Hotspot User
     Route::get('/admin/hotspot/{user}', [AdminController::class, 'hotspotUser'])->name('admin.user');
     
     // Disable Hotspot User
-    Route::get('/admin/hotspot/delete/{id}', [AdminController::class, 'deleteUser'])->name('admin.user.delete');
+    Route::get('/admin/hotspot/{user}/delete/{id}', [AdminController::class, 'deleteUser'])->name('admin.user.delete');
 
+    // Enable Hotspot User
+    Route::get('/admin/hotspot/{user}/enable/{id}', [AdminController::class, 'enableUser'])->name('admin.user.enable');
     // Report
     Route::get('/admin/report/{range}', [AdminController::class, 'reportUsage'])->name('admin.report.usage');
 

@@ -428,26 +428,32 @@ function barChart(ctx, options, data){
 
   
 //Line Chart Pertumbuhan User
-function pertumbuhanUser(data){
+function pertumbuhanUser(arr_data){
   var ctx_lineChartPertumbuhanUser = $('#chartPertumbuhanUser').get(0).getContext('2d');
 
   var dataPertumbuhanUser = $.extend(true,{},lineChartData);
+
+  dataPertumbuhanUser.labels = arr_data.label;
+
   dataPertumbuhanUser.datasets[0].label = "User";
-  dataPertumbuhanUser.datasets[0].data = data;
+  dataPertumbuhanUser.datasets[0].data = arr_data.data;
 
   var optionsLineChartPertumbuhan = lineChartOptions;
 
   lineChart(ctx_lineChartPertumbuhanUser,optionsLineChartPertumbuhan, dataPertumbuhanUser);
 }
 
-function penggunaanBandwidth(data){
+function penggunaanBandwidth(arr_data){
   
   // Line Chart Penggunaan Bandwidth
   var ctx_lineChartPenggunaanBandwidth = $('#chartPenggunaanBandwidth').get(0).getContext('2d');
 
   var dataPenggunaanBandwidth = $.extend(true,{},lineChartData);
+
+  dataPertumbuhanUser.labels = arr_data.label;
+
   dataPenggunaanBandwidth.datasets[0].label = "Penggunaan";
-  dataPenggunaanBandwidth.datasets[0].data = data;
+  dataPenggunaanBandwidth.datasets[0].data = arr_data.data;
 
   var optionsLinePenggunaanBandwidth = lineChartOptions;
 
@@ -540,29 +546,79 @@ $(document).ready(function(){
       var base_url = window.location.origin;
 
       // get data pertumbuhan user
-      $.get(base_url + '/api/report/pertumbuhan/'+ range +'/'+ date_str, function(data){
-          var arr_data = data.data;
-          console.log(arr_data);
-          pertumbuhanUser(arr_data);
+      // $.get(base_url + '/api/report/pertumbuhan/'+ range +'/'+ date_str, function(data){
+      //     var arr_data = data.data;
+      //     console.log(arr_data);
+      //     pertumbuhanUser(arr_data);
+      // });
+      
+      $.ajax({
+        url: base_url + '/api/report/pertumbuhan/'+ range +'/'+ date_str,
+        type: "GET",
+        headers: {'Accept': 'application/json'},
+        data: {'api_token': '<?php echo(Auth::user()->api_token) ?>' },
+        success: function(response){
+                  var arr_data = response.data;
+                  console.log(arr_data);
+                  pertumbuhanUser(arr_data);
+                },
       });
 
-      $.get(base_url + '/api/report/pengguna/'+ range +'/'+ date_str, function(data){
-          var arr_data = data.data;
-          console.log(arr_data);
-          penggunaanBandwidth(arr_data);
+
+      // $.get(base_url + '/api/report/pengguna/'+ range +'/'+ date_str, function(data){
+      //     var arr_data = data.data;
+      //     console.log(arr_data);
+      //     penggunaanBandwidth(arr_data);
+      // });
+
+      $.ajax({
+        url: base_url + '/api/report/pengguna/'+ range +'/'+ date_str,
+        type: "GET",
+        headers: {'Accept': 'application/json'},
+        data: {'api_token': '<?php echo(Auth::user()->api_token) ?>' },
+        success: function(response){
+                  var arr_data = response.data;
+                  console.log(arr_data);
+                  penggunaanBandwidth(arr_data);
+                },
       });
 
-      $.get(base_url + '/api/report/platform/'+ range +'/'+ date_str, function(data){
-          var arr_data = data.data;
-          console.log(arr_data);
-          proporsiPengguna(arr_data)
+      // $.get(base_url + '/api/report/platform/'+ range +'/'+ date_str, function(data){
+      //     var arr_data = data.data;
+      //     console.log(arr_data);
+      //     proporsiPengguna(arr_data)
+      // });
+
+      $.ajax({
+        url: base_url + '/api/report/platform/'+ range +'/'+ date_str,
+        type: "GET",
+        headers: {'Accept': 'application/json'},
+        data: {'api_token': '<?php echo(Auth::user()->api_token) ?>' },
+        success: function(response){
+                  var arr_data = response.data;
+                  console.log(arr_data);
+                  proporsiPengguna(arr_data);
+                },
       });
 
-      $.get(base_url + '/api/report/umur/'+ range +'/'+ date_str, function(data){
-          var arr_data = data.data;
-          console.log(arr_data);
-          proporsiUmurPengguna(arr_data)
+      // $.get(base_url + '/api/report/umur/'+ range +'/'+ date_str, function(data){
+      //     var arr_data = data.data;
+      //     console.log(arr_data);
+      //     proporsiUmurPengguna(arr_data)
+      // });
+
+      $.ajax({
+        url: base_url + '/api/report/umur/'+ range +'/'+ date_str,
+        type: "GET",
+        headers: {'Accept': 'application/json'},
+        data: {'api_token': '<?php echo(Auth::user()->api_token) ?>' },
+        success: function(response){
+                  var arr_data = response.data;
+                  console.log(arr_data);
+                  proporsiUmurPengguna(arr_data);
+                },
       });
+
 
       //  $.get(base_url + '/api/report/penggunaan/'+ range +'/'+ date_str, function(data){
       //      var arr_data = data.data;
@@ -570,12 +626,24 @@ $(document).ready(function(){
       //      penggunaanBerdasarkanWaktu(arr_data)
       //  });
 
-      $.get(base_url + '/api/report/penggunaan/'+ range +'/'+ date_str, function(data){
-          var arr_data = data.data;
-          console.log(arr_data);
-          penggunaanPerUser(arr_data)
+      // $.get(base_url + '/api/report/penggunaan/'+ range +'/'+ date_str, function(data){
+      //     var arr_data = data.data;
+      //     console.log(arr_data);
+      //     penggunaanPerUser(arr_data)
+      // });
+
+      $.ajax({
+        url: base_url + '/api/report/penggunaan/'+ range +'/'+ date_str,
+        type: "GET",
+        headers: {'Accept': 'application/json'},
+        data: {'api_token': '<?php echo(Auth::user()->api_token) ?>' },
+        success: function(response){
+                  var arr_data = response.data;
+                  console.log(arr_data);
+                  penggunaanPerUser(arr_data);
+                },
       });
-          
+
                 
     });
 

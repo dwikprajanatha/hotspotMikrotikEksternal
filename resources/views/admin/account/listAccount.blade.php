@@ -34,6 +34,7 @@
                             <th>NIP</th>
                             <th>Nama</th>
                             <th>Role</th>
+                            <th>Status</th>
                             <th>Action</th>
                         </tr>
 
@@ -54,10 +55,15 @@
                             @elseif($u->role == 3)
                             <td>Admin</td>
                             @endif
+                            <td>{{$u->isDeleted == 0 ? 'Aktif' : 'Non-Aktif'}}</td>
 
                             <td>
-                                <a href="{{route('admin.account.edit', ['id' => $u->id])}}" class="btn btn-primary"><i class="fas fa-edit"></i></a>
-                                <a href="{{route('admin.account.delete', ['id' => $u->id])}}" class="btn btn-danger"><i class="fas fa-times"></i></a>
+                                <a href="{{route('admin.account.edit', ['id' => $u->id])}}" class="btn btn-primary"><i class="fas fa-edit" style="padding-right:5px"></i>Edit</a>
+                                @if($u->isDeleted == 0)
+                                <a href="{{route('admin.account.delete', ['id' => $u->id])}}" class="btn btn-danger"><i class="fas fa-times" style="padding-right:5px"></i>Matikan</a>
+                                @else
+                                <a href="{{route('admin.account.enable', ['id' => $u->id])}}" class="btn btn-success"><i class="fas fa-check" style="padding-right:5px"></i>Aktifkan</a>
+                                @endif
                             </td>
                         </tr>
                         

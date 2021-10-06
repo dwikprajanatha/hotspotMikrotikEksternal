@@ -59,8 +59,8 @@
 	
 						<input type="hidden" name="ip" value="{{$request['ip']}}">
 						<input type="hidden" name="mac" value="{{$request['mac']}}">
-						{{-- <input type="hidden" name="chap-id" value="{{$request['chap-id']}}">
-						<input type="hidden" name="chap-challenge" value="{{$request['chap-challenge']}}"> --}}
+						<!-- <input type="hidden" name="chap-id" value="{{$request['chap-id']}}"> -->
+						<!-- <input type="hidden" name="chap-challenge" value="{{$request['chap-challenge']}}"> -->
 	
 						<div class="wrap-input100">
 							<input class="input100" type="text" name="nik" placeholder="NIK">

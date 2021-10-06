@@ -120,7 +120,7 @@ class LoginController extends Controller
 
         });
 
-        return view('hotspot/loginAfterRegister',['request' => $request, 'username' => $request->username, 'password' => $request->password]);
+        return view('hotspot/loginAfterRegister',['username' => $request->username, 'password' => $request->password]);
         // $request->session()->put('userSuccess', 'Akun Berhasil dibuat!, Silahkan Login');
         // return redirect()->intended('http://10.0.0.1/');
         
@@ -136,7 +136,7 @@ class LoginController extends Controller
         try {
 
             //get the request
-            $request = Session::get('request');
+            // $request = Session::get('request');
             
             $user = Socialite::driver($provider)->stateless()->user();
 
@@ -177,18 +177,18 @@ class LoginController extends Controller
                     ]);
 
                     $radusergroup = DB::connection('mysql_radius')->table('radusergroup')->insert([
-                        'username' => $request->username,
+                        'username' => $username,
                         'groupname' => "social_media",
                         'priority' => 10,
                     ]);
 
                 });
 
-                return view('hotspot/loginAfterRegister',['request' => $request, 'username' => $username, 'password' => $password]);
+                return view('hotspot/loginAfterRegister',['username' => $username, 'password' => $password]);
  
             } else {
                 
-                return view('hotspot/loginAfterRegister',['request' => $request, 'username' => $user_db->username, 'password' => $user_db->password]);
+                return view('hotspot/loginAfterRegister',['username' => $user_db->username, 'password' => $user_db->password]);
             }
 
 

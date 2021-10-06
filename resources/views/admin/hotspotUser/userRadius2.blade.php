@@ -32,6 +32,7 @@
                             <th>Nama</th>
                             <th>Email</th>
                             <th>Platform</th>
+                            <th>Status</th>
                             <th>Action</th>
                         </tr>
 
@@ -45,9 +46,13 @@
                             <td>{{$u->nama}}</td>
                             <td>{{$u->email}}</td>
                             <td>{{$u->platform}}</td>
+                            <td>{{$u->isDeleted == 0 ? 'Aktif' : 'Non-Aktif'}}</td>
                             <td>
-                                <!-- <button class="btn btn-primary"><i class="fas fa-edit"></i></button> -->
-                                <button class="btn btn-danger" data-toggle="modal" data-target="#modal-sm" ><i class="fa fa-times"></i></button>
+                            @if($u->isDeleted == 0)
+                              <a href="{{route('admin.user.delete',['user' => $u->platform, 'id' => $u->id])}}" class="btn btn-danger"><i class="fas fa-times" style="padding-right:1px"></i> Matikan</a>
+                              @else
+                              <a href="{{route('admin.user.enable',['user' => $u->platform, 'id' => $u->id])}}" class="btn btn-success"><i class="fas fa-check" style="padding-right:5px"></i>Aktifkan</a>
+                              @endif
                             </td>
                         </tr>
                         
@@ -64,29 +69,6 @@
        
         
       </div><!-- /.container-fluid -->
-
-      <div class="modal fade" id="modal-sm">
-        <div class="modal-dialog modal-sm">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h4 class="modal-title">Small Modal</h4>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <form action="{{}}" method="get"></form>
-            <div class="modal-body">
-              <p>One fine body&hellip;</p>
-            </div>
-            <div class="modal-footer justify-content-between">
-              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-              <button type="button" class="btn btn-primary">Save changes</button>
-            </div>
-          </div>
-          <!-- /.modal-content -->
-        </div>
-        <!-- /.modal-dialog -->
-      </div>
 
     </section>
     <!-- /.content -->

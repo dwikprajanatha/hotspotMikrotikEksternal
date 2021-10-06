@@ -39,7 +39,7 @@
 
 		var username = "<?php echo($username) ?>";
 		var password = "<?php echo($password) ?>";
-		var link_login = "<?php echo($request['link-login-only']) ?>";
+		var link_login = "https://mikrotik.lpk-resortkuta.com/login";
 
 
 		autoLogIn(username,password,link_login);

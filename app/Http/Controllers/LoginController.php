@@ -177,7 +177,7 @@ class LoginController extends Controller
                     ]);
 
                     $radusergroup = DB::connection('mysql_radius')->table('radusergroup')->insert([
-                        'username' => $username,
+                        'username' => $$username ."_".$provider,
                         'groupname' => "social_media",
                         'priority' => 10,
                     ]);

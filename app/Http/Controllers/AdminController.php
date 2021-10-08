@@ -15,7 +15,9 @@ class AdminController extends Controller
 
     public function dashboard(Request $request)
     {   
-        // $request->session()->flash('success', 'SUKSES');
+        
+
+
         return view('admin.dashboard.dashboardAdmin');
     }
 

@@ -254,7 +254,9 @@
             </ul>
           </li>
 
-          <li class="nav-item">
+          @if(Auth::user()->role == 1)
+
+          <li class="nav-item {{Request::segment(2) == 'mikrotik' ? 'menu-open' : ''}}">
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-server"></i>
               <p>
@@ -265,21 +267,21 @@
             <ul class="nav nav-treeview">
               
               <li class="nav-item">
-                <a href="#" class="nav-link">
+                <a href="{{route('admin.mikrotik.showActive')}}" class="nav-link {{Request::segment(3) == 'activeUser' ? 'active' : ''}}">
                   <i class="fas fa-users-cog nav-icon"></i>
                   <p>Hotspot User</p>
                 </a>
               </li>
 
               <li class="nav-item">
-                <a href="#" class="nav-link">
+                <a href="{{route('admin.mikrotik.getQueue')}}" class="nav-link {{Request::segment(3) == 'queue' ? 'active' : ''}}">
                   <i class="fab fa-buffer nav-icon"></i>
                   <p>Queue</p>
                 </a>
               </li>
 
               <li class="nav-item">
-                <a href="#" class="nav-link">
+                <a href="{{route('admin.mikrotik.getHotspot')}}" class="nav-link {{Request::segment(3) == 'hotspot' ? 'active' : ''}}">
                   <i class="fas fa-wifi nav-icon"></i>
                   <p>Hotspot</p>
                 </a>
@@ -287,6 +289,8 @@
 
             </ul>
           </li>
+
+          @endif
 
 
 

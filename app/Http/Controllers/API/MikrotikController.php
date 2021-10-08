@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use DB;
+use Illuminate\Support\Facades\Http;
 
 //Mikrotik RouterOS
 use RouterOS;
@@ -43,7 +44,7 @@ class MikrotikController extends Controller
 
 
     //API Check
-    public function checkBandwidth(Request $request)
+    public function checkBandwidth()
     {
         try {
 
@@ -73,7 +74,7 @@ class MikrotikController extends Controller
         }
     }
 
-    public function checkHealth(Request $request)
+    public function checkHealth()
     {
         try {
             $client = $this->connectRouterOS();
@@ -93,7 +94,7 @@ class MikrotikController extends Controller
         }
     }
 
-    public function checkActiveUserHotspot(Type $var = null)
+    public function checkActiveUserHotspot()
     {
         try {
 
@@ -128,9 +129,10 @@ class MikrotikController extends Controller
 
 
     // Show Queue 
-    public function showQueue(Request $request)
+    public function showQueue()
     {
         try {
+
             $client = $this->connectRouterOS();
 
             $query = (new Query('/queue/simple/print'));
@@ -139,7 +141,9 @@ class MikrotikController extends Controller
 
             return json_encode([
                 'status' => 200,
-                'data' => $response,
+                'data' => [
+                    'queues' => $response,
+                ] 
             ]);
 
             // dd($response);
@@ -160,7 +164,7 @@ class MikrotikController extends Controller
             $maxDownUp =  $request->maxUp .'/'. $request->maxDown;
             $limitDownUp =  $request->limitUp.'/'.$request->limitDown;
             
-            $query = (new Query('queue/simple/add'))
+            $query = (new Query('/queue/simple/add'))
                             ->equal('name', $request->name)
                             ->equal('target', $request->target)
                             ->equal('max-limit', $maxDownUp)
@@ -188,7 +192,7 @@ class MikrotikController extends Controller
             $maxDownUp =  $request->maxUp .'/'. $request->maxDown;
             $limitDownUp =  $request->limitUp.'/'.$request->limitDown;
 
-            $query = (new query('queue/simple/set'))
+            $query = (new query('/queue/simple/set'))
                          ->equal('name', $request->name)
                             ->equal('target', $request->target)
                             ->equal('max-limit', $maxDownUp)
@@ -214,7 +218,7 @@ class MikrotikController extends Controller
             $maxDownUp =  $request->maxUp .'/'. $request->maxDown;
             $limitDownUp =  $request->limitUp.'/'.$request->limitDown;
 
-            $query = (new query('queue/simple/set'))
+            $query = (new query('/queue/simple/set'))
                             ->equal('disabled', yes)
                             ->tag($request->number);
 
@@ -234,6 +238,31 @@ class MikrotikController extends Controller
     /**
      * HOTSPOT
      */
+
+
+    public function showHotspot()
+    {
+        try {
+            
+            $client = $this->connectRouterOS();
+
+            $query = (new Query('/ip/hotspot/print'));
+
+            $response = $client->query($query)->read();
+
+            return json_encode([
+                'status' => 200,
+                'data' => [
+                    'hotspot' => $response,
+                ] 
+            ]);
+
+            
+        } catch (\Throwable $th) {
+            dd($th);
+        }
+    }
+
     public function addScheduleHotspot(Request $request)
     {
         try {
@@ -242,14 +271,14 @@ class MikrotikController extends Controller
 
             $startDate = date('M/d/Y');
 
-            $query1 = (new query('system/schedule/add'))
+            $query1 = (new query('/system/schedule/add'))
                         ->equal('name', $request->name)
                         ->equal('start-date', $startDate)
                         ->equal('start-time', $startTime)
                         ->equal('interval', '1d')
                         ->equal('on-event','turn_on_hotspot');
 
-            $query2 = (new query('system/schedule/add'))
+            $query2 = (new query('/system/schedule/add'))
                         ->equal('name', $request->name)
                         ->equal('start-date', $startDate)
                         ->equal('start-time', $endTime)
@@ -272,7 +301,7 @@ class MikrotikController extends Controller
 
             $startDate = date('M/d/Y');
 
-            $query1 = (new query('system/schedule/add'))
+            $query1 = (new query('/system/schedule/add'))
                         ->equal('name', $request->name)
                         ->equal('start-date', $startDate)
                         ->equal('start-time', $startTime)
@@ -280,7 +309,7 @@ class MikrotikController extends Controller
                         ->equal('on-event','turn_on_hotspot')
                         ->tag($request->number);
 
-            $query2 = (new query('system/schedule/add'))
+            $query2 = (new query('/system/schedule/add'))
                         ->equal('name', $request->name)
                         ->equal('start-date', $startDate)
                         ->equal('start-time', $endTime)
@@ -311,53 +340,60 @@ class MikrotikController extends Controller
 
     //Mulai Keperluan Admin
 
+    // Show Active User Hotspot
     public function showUserHotspot(Request $request)
     {
         try {
-            $client = $this->connectRouterOS();
-            
-            // to Mikrotik
-            $getActiveUser = (new Query('ip/hotspot/active/print'));
-            $getUserMikrotik = (new Query('ip/hotspot/user/print'));
-            
-            $activeUsers = $client->query($getActiveUser)->read();
-            $usersMikrotik = $client->query($getUserMikrotik)->read();
 
-            // to RADIUS
-            // $radiusUser = DB::connection('mysql_radius')->table('radcheck')
-            //                 ->join('radgroup','radcheck.username','=','radcheck.username')
-            //                 ->get();
-            
-            //to MYSQL Local
-            // $localUser = DB::connection('mysql')->table('tb_user_hotspot')
-            //                 ->join('nik','tb_user_hotspot.nik_id','=','nik.id')
-            //                 ->get();
+            $response = $this->checkActiveUserHotspot();
 
-            // $sosmedUser = DB::connection('mysql')->table('tb_user_social')
-            //                 ->get();
+            $response = json_decode($response, true);
+            // $hasil = $response->data;
+            $users = $response['data']['users'];
 
-            $response = [
-                'activeUsers' => $activeUsers,
-                'usersMikrotik' => $usersMikrotik,
-            ];
+            return view('admin.mikrotik.userHotspot', ['users' => $users]);
 
-            return json_encode([
-                'status' => 200,
-                'data' => $response,
-            ]);
-
-            
-
-            dd($response);
 
         } catch (\Exception $th) {
             dd($th);
         }
     }
 
-    public function show(Type $var = null)
+    public function getListQueue(Request $request)
     {
-        # code...
+        try {
+
+            $response = $this->showQueue();
+
+            $response = json_decode($response,true);
+
+            $queues = $response['data']['queues'];
+
+            dd($queues);
+
+
+        } catch (\Throwable $th) {
+            //throw $th;
+            dd($th);
+        }
+    }
+
+    public function getHotspot(Request $request)
+    {
+        try {
+            
+            $response = $this->showHotspot();
+
+            $response = json_decode($response,true);
+
+            $hotspots = $response['data']['hotspot'];
+            
+            dd($hotspots);
+
+        } catch (\Throwable $th) {
+            //throw $th;
+            dd($th);
+        }
     }
 
 }

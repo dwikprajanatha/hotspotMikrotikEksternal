@@ -40,7 +40,6 @@ Route::group(['middleware' => 'auth:api'], function() {
     //User Management API
     Route::get('user/show', [MikrotikController::class, 'showUserHotspot']);
 
-
     //Queue Mangement API
     Route::get('check/queue', [MikrotikController::class, 'showQueue']);
 

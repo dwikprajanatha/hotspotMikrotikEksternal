@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 // ALL CONTROLLER DEFINE HERE
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\API\MikrotikController;
 
 
 /*
@@ -98,4 +99,15 @@ Route::group(['middleware' => 'auth:web'], function() {
     Route::get('/admin/report/{range}', [AdminController::class, 'reportUsage'])->name('admin.report.usage');
 
 
+
+    //Mikrotik (admin Network & Root admin)
+    
+    // Show Pengguna Hotspot
+    Route::get('/admin/mikrotik/activeUser', [MikrotikController::class, 'showUserHotspot'])->name('admin.mikrotik.showActive');
+    
+    // Show Queue 
+    Route::get('/admin/mikrotik/queue', [MikrotikController::class, 'getListQueue'])->name('admin.mikrotik.getQueue');
+
+    // Show Hotspot Control
+    Route::get('/admin/mikrotik/hotspot', [MikrotikController::class, 'getHotspot'])->name('admin.mikrotik.getHotspot');
 });

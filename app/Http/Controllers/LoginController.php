@@ -203,11 +203,6 @@ class LoginController extends Controller
     }
 
 
-
-
-
-
-
     public function deleteCallbackFacebook(Request $request)
     {
 

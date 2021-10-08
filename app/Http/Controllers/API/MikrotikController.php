@@ -17,9 +17,9 @@ class MikrotikController extends Controller
     {
         try {
 
-            $host = '192.168.40.138';
+            $host = '192.168.10.1';
             $user = 'admin';
-            $password = '';
+            $password = 'dwik1234';
             
             $client = new RouterOS\Client([
                 'host' => $host,

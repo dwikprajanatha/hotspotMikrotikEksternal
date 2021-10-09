@@ -17,9 +17,9 @@ class MikrotikController extends Controller
     {
         try {
 
-            $host = '192.168.10.1';
+            $host = '192.168.40.138';
             $user = 'admin';
-            $password = 'dwik1234';
+            $password = '';
             
             $client = new RouterOS\Client([
                 'host' => $host,
@@ -33,7 +33,7 @@ class MikrotikController extends Controller
             return $client;
             
         } catch (\Exception $e) {
-            dd("Goblok");
+            dd($e);
         }
     }
 

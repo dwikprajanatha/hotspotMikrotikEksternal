@@ -98,6 +98,7 @@ class LoginController extends Controller
                    'kategori' => $kategori,
                    'mac' => $request->mac,
                    'ip' => $request->ip,
+                   'created_at' => date('Y-m-d'),
                ]);
 
            });
@@ -208,7 +209,6 @@ class LoginController extends Controller
 
         try {
             
-
             $signed_request = $request->get('signed_request');
             $data = $this->parse_signed_request($signed_request);
             $user_id = $data['user_id'];

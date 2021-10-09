@@ -9,16 +9,39 @@ use Auth;
 use Illuminate\Support\Str;
 use DateTime;
 use Hash;
+use Illuminate\Support\Facades\Http;
 
 class AdminController extends Controller
 {
 
     public function dashboard(Request $request)
     {   
-        
 
+        $userBaruOrganik = DB::connection('mysql')->table('tb_user_hotspot')
+                                ->whereDate('created_at', date('Y-m-d'))
+                                ->count();
 
-        return view('admin.dashboard.dashboardAdmin');
+        $userBaruSocial = DB::connection('mysql')->table('tb_user_social')
+                                ->whereDate('created_at', date('Y-m-d'))
+                                ->count();
+
+        $userOrganik = DB::connection('mysql')->table('tb_user_hotspot')
+                                ->count();
+         
+        $userSocial = DB::connection('mysql')->table('tb_user_social')
+                                ->count();
+
+        $response = app('App\Http\Controllers\API\MikrotikController')->checkActiveUserHotspot();
+        $response = json_decode($response);
+        $totalAktif = count($response->data->users);
+
+        $data = [
+            'userBaru' => $userBaruOrganik + $userBaruSocial,
+            'totalUser' => $userOrganik + $userSocial,
+            'totalAktif' => $totalAktif,
+        ];
+
+        return view('admin.dashboard.dashboardAdmin', ['data' => $data]);
     }
 
     public function showFormLogin()

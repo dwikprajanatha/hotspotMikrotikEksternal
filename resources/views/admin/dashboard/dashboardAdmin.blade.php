@@ -19,7 +19,7 @@
             <!-- small card -->
             <div class="small-box bg-success">
               <div class="inner">
-                <h3>15</h3>
+                <h3>{{$data['userBaru']}}</h3>
 
                 <p>User Baru</p>
               </div>
@@ -36,7 +36,7 @@
             <!-- small card -->
             <div class="small-box bg-primary">
               <div class="inner">
-                <h3>100</h3>
+                <h3>{{$data['totalUser']}}</h3>
 
                 <p>Total User</p>
               </div>
@@ -54,7 +54,7 @@
           <!-- small card -->
           <div class="small-box bg-info">
             <div class="inner">
-              <h3>15</h3>
+              <h3>{{$data['totalAktif']}}</h3>
 
               <p>User Aktif Hari ini</p>
               

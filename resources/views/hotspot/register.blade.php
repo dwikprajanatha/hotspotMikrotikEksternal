@@ -27,7 +27,7 @@
 		<div class="container-login100">
 			<div class="wrap-login100">
 				<div class="login100-pic js-tilt" data-tilt>
-					<img src="{{asset('login/images/Lambang_Kabupaten_Badung.png')}}" alt="IMG">
+					<img src="{{asset('login/images/logo-punggul.png')}}" alt="IMG">
 				</div>
 
 				<div class="login100-form validate-form">
@@ -51,11 +51,18 @@
 						@php
 							if(session()->has('request')){
 								$request = session()->get('request');
+								
+								if(empty($request['mac']) && empty($request['mac'])){
+									$request = ['mac' => '00:00:00:00:00', 'ip' => '0.0.0.0'];
+								}
+
 							} else {
 								$request = ['mac' => '00:00:00:00:00', 'ip' => '0.0.0.0'];
 							}
 							
 						@endphp
+
+						
 	
 						<input type="hidden" name="ip" value="{{$request['ip']}}">
 						<input type="hidden" name="mac" value="{{$request['mac']}}">

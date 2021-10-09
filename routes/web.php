@@ -26,7 +26,7 @@ use App\Http\Controllers\API\MikrotikController;
 
 // Route::post('/', [LoginController::class, 'home'])->name('hotspot.home');
 
-Route::post('/loginHotspot', [LoginController::class, 'index'])->name('hotspot.login');
+Route::get('/loginHotspot', [LoginController::class, 'index'])->name('hotspot.login');
 
 Route::get('/daftar', [LoginController::class, 'create'])->name('hotspot.register.view');
 Route::post('/daftar', [LoginController::class, 'daftar'])->name('hotspot.register');

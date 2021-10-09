@@ -23,32 +23,16 @@
 </head>
 <body>
 
-	<!-- HASH MD5 PASSWORD  -->
-	{{-- <script src="{{asset('login/js/md5.js')}}"></script>
-	<script type="text/javascript">
-
-	    function doLogin() {
-			var chap_id = "<?php echo($request['chap-id']) ?>";
-			var chap_challenge = "<?php echo($request['chap-challenge']) ?>";
-			var hash_pass = hexMD5(chap_id + document.login.password.value + chap_challenge);
-			document.login.password.value = hash_pass;
-			document.login.submit();
-			return false;
-	    }
-
-	</script> --}}
-
-
 	<div class="limiter">
 		<div class="container-login100">
 			<div class="wrap-login100">
 				<div class="login100-pic js-tilt" data-tilt>
-					<img src="{{asset('login/images/Lambang_Kabupaten_Badung.png')}}" alt="IMG">
+					<img src="{{asset('login/images/logo-punggul.png')}}" alt="IMG">
 				</div>
 
 				<form class="login100-form validate-form" name="login" action="{{$request['link-login-only']}}" method="post">
 					<span class="login100-form-title">
-						Login Hotspot Badung
+						Login Hotspot Desa Punggul
 					</span>
 
 					@if($success = Session::get('userSuccess'))
@@ -86,14 +70,14 @@
 						</button>
 					</div>
 
-						<div class="text-center p-t-12">
-							<span class="txt1">
-								Lupa 
-							</span>
-							<a class="txt2" href="#">
-								Username / Password?
-							</a>
-						</div>
+					<!-- <div class="text-center p-t-12">
+						<span class="txt1">
+							Lupa 
+						</span>
+						<a class="txt2" href="#">
+							Username / Password?
+						</a>
+					</div> -->
 
 					<div class="text-center p-t-136">
 						<span class="txt1">
@@ -107,7 +91,6 @@
 							<i class="fa fa-long-arrow-right m-l-5" aria-hidden="true"></i>
 						</a>
 					</div>
-					
 
 				</form>
 

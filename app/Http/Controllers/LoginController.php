@@ -117,6 +117,13 @@ class LoginController extends Controller
                    'priority' => 10,
                ]);
 
+               $radreply = DB::connection('mysql_radius')->table('radreply')->insert([
+                   'username' => $request->username,
+                   'groupname' => 'Mikrotik-Rate-Limit',
+                   'op' => ':=',
+                   'value' => '8M/8M 0/0 0/0 0/0 8 4M/4M',
+               ]);
+
            });
 
         });
@@ -187,6 +194,14 @@ class LoginController extends Controller
                         'priority' => 10,
                     ]);
 
+                    $radreply = DB::connection('mysql_radius')->table('radreply')->insert([
+                        'username' => $request->username,
+                        'groupname' => 'Mikrotik-Rate-Limit',
+                        'op' => ':=',
+                        'value' => '4M/4M 0/0 0/0 0/0 8 2M/2M',
+                    ]);
+     
+
                 });
                 
                 return view('hotspot/loginAfterRegister',['username' => $username, 'password' => $password]);
@@ -207,6 +222,9 @@ class LoginController extends Controller
     public function deleteCallbackFacebook(Request $request)
     {
 
+        DB::connection('mysql')->beginTransaction();
+        DB::connection('mysql_radius')->beginTransaction();
+
         try {
             
             $signed_request = $request->get('signed_request');
@@ -222,7 +240,6 @@ class LoginController extends Controller
 
                 $code = $this->random_strings(5);
 
-                DB::transaction(function() use(&$user_id, &$username, &$code){
 
                     $deleteLaravel = DB::connection('mysql')->table('tb_user_social')
                                             ->where('social_id', $user_id)->delete();
@@ -244,21 +261,22 @@ class LoginController extends Controller
                                                 'created_at' => date('Y-m-d'),
                                                 'updated_at' => null,
                                             ]);
-    
+
     
                     if ($deleteLaravel && $deleteRadiusGroup && $deleteRadiusUser) {
+                        
+                        DB::connection('mysql')->commit();
+                        DB::connection('mysql_radius')->commit();
+
                         return response()->json([
                             'url' => route('user.facebook.delete.track', ['code' => $code]), // <------ i dont know what to put on this or what should it do
                             'confirmation_code' => $code, // <------ i dont know what is the logic of this code
                         ]);
                     }
-    
-                });
 
             }
 
             // here will delete the user base on the user_id from facebook
-
 
             return response()->json([
                 'message' => 'operation not successful'
@@ -266,6 +284,8 @@ class LoginController extends Controller
 
 
         } catch (\Execption $th) {
+            DB::connection('mysql')->rollback();
+            DB::connection('mysql_radius')->rollback();
             dd($th);
         }
         

@@ -47,7 +47,7 @@ class LoginController extends Controller
         }
 
         //check if exists
-        $cek_ada = DB::connection('mysql')->table('tb_user_hotspot')->where('nik_id',$request->nik)->first();
+        $cek_ada = DB::connection('mysql')->table('tb_user_hotspot')->where('nik_id',$cek->id)->first();
 
         if($cek_ada != null){
             Session::flash('error', 'NIK Sudah terdaftar!');

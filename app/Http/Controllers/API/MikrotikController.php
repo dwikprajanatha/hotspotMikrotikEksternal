@@ -351,7 +351,29 @@ class MikrotikController extends Controller
             // $hasil = $response->data;
             $users = $response['data']['users'];
 
-            return view('admin.mikrotik.userHotspot', ['users' => $users]);
+            $arr_user = [];
+
+            foreach ($users as $user) {
+
+                $data = DB::connection('mysql')->table('tb_user_hotspot')->join('tb_nik', 'tb_nik.id', '=', 'tb_user_hotspot.nik_id')
+                        ->where('username',$user->user)->first();
+
+                if(is_null($data)){
+                    $data = DB::connection('mysql')->table('tb_user_social')->where('username',$user->user)->first();
+                }
+
+                $user_data = [
+                    'username' => $data->username,
+                    'nama' => $data->nama,
+                    'alamat' => isset($data->alamat) ? $data->alamat : '-',
+                    'platform' => isset($data->platform) ? $data->platform : 'organik',
+                    'uptime' => $user->uptime,
+                ];
+
+                array_push($arr_user, $user_data);
+            }
+
+            return view('admin.mikrotik.userHotspot', ['users' => $arr_user]);
 
 
         } catch (\Exception $th) {

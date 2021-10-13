@@ -481,7 +481,6 @@ class AdminController extends Controller
                 $minggu = $date->format('Y-m-d');
 
                 
-
                 $organik = DB::connection('mysql')->table('tb_user_hotspot')
                             ->whereBetween('created_at',[$senin,$minggu])->count();
 
@@ -662,29 +661,117 @@ class AdminController extends Controller
                     $detail = DB::connection('mysql')->table('tb_user_hotspot')
                                 ->where('username',$user->username)->first();
                     
+                    $platform = "Organik";
+                    $kategori = $user->kategori;
+
                     if(is_null($detail)){
 
                         $detail = DB::connection('mysql')->table('tb_user_social')
                         ->where('username',$user->username)->first();
-            
+                        
+                        $platform = $user->platform;
+                        $kategori = '-';
                     }
 
+                    $lastLogin = DB::connection('mysql_radius')->table('raddacct')
+                            ->where('username', $user->username)
+                            ->max('radacctid');
+                    
                     $det_user = [
                         'username' => $user->username,
-                        // 'kategori' => ,
+                        'kategori' => $kategori,
+                        'platform' => $platform,
+                        'penggunaan' => $user->GB_total,
+                        'lastLogin' => $lastLogin[0]->acctstarttime,
                     ];
 
-                    array_push($array, $detail);
+                    array_push($array, $det_user);
                 }
 
 
             } elseif($range == 'monthly'){
 
+                $users_radius = DB::connection('mysql_radius')->table('data_usage_by_period')
+                        ->select('username','acctstarttime AS start_time', DB::raw('(SUM(acctinputoctets)/1000/1000/1000) + (SUM(acctoutputoctets)/1000/1000/1000) AS GB_total'))
+                        ->whereNotNull('period_end')
+                        ->whereMonth('period_start', $month)
+                        ->orderBy('GB_total', 'desc')->get();
+
+                
+                foreach ($users_radius as $user) {
+                    
+                    $detail = DB::connection('mysql')->table('tb_user_hotspot')
+                                ->where('username',$user->username)->first();
+                    
+                    $platform = "Organik";
+                    $kategori = $user->kategori;
+
+                    if(is_null($detail)){
+
+                        $detail = DB::connection('mysql')->table('tb_user_social')
+                        ->where('username',$user->username)->first();
+                        
+                        $platform = $user->platform;
+                        $kategori = '-';
+                    }
+
+                    $lastLogin = DB::connection('mysql_radius')->table('raddacct')
+                            ->where('username', $user->username)
+                            ->max('radacctid');
+                    
+                    $det_user = [
+                        'username' => $user->username,
+                        'kategori' => $kategori,
+                        'platform' => $platform,
+                        'penggunaan' => $user->GB_total,
+                        'lastLogin' => $lastLogin[0]->acctstarttime,
+                    ];
+
+                    array_push($array, $det_user);
+                }
 
             } elseif($range == 'yearly'){
 
-            }
+                $users_radius = DB::connection('mysql_radius')->table('data_usage_by_period')
+                        ->select('username','acctstarttime AS start_time', DB::raw('(SUM(acctinputoctets)/1000/1000/1000) + (SUM(acctoutputoctets)/1000/1000/1000) AS GB_total'))
+                        ->whereNotNull('period_end')
+                        ->whereYear('period_start', $year)
+                        ->orderBy('GB_total', 'desc')->get();
 
+                
+                foreach ($users_radius as $user) {
+                    
+                    $detail = DB::connection('mysql')->table('tb_user_hotspot')
+                                ->where('username',$user->username)->first();
+                    
+                    $platform = "Organik";
+                    $kategori = $user->kategori;
+
+                    if(is_null($detail)){
+
+                        $detail = DB::connection('mysql')->table('tb_user_social')
+                        ->where('username',$user->username)->first();
+                        
+                        $platform = $user->platform;
+                        $kategori = '-';
+                    }
+
+                    $lastLogin = DB::connection('mysql_radius')->table('raddacct')
+                            ->where('username', $user->username)
+                            ->max('radacctid');
+                    
+                    $det_user = [
+                        'username' => $user->username,
+                        'kategori' => $kategori,
+                        'platform' => $platform,
+                        'penggunaan' => $user->GB_total,
+                        'lastLogin' => $lastLogin[0]->acctstarttime,
+                    ];
+
+                    array_push($array, $det_user);
+                }
+
+            }
 
             return response()->json([
                 'status' => 200,

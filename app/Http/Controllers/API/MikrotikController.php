@@ -356,10 +356,10 @@ class MikrotikController extends Controller
             foreach ($users as $user) {
 
                 $data = DB::connection('mysql')->table('tb_user_hotspot')->join('tb_nik', 'tb_nik.id', '=', 'tb_user_hotspot.nik_id')
-                        ->where('username',$user->user)->first();
+                        ->where('username', $user['user'])->first();
 
                 if(is_null($data)){
-                    $data = DB::connection('mysql')->table('tb_user_social')->where('username',$user->user)->first();
+                    $data = DB::connection('mysql')->table('tb_user_social')->where('username', $user['user'])->first();
                 }
 
                 $user_data = [
@@ -367,7 +367,7 @@ class MikrotikController extends Controller
                     'nama' => $data->nama,
                     'alamat' => isset($data->alamat) ? $data->alamat : '-',
                     'platform' => isset($data->platform) ? $data->platform : 'organik',
-                    'uptime' => $user->uptime,
+                    'uptime' => $user['uptime'],
                 ];
 
                 array_push($arr_user, $user_data);

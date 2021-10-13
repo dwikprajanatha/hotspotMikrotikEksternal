@@ -45,10 +45,10 @@
 
                         <tr>
                             <td>{{$loop->iteration}}</td>
-                            <td>{{$u->nama}}</td>
-                            <td>{{$u->username}}</td>
-                            <td>{{$u->alamat}}</td>
-                            <td>{{$u->platform}}</td>
+                            <td>{{$u['nama']}}</td>
+                            <td>{{$u['username']}}</td>
+                            <td>{{$u['alamat']}}</td>
+                            <td>{{$u['platform']}}</td>
                             <td>
 
                             </td>

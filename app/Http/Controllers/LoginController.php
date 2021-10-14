@@ -121,7 +121,7 @@ class LoginController extends Controller
                    'username' => $request->username,
                    'groupname' => 'Mikrotik-Rate-Limit',
                    'op' => ':=',
-                   'value' => '8M/8M 0/0 0/0 0/0 8 4M/4M',
+                   'value' => '8M/8M 0/0 0/0 0/0 4 4M/4M',
                ]);
 
            });

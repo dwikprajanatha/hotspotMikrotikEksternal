@@ -99,6 +99,7 @@ class LoginController extends Controller
                    'mac' => $request->mac,
                    'ip' => $request->ip,
                    'created_at' => date('Y-m-d'),
+                   'isDeleted' => 0,
                ]);
 
            });
@@ -175,6 +176,7 @@ class LoginController extends Controller
                         'password' => $password,
                         'platform' => $provider,
                         'created_at' => date('Y-m-d'),
+                        'isDeleted' => 0,
                     ]);
 
                 });

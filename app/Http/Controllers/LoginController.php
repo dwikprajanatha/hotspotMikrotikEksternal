@@ -120,7 +120,7 @@ class LoginController extends Controller
 
                $radreply = DB::connection('mysql_radius')->table('radreply')->insert([
                    'username' => $request->username,
-                   'groupname' => 'Mikrotik-Rate-Limit',
+                   'attribute' => 'Mikrotik-Rate-Limit',
                    'op' => ':=',
                    'value' => '8M/8M 0/0 0/0 0/0 4 4M/4M',
                ]);
@@ -198,7 +198,7 @@ class LoginController extends Controller
 
                     $radreply = DB::connection('mysql_radius')->table('radreply')->insert([
                         'username' => $request->username,
-                        'groupname' => 'Mikrotik-Rate-Limit',
+                        'attribute' => 'Mikrotik-Rate-Limit',
                         'op' => ':=',
                         'value' => '4M/4M 0/0 0/0 0/0 8 2M/2M',
                     ]);

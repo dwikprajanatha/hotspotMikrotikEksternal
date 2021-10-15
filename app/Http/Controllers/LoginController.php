@@ -35,6 +35,13 @@ class LoginController extends Controller
 
     public function daftar(Request $request)
     {
+        //validasi
+        $data = $request->validate([
+            'nik' => ['required', 'numeric'],
+            'username' => ['required', 'alpha_num'],
+            'password' => ['required', 'alpha_num', 'min:8'],
+        ]);
+
         
         //verifikasi nik
         $cek = DB::connection('mysql')->table('tb_nik')->select('id')->where('nik',$request->nik)->first();

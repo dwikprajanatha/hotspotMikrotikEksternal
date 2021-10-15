@@ -70,14 +70,11 @@
 						</button>
 					</div>
 
-					<!-- <div class="text-center p-t-12">
-						<span class="txt1">
-							Lupa 
-						</span>
-						<a class="txt2" href="#">
-							Username / Password?
+					<div class="text-center p-t-12">
+						<a class="txt2" href="{{route('hotspot.forgot.view')}}">
+							Lupa  Password?
 						</a>
-					</div> -->
+					</div>
 
 					<div class="text-center p-t-136">
 						<span class="txt1">

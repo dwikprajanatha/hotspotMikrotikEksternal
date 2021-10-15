@@ -61,26 +61,30 @@
 							}
 							
 						@endphp
-
-						
 	
 						<input type="hidden" name="ip" value="{{$request['ip']}}">
 						<input type="hidden" name="mac" value="{{$request['mac']}}">
 	
 						<div class="wrap-input100">
-							<input class="input100" type="text" name="nik" placeholder="NIK">
+							<input class="input100" type="text" name="nik" placeholder="NIK" value="{{old('nik')}}">
 							<span class="focus-input100"></span>
 							<span class="symbol-input100">
 								<i class="fa fa-id-card-o" aria-hidden="true"></i>
 							</span>
+							@foreach ($errors->get('nik') as $err)
+							<small class="text text-error">{{$err}}</small>
+							@endforeach
 						</div>
 	
 						<div class="wrap-input100">
-							<input class="input100" type="text" name="username" placeholder="Username">
+							<input class="input100" type="text" name="username" placeholder="Username" value="{{old('username')}}">
 							<span class="focus-input100"></span>
 							<span class="symbol-input100">
 								<i class="fa fa-user" aria-hidden="true"></i>
 							</span>
+							@foreach ($errors->get('username') as $err)
+								<small class="text text-error">{{$err}}</small>
+							@endforeach
 						</div>
 	
 						<div class="wrap-input100">
@@ -89,6 +93,9 @@
 							<span class="symbol-input100">
 								<i class="fa fa-lock" aria-hidden="true"></i>
 							</span>
+							@foreach ($errors->get('password') as $err)
+							<small class="text text-error">{{$err}}</small>
+							@endforeach
 						</div>
 						
 						<div class="container-login100-form-btn">

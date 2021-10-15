@@ -47,9 +47,11 @@
 						<p class="text-danger text-center">{{$request['error']}}</p>
 					</div>
 					@endif
+
+
 				
 					<div class="wrap-input100">
-						<input class="input100" type="text" name="username" placeholder="Username">
+						<input class="input100" type="text" name="username" placeholder="Username" value="{{old('username')}}">
 						<span class="focus-input100"></span>
 						<span class="symbol-input100">
 							<i class="fa fa-user" aria-hidden="true"></i>

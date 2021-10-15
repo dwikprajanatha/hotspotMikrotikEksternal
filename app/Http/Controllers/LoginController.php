@@ -7,6 +7,7 @@ use DateTime;
 use Illuminate\Support\Facades\DB;
 use Session;
 use Laravel\Socialite\Facades\Socialite;
+use Validator;
 
 class LoginController extends Controller
 {
@@ -35,12 +36,38 @@ class LoginController extends Controller
 
     public function daftar(Request $request)
     {
-        //validasi
-        $data = $request->validate([
+        //deklarasi validasi
+
+        $rules = [
             'nik' => ['required', 'numeric'],
             'username' => ['required', 'alpha_num'],
             'password' => ['required', 'alpha_num', 'min:8'],
-        ]);
+        ];
+
+        $messages = [
+            'nik.required' => 'NIK harus diisi',
+            'nik.numeric' => 'NIK harus angka',
+            'username.required' => 'Username harus diisi',
+            'username.alpha_num' => 'Username harus berupa angka atau huruf atau kombinasi tanpa spasi',
+            'password.required' => 'Password harus diisi',
+            'password.alpha_num' => 'Password harus berupa angka atau huruf atau kombinasi tanpa spasi',
+            'password.min' => 'Password harus minimal 8 karakter',
+        ];
+
+        //validasi
+        $validator = Validator::make($request->all(), $rules, $messages);
+        
+        if ($validator->fails()) {
+            return redirect()->back()
+                        ->withErrors($validator)
+                        ->withInput();
+        }
+
+        // $request->validate([
+        //     'nik' => ['required', 'numeric'],
+        //     'username' => ['required', 'alpha_num'],
+        //     'password' => ['required', 'alpha_num', 'min:8'],
+        // ]);
 
         
         //verifikasi nik

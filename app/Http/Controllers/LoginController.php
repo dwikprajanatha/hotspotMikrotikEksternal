@@ -26,9 +26,7 @@ class LoginController extends Controller
         return view('hotspot.termsOfService');
     }
 
-
-
-
+    
     
     public function create(Request $request)
     {
@@ -47,7 +45,7 @@ class LoginController extends Controller
         }
 
         //check if exists
-        $cek_ada = DB::connection('mysql')->table('tb_user_hotspot')->where('nik_id',$request->nik)->first();
+        $cek_ada = DB::connection('mysql')->table('tb_user_hotspot')->where('nik_id',$cek->id)->first();
 
         if($cek_ada != null){
             Session::flash('error', 'NIK Sudah terdaftar!');
@@ -122,7 +120,7 @@ class LoginController extends Controller
                    'username' => $request->username,
                    'attribute' => 'Mikrotik-Rate-Limit',
                    'op' => ':=',
-                   'value' => '8M/8M 0/0 0/0 0/0 8 4M/4M',
+                   'value' => '8M/8M 0/0 0/0 0/0 4 4M/4M',
                ]);
 
            });
@@ -134,6 +132,74 @@ class LoginController extends Controller
         // return redirect()->intended('http://10.0.0.1/');
         
     }
+
+
+    public function showforgotPassword(Request $request)
+    {
+        return view('hotspot.forgotPassword');
+    }
+
+    
+    public function forgotPassword(Request $request)
+    {
+        $request->validate([
+            'password' => ['required', 'min:8', 'confirmed']
+        ]);
+
+        //change password 
+        DB::connection('mysql_radius')->beginTransaction();
+        try {
+            $user = DB::connection('mysql')->table('tb_user_hotspot')->where('id', $request->id_akun)->first();
+
+            DB::connection('mysql_radius')->table('radcheck')->where('username', $user->username)
+                        ->update([
+                            'value' => $request->password,
+                        ]);
+            
+            DB::connection('mysql_radius')->commit();
+
+        } catch (\Throwable $th) {
+
+            DB::connection('mysql_radius')->rollback();
+            dd($th);
+
+        }
+    }
+
+    public function getUsername(Request $request)
+    {
+        //cek nik
+        $nik = DB::connection('mysql')->table('tb_nik')->where('nik',$request->nik)->first();
+
+        if(isset($nik)){
+            
+            $user = DB::connection('mysql')->table('tb_user_hotspot')->where('nik_id', $nik->id);
+
+            if($user->username == $request->username){
+
+                return json_encode([
+                    'status' => 200,
+                    'message' => 'valid',
+                    'id_akun' => $user->id,
+                ]);
+
+            }
+            
+            return json_encode([
+                'status' => 500,
+                'message' => 'Username Salah',
+            ]);
+
+        }
+
+        return json_encode([
+            'status' => 500,
+            'message' => 'User tidak ada',
+        ]);
+
+
+    }
+
 
     public function redirect($provider)
     {

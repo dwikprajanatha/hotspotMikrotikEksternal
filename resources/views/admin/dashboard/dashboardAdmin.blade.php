@@ -160,21 +160,9 @@
     //- PIE CHART -
     //-------------
     // Get context with jQuery - using jQuery's .get() method.
+
     var pieChartCanvas = $('#pieChart').get(0).getContext('2d')
 
-    var pieData = {
-      labels: [
-          'Organik',
-          'Facebook',
-          'Google',
-      ],
-      datasets: [
-        {
-          data: [60,25,15],
-          backgroundColor : ['#0F9D58', '#3b5998', '#DB4437'],
-        }
-      ]
-    }
 
     var pieOptions     = {
       maintainAspectRatio : false,
@@ -182,11 +170,37 @@
     }
     //Create pie or douhnut chart
     // You can switch between pie and douhnut using the method below.
-    new Chart(pieChartCanvas, {
-      type: 'pie',
-      data: pieData,
-      options: pieOptions
-    })
+
+    $.ajax({
+        url: base_url + '/api/report/platform/'+ range +'/'+ date_str,
+        type: "GET",
+        headers: {'Accept': 'application/json'},
+        data: {'api_token': '<?php echo(Auth::user()->api_token) ?>' },
+        success: function(response){
+                       
+                  var pieData = {
+                    labels: [
+                        'Organik',
+                        'Facebook',
+                        'Google',
+                    ],
+                    datasets: [
+                      {
+                        data: response.data,
+                        backgroundColor : ['#0F9D58', '#3b5998', '#DB4437'],
+                      }
+                    ]
+                  }
+
+                  new Chart(pieChartCanvas, {
+                    type: 'pie',
+                    data: pieData,
+                    options: pieOptions
+                  });
+
+                },
+      });
+
 
 </script>
 

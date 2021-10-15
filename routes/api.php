@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 //Call Controller
 use App\Http\Controllers\API\MikrotikController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\LoginController;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,6 +28,8 @@ use App\Http\Controllers\AdminController;
 //     Route::get('check/bandwidth',[MikrotikController::class, 'checkBandwidth']);
 
 // });
+
+Route::get('user/checkUser',[LoginController::class, 'getUsername']);
 
 
 Route::group(['middleware' => 'auth:api'], function() {

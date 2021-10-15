@@ -28,6 +28,9 @@ use App\Http\Controllers\API\MikrotikController;
 
 Route::post('/loginHotspot', [LoginController::class, 'index'])->name('hotspot.login');
 
+Route::get('/forgotPassword', [LoginController::class, 'showforgotPassword'])->name('hotspot.forgot.view');
+Route::post('/forgotPassword', [LoginController::class, 'forgotPassword'])->name('hotspot.forgot');
+
 Route::get('/daftar', [LoginController::class, 'create'])->name('hotspot.register.view');
 Route::post('/daftar', [LoginController::class, 'daftar'])->name('hotspot.register');
 

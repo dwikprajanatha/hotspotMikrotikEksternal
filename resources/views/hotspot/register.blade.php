@@ -71,10 +71,10 @@
 							<span class="symbol-input100">
 								<i class="fa fa-id-card-o" aria-hidden="true"></i>
 							</span>
-							@foreach ($errors->get('nik') as $err)
-							<small class="text text-error">{{$err}}</small>
-							@endforeach
 						</div>
+						@foreach ($errors->get('nik') as $err)
+						<p class="text-danger">{{$err}}</p>
+						@endforeach
 	
 						<div class="wrap-input100">
 							<input class="input100" type="text" name="username" placeholder="Username" value="{{old('username')}}">
@@ -82,10 +82,10 @@
 							<span class="symbol-input100">
 								<i class="fa fa-user" aria-hidden="true"></i>
 							</span>
-							@foreach ($errors->get('username') as $err)
-								<small class="text text-error">{{$err}}</small>
-							@endforeach
 						</div>
+						@foreach ($errors->get('username') as $err)
+							<p class="text-danger">{{$err}}</p>
+						@endforeach
 	
 						<div class="wrap-input100">
 							<input class="input100" type="password" name="password" placeholder="Password">
@@ -93,10 +93,10 @@
 							<span class="symbol-input100">
 								<i class="fa fa-lock" aria-hidden="true"></i>
 							</span>
-							@foreach ($errors->get('password') as $err)
-							<small class="text text-error">{{$err}}</small>
-							@endforeach
 						</div>
+						@foreach ($errors->get('password') as $err)
+						<p class="text-danger">{{$err}}</p>
+						@endforeach
 						
 						<div class="container-login100-form-btn">
 							<button class="login100-form-btn" type="submit">

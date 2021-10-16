@@ -388,7 +388,8 @@ class AdminController extends Controller
                                             // ->select(DB::raw('(SUM(acctoutputoctets)/1000/1000/1000) as GB_upload'))
                                             ->whereNotNull('period_end')
                                             ->whereDay('period_start', $date->format('Y-m-d'))
-                                            ->groupBy(DB::raw('DAY(period_start)'))->get();
+                                            // ->groupBy(DB::raw('DAY(period_start)'))
+                                            ->get();
                     
                     dd($penggunaanTotal);
 

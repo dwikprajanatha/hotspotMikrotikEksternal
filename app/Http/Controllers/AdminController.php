@@ -390,7 +390,7 @@ class AdminController extends Controller
                                             ->groupBy('period_start')
                                             ->get();
                     
-                    // dd($penggunaanTotal);
+                    dd($penggunaanTotal);
 
                     array_push($arr_data, $penggunaanTotal[0]->GB_total);
                     array_push($arr_label, $date->format('Y-m-d'));

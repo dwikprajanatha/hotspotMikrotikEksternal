@@ -17,6 +17,14 @@ class AdminController extends Controller
     public function dashboard(Request $request)
     {   
 
+        $penggunaanTotal = DB::connection('mysql_radius')->table('data_usage_by_period')
+                                            ->select(DB::raw('(SUM(acctinputoctets)/1000/1000/1000) + (SUM(acctoutputoctets)/1000/1000/1000) as GB_total'))
+                                            ->whereNotNull('period_end')
+                                            ->whereDay('period_start', $date->format('Y-m-d'))
+                                            ->groupBy(DB::raw('DAY(period_start)'))->get();
+                    
+                    dd($penggunaanTotal);
+
         $userBaruOrganik = DB::connection('mysql')->table('tb_user_hotspot')
                                 ->whereDate('created_at', date('Y-m-d'))
                                 ->count();
@@ -360,7 +368,6 @@ class AdminController extends Controller
         }
     }
 
-
     public function apiDataPenggunaan($range, $tgl)
     {   
         try {
@@ -390,7 +397,9 @@ class AdminController extends Controller
                                             ->whereDay('period_start', $date->format('Y-m-d'))
                                             ->groupBy(DB::raw('DAY(period_start)'))->get();
                     
-                    array_push($arr_data, $penggunaanTotal);
+                    dd($penggunaanTotal);
+
+                    array_push($arr_data, $penggunaanTotal->GB_total);
                     array_push($arr_label, $date->format('Y-m-d'));
 
                     $date->modify('+1 day');

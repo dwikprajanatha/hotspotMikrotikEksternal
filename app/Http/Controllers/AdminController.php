@@ -391,7 +391,7 @@ class AdminController extends Controller
                                             ->get();
                     
                     
-                    array_push($arr_data, empty($penggunaanTotal) ? 0 : $penggunaanTotal[0]->GB_total);
+                    array_push($arr_data, $penggunaanTotal->isEmpty() ? 0 : $penggunaanTotal[0]->GB_total);
                     array_push($arr_label, $date->format('Y-m-d'));
 
                     $date->modify('+1 day');

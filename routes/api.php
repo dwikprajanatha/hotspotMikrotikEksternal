@@ -32,7 +32,7 @@ use App\Http\Controllers\LoginController;
 Route::get('user/checkUser',[LoginController::class, 'getUsername']);
 
 
-Route::group(['middleware' => 'auth:api'], function() {
+// Route::group(['middleware' => 'auth:api'], function() {
 
     //Checking Mikrotik API
     Route::get('check/bandwidth',[MikrotikController::class, 'checkBandwidth']);
@@ -53,4 +53,4 @@ Route::group(['middleware' => 'auth:api'], function() {
     Route::get('report/umur/{range}/{tgl}', [AdminController::class, 'apiProporsiUmur']);
     Route::get('report/penggunaan/{range}/{tgl}', [AdminController::class, 'apiPenggunaanPerUser']);
 
-});
+// });

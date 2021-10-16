@@ -392,7 +392,7 @@ class AdminController extends Controller
                     
                     // dd($penggunaanTotal);
 
-                    array_push($arr_data, $penggunaanTotal);
+                    array_push($arr_data, $penggunaanTotal[0]->GB_total);
                     array_push($arr_label, $date->format('Y-m-d'));
 
                     $date->modify('+1 day');

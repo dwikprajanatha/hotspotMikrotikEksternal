@@ -384,7 +384,7 @@ class AdminController extends Controller
                 for ($i=0; $i < 7; $i++) {
 
                     $penggunaanTotal = DB::connection('mysql_radius')->table('data_usage_by_period')
-                                            ->select(DB::raw('(SUM(acctinputoctets)/1000/1000/1000) + (SUM(acctoutputoctets)/1000/1000/1000) as GB_total'))
+                                            ->select(DB::raw('((SUM(acctinputoctets)/1000/1000/1000) + (SUM(acctoutputoctets)/1000/1000/1000)) as GB_total'))
                                             ->whereNotNull('period_end')
                                             ->whereDay('period_start', $date->format('Y-m-d'))
                                             ->groupBy(DB::raw('DAY(period_start)'))->get();

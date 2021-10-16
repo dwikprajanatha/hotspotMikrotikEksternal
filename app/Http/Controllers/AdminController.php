@@ -391,7 +391,7 @@ class AdminController extends Controller
                     //                         // ->groupBy(DB::raw('DAY(period_start)'))
                     //                         ->get();
                     
-                    $penggunaanTotal = DB::DB::connection('mysql_radius')->table('data_usage_by_period')->get();
+                    $penggunaanTotal = DB::connection('mysql_radius')->table('data_usage_by_period')->get();
                     dd($penggunaanTotal);
 
                     array_push($arr_data, $penggunaanTotal->GB_total);

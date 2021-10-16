@@ -202,12 +202,21 @@ class LoginController extends Controller
 
     public function getUsername(Request $request)
     {
+    
+        return json_encode([
+            'status' => 200,
+            'message' => 'valid',
+            'nik' => $request->nik,
+            'username' => $request->username,
+        ]);
+
+
         //cek nik
         $nik = DB::connection('mysql')->table('tb_nik')->where('nik',$request->nik)->first();
 
         if(isset($nik)){
             
-            $user = DB::connection('mysql')->table('tb_user_hotspot')->where('nik_id', $nik->id);
+            $user = DB::connection('mysql')->table('tb_user_hotspot')->where('nik_id', $nik->id)->first();
 
             if($user->username == $request->username){
 

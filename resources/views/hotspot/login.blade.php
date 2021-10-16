@@ -30,7 +30,7 @@
 					<img src="{{asset('login/images/logo-punggul.png')}}" alt="IMG">
 				</div>
 
-				<form class="login100-form validate-form" name="login" action="{{$request['link-login-only']}}" method="post">
+				<form class="login100-form validate-form" name="login" action="{{isset($request['link-login-only']) ? $request['link-login-only'] : '#' }}" method="post">
 					<span class="login100-form-title">
 						Login Hotspot Desa Punggul
 					</span>
@@ -42,7 +42,7 @@
 						{{ session()->forget('userSuccess') }}
 					@endif
 					
-					@if($request['error'] != null)
+					@if(isset($request['error']) &&  $request['error'] != null)
 					<div class="alert alert-danger" role="alert">
 						<p class="text-danger text-center">{{$request['error']}}</p>
 					</div>

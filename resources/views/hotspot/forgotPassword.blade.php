@@ -159,7 +159,7 @@
 
         $(document).ready(function(){
 
-            $('#ubah-akun').hide();
+            $('#ubah-akun').css("visibility", "hidden");
 
             var base_url = window.location.origin;
 
@@ -171,12 +171,16 @@
                 $.get(base_url + '/api/user/checkUser', {'nik': nik, 'username': username})
                     .done(function(data){
 
-                        if(data.status == 200){
+                        var d = JSON.parse(data);
+                        console.log(d);
+
+                        if(d.status == 200){
                             $("#nik").prop('disabled', true);
                             $("#username").prop('disabled', true);
                             $('#cariAkun').hide();
 
                             $('#ubah-akun').fadeIn();
+                            $('#ubah-akun').css("visibility", "visible");
 
                             $('#id_akun').val(data.id_akun);
 

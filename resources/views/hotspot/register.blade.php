@@ -20,6 +20,53 @@
 	<link rel="stylesheet" type="text/css" href="{{asset('login/css/util.css')}}">
 	<link rel="stylesheet" type="text/css" href="{{asset('login/css/main.css')}}">
 <!--===============================================================================================-->
+{{-- VALIDATOR --}}
+	<script src="{{asset('login/vendor/jquery/jquery-3.2.1.min.js')}}"></script>
+	<script src="{{asset('login/vendor/validate/jquery.validate.min.js')}}"></script>
+	<script src="{{asset('login/vendor/validate/additional-methods.min.js')}}"></script>
+
+<script type="text/javascript">
+	$(document).ready(function(){
+		$("#formDaftar").validate({
+			errorElement: "p",
+			errorClass: "text-danger",
+			rules: {
+				nik: {
+					required: true,
+					number: true,
+					nowhitespace:true,
+				},
+				username: {
+					required: true,
+					nowhitespace:true,
+				},
+				password: {
+					required: true,
+					minlength: 8,
+					nowhitespace:true,
+				}
+			}, 
+
+			messages: {
+				nik: {
+					required: "Masukkan NIK anda",
+					number: "Masukkan Angka saja",
+					nowhitespace : "Mohon tidak menggunakan spasi",
+				},
+				username: {
+					required : "Masukkan username anda",
+					nowhitespace : "Mohon tidak menggunakan spasi",
+				},
+				password: {
+					required: "Masukkan Password anda",
+					minlength: "Password Minimal 8 Karakter",
+					nowhitespace : "Mohon tidak menggunakan spasi",
+				}
+			},
+		});
+	});
+</script>
+
 </head>
 <body>
 
@@ -33,7 +80,7 @@
 				<div class="login100-form validate-form">
 
 
-					<form action="{{route('hotspot.register')}}" method="POST">
+					<form id="formDaftar" action="{{route('hotspot.register')}}" method="POST">
 					
 						{{ csrf_field() }}
 	
@@ -66,33 +113,33 @@
 						<input type="hidden" name="mac" value="{{$request['mac']}}">
 	
 						<div class="wrap-input100">
-							<input class="input100" type="text" name="nik" placeholder="NIK" value="{{old('nik')}}">
 							<span class="focus-input100"></span>
 							<span class="symbol-input100">
 								<i class="fa fa-id-card-o" aria-hidden="true"></i>
 							</span>
+							<input class="input100" type="text" name="nik" placeholder="NIK" value="{{old('nik')}}">
 						</div>
 						@foreach ($errors->get('nik') as $err)
 						<p class="text-danger">{{$err}}</p>
 						@endforeach
 	
 						<div class="wrap-input100">
-							<input class="input100" type="text" name="username" placeholder="Username" value="{{old('username')}}">
 							<span class="focus-input100"></span>
 							<span class="symbol-input100">
 								<i class="fa fa-user" aria-hidden="true"></i>
 							</span>
+							<input class="input100" type="text" name="username" placeholder="Username" value="{{old('username')}}">
 						</div>
 						@foreach ($errors->get('username') as $err)
 							<p class="text-danger">{{$err}}</p>
 						@endforeach
 	
 						<div class="wrap-input100">
-							<input class="input100" type="password" name="password" placeholder="Password">
 							<span class="focus-input100"></span>
 							<span class="symbol-input100">
 								<i class="fa fa-lock" aria-hidden="true"></i>
 							</span>
+							<input class="input100" type="password" name="password" placeholder="Password">
 						</div>
 						@foreach ($errors->get('password') as $err)
 						<p class="text-danger">{{$err}}</p>
@@ -139,7 +186,7 @@
 
 	
 <!--===============================================================================================-->	
-	<script src="{{asset('login/vendor/jquery/jquery-3.2.1.min.js')}}"></script>
+
 <!--===============================================================================================-->
 	<script src="{{asset('login/vendor/bootstrap/js/popper.js')}}"></script>
 	<script src="{{asset('login/vendor/bootstrap/js/bootstrap.min.js')}}"></script>

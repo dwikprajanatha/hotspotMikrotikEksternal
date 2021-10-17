@@ -452,7 +452,7 @@ function penggunaanBandwidth(arr_data){
 
   dataPenggunaanBandwidth.labels = arr_data.label;
 
-  dataPenggunaanBandwidth.datasets[0].label = "Penggunaan";
+  dataPenggunaanBandwidth.datasets[0].label = "Penggunaan (GB)";
   dataPenggunaanBandwidth.datasets[0].data = arr_data.data;
 
   var optionsBarPenggunaanBandwidth = barChartOptions;

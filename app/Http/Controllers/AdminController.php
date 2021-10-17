@@ -391,7 +391,7 @@ class AdminController extends Controller
                                             ->get();
                     
                     
-                    array_push($arr_data, $penggunaanTotal->isEmpty() ? 0 : $penggunaanTotal[0]->GB_total);
+                    array_push($arr_data, $penggunaanTotal->isEmpty() ? 0 : number_format(floatval($penggunaanTotal[0]->GB_total) , 2 ,'.' , '') );
                     array_push($arr_label, $date->format('Y-m-d'));
 
                     $date->modify('+1 day');
@@ -416,7 +416,7 @@ class AdminController extends Controller
                                             ->whereBetween('period_start',[$senin,$minggu])
                                             ->groupBy(DB::raw('WEEK(period_start)'))->get();
 
-                    array_push($arr_data, $penggunaanTotal->isEmpty() ? 0 : $penggunaanTotal[0]->GB_total);
+                    array_push($arr_data, $penggunaanTotal->isEmpty() ? 0 : number_format(floatval($penggunaanTotal[0]->GB_total) , 2 ,'.' , '') );
                     array_push($arr_label, 'Minggu ke '.$i+1);
 
                     $week++;
@@ -437,7 +437,7 @@ class AdminController extends Controller
                                         ->whereYear('period_start', $year)
                                         ->groupBy(DB::raw('MONTH(period_start)'))->get();
                    
-                    array_push($arr_data, $penggunaanTotal->isEmpty() ? 0 : $penggunaanTotal[0]->GB_total);
+                    array_push($arr_data, $penggunaanTotal->isEmpty() ? 0 : number_format(floatval($penggunaanTotal[0]->GB_total) , 2 ,'.' , '') );
                     array_push($arr_label, $date->format('F'));
 
                     $date->modify('+1 month');

@@ -533,8 +533,7 @@ class AdminController extends Controller
 
             } elseif($range == 'all'){
 
-                $organik = DB::connection('mysql')->table('tb_user_hotspot')
-                            ->whereYear('created_at',$year)->count();
+                $organik = DB::connection('mysql')->table('tb_user_hotspot')->count();
 
                 $facebook = DB::connection('mysql')->table('tb_user_social')
                             ->where('platform','facebook')->count();

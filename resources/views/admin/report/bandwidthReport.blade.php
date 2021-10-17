@@ -646,14 +646,14 @@ $(document).ready(function(){
                       type: "GET",
                       headers: {'Accept': 'application/json'},
                       data: {'api_token': '<?php echo(Auth::user()->api_token) ?>' },
-                    }
+                    },
           "columns": [
             {"data" : "no"},
             {"data" : "username"},
             {"data" : "kategori"},
             {"data" : "platform"},
             {"data" : "penggunaan"},
-          ]
+          ],
       });
 
 

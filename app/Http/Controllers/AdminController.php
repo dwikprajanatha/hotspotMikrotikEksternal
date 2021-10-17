@@ -670,6 +670,8 @@ class AdminController extends Controller
             $month = $date_now->format('m');
             $week = $date_now->format('W');
 
+            $array = [];
+
             if($range == 'weekly'){
             
                 $date = new DateTime();
@@ -680,8 +682,6 @@ class AdminController extends Controller
                 $date->modify('sunday this week');
 
                 $minggu = $date->format('Y-m-d');
-
-                $array = [];
 
 
                 $users_radius = DB::connection('mysql_radius')->table('data_usage_by_period')

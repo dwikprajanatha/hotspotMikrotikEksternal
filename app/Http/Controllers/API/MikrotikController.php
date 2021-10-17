@@ -391,8 +391,7 @@ class MikrotikController extends Controller
 
             $queues = $response['data']['queues'];
 
-            dd($queues);
-
+            return view('admin.mikrotik.queue',['queues' => $queues]);
 
         } catch (\Throwable $th) {
             //throw $th;
@@ -410,7 +409,7 @@ class MikrotikController extends Controller
 
             $hotspots = $response['data']['hotspot'];
             
-            dd($hotspots);
+            return view('admin.mikrotik.hotspot', ['hotspots' => $hotspots]);
 
         } catch (\Throwable $th) {
             //throw $th;

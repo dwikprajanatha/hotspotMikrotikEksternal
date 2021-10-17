@@ -685,7 +685,7 @@ class AdminController extends Controller
 
 
                 $users_radius = DB::connection('mysql_radius')->table('data_usage_by_period')
-                        ->select('username','acctstarttime AS start_time', DB::raw('(SUM(acctinputoctets)/1000/1000/1000) + (SUM(acctoutputoctets)/1000/1000/1000) AS GB_total'))
+                        ->select('username', DB::raw('(SUM(acctinputoctets)/1000/1000/1000) + (SUM(acctoutputoctets)/1000/1000/1000) AS GB_total'))
                         ->whereNotNull('period_end')
                         ->whereBetween('period_start',[$senin,$minggu])
                         ->orderBy('GB_total', 'desc')->get();
@@ -716,8 +716,7 @@ class AdminController extends Controller
                         'username' => $user->username,
                         'kategori' => $kategori,
                         'platform' => $platform,
-                        'penggunaan' => empty($user->GB_total) ? 0 : $user->GB_total,
-                        'lastLogin' => $lastLogin[0]->acctstarttime,
+                        'penggunaan' => empty($user->GB_total) ? 0 : number_format(floatval($user->GB_total) , 2 ,'.' , '') ,
                     ];
 
                     array_push($array, $det_user);
@@ -727,7 +726,7 @@ class AdminController extends Controller
             } elseif($range == 'monthly'){
 
                 $users_radius = DB::connection('mysql_radius')->table('data_usage_by_period')
-                        ->select('username','acctstarttime AS start_time', DB::raw('(SUM(acctinputoctets)/1000/1000/1000) + (SUM(acctoutputoctets)/1000/1000/1000) AS GB_total'))
+                        ->select('username', DB::raw('(SUM(acctinputoctets)/1000/1000/1000) + (SUM(acctoutputoctets)/1000/1000/1000) AS GB_total'))
                         ->whereNotNull('period_end')
                         ->whereMonth('period_start', $month)
                         ->orderBy('GB_total', 'desc')->get();
@@ -758,8 +757,7 @@ class AdminController extends Controller
                         'username' => $user->username,
                         'kategori' => $kategori,
                         'platform' => $platform,
-                        'penggunaan' => empty($user->GB_total) ? 0 : $user->GB_total,
-                        'lastLogin' => $lastLogin[0]->acctstarttime,
+                        'penggunaan' => empty($user->GB_total) ? 0 : number_format(floatval($user->GB_total) , 2 ,'.' , ''),
                     ];
 
                     array_push($array, $det_user);
@@ -768,7 +766,7 @@ class AdminController extends Controller
             } elseif($range == 'yearly'){
 
                 $users_radius = DB::connection('mysql_radius')->table('data_usage_by_period')
-                        ->select('username','acctstarttime AS start_time', DB::raw('(SUM(acctinputoctets)/1000/1000/1000) + (SUM(acctoutputoctets)/1000/1000/1000) AS GB_total'))
+                        ->select('username', DB::raw('(SUM(acctinputoctets)/1000/1000/1000) + (SUM(acctoutputoctets)/1000/1000/1000) AS GB_total'))
                         ->whereNotNull('period_end')
                         ->whereYear('period_start', $year)
                         ->orderBy('GB_total', 'desc')->get();
@@ -799,8 +797,7 @@ class AdminController extends Controller
                         'username' => $user->username,
                         'kategori' => $kategori,
                         'platform' => $platform,
-                        'penggunaan' => empty($user->GB_total) ? 0 : $user->GB_total,
-                        'lastLogin' => $lastLogin[0]->acctstarttime,
+                        'penggunaan' => empty($user->GB_total) ? 0 : number_format(floatval($user->GB_total) , 2 ,'.' , ''),
                     ];
 
                     array_push($array, $det_user);

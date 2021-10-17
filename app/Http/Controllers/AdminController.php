@@ -697,16 +697,19 @@ class AdminController extends Controller
                     $detail = DB::connection('mysql')->table('tb_user_hotspot')
                                 ->where('username',$user->username)->first();
                     
-                    $platform = "Organik";
-                    $kategori = $user->kategori;
-
                     if(is_null($detail)){
 
                         $detail = DB::connection('mysql')->table('tb_user_social')
-                                    ->where('username',$user->username)->first();
+                        ->where('username',$user->username)->first();
                         
                         $platform = $user->platform;
                         $kategori = '-';
+
+                    } else {
+
+                        $platform = "Organik";
+                        $kategori = $detail->kategori ;
+
                     }
 
                     
@@ -735,9 +738,6 @@ class AdminController extends Controller
                     $detail = DB::connection('mysql')->table('tb_user_hotspot')
                                 ->where('username',$user->username)->first();
                     
-                    $platform = "Organik";
-                    $kategori = $user->kategori;
-
                     if(is_null($detail)){
 
                         $detail = DB::connection('mysql')->table('tb_user_social')
@@ -745,6 +745,12 @@ class AdminController extends Controller
                         
                         $platform = $user->platform;
                         $kategori = '-';
+
+                    } else {
+
+                        $platform = "Organik";
+                        $kategori = $detail->kategori ;
+
                     }
 
                     
@@ -771,9 +777,6 @@ class AdminController extends Controller
                     
                     $detail = DB::connection('mysql')->table('tb_user_hotspot')
                                 ->where('username',$user->username)->first();
-                    
-                    $platform = "Organik";
-                    $kategori = $user->kategori;
 
                     if(is_null($detail)){
 
@@ -782,6 +785,12 @@ class AdminController extends Controller
                         
                         $platform = $user->platform;
                         $kategori = '-';
+
+                    } else {
+
+                        $platform = "Organik";
+                        $kategori = $detail->kategori ;
+
                     }
 
                     

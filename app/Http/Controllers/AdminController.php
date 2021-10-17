@@ -708,9 +708,6 @@ class AdminController extends Controller
                         $kategori = '-';
                     }
 
-                    $lastLogin = DB::connection('mysql_radius')->table('raddacct')
-                            ->where('username', $user->username)
-                            ->max('radacctid');
                     
                     $det_user = [
                         'username' => $user->username,
@@ -749,9 +746,6 @@ class AdminController extends Controller
                         $kategori = '-';
                     }
 
-                    $lastLogin = DB::connection('mysql_radius')->table('raddacct')
-                            ->where('username', $user->username)
-                            ->max('radacctid');
                     
                     $det_user = [
                         'username' => $user->username,
@@ -789,9 +783,6 @@ class AdminController extends Controller
                         $kategori = '-';
                     }
 
-                    $lastLogin = DB::connection('mysql_radius')->table('raddacct')
-                            ->where('username', $user->username)
-                            ->max('radacctid');
                     
                     $det_user = [
                         'username' => $user->username,

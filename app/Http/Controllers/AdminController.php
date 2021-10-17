@@ -700,9 +700,9 @@ class AdminController extends Controller
                     if(is_null($detail)){
 
                         $detail = DB::connection('mysql')->table('tb_user_social')
-                        ->where('username',$user->username)->first();
+                                    ->where('username',$user->username)->first();
                         
-                        $platform = $user->platform;
+                        $platform = $detail->platform;
                         $kategori = '-';
 
                     } else {
@@ -743,7 +743,7 @@ class AdminController extends Controller
                         $detail = DB::connection('mysql')->table('tb_user_social')
                         ->where('username',$user->username)->first();
                         
-                        $platform = $user->platform;
+                        $platform = $detail->platform;
                         $kategori = '-';
 
                     } else {
@@ -783,7 +783,7 @@ class AdminController extends Controller
                         $detail = DB::connection('mysql')->table('tb_user_social')
                         ->where('username',$user->username)->first();
                         
-                        $platform = $user->platform;
+                        $platform = $detail->platform;
                         $kategori = '-';
 
                     } else {

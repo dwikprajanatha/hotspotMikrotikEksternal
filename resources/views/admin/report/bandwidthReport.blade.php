@@ -401,20 +401,20 @@ function pieChart(ctx, options, data){
 
 };
 
-function datatables(element,data){
+// function datatables(element,data){
 
-      element.DataTable({
-      "paging": true,
-      "lengthChange": false,
-      "searching": true,
-      "ordering": true,
-      "info": true,
-      "autoWidth": false,
-      "responsive": true,
-      "ajax" : data,
-    });
+//       element.DataTable({
+//       "paging": true,
+//       "lengthChange": false,
+//       "searching": true,
+//       "ordering": true,
+//       "info": true,
+//       "autoWidth": false,
+//       "responsive": true,
+//       "ajax" : data,
+//     });
 
-}
+// }
 
 function barChart(ctx, options, data){
 
@@ -511,12 +511,12 @@ function penggunaanBerdasarkanWaktu(data) {
 
 }
 
-function penggunaanPerUser(data) {
+// function penggunaanPerUser(data) {
 
-    datatablesID = $("#datatablePenggunaanUser");
-    datatables(datatablesID, data);
+//     datatablesID = $("#datatablePenggunaanUser");
+//     datatables(datatablesID, data);
   
-}
+// }
 
     //all function end here
 
@@ -631,6 +631,25 @@ $(document).ready(function(){
       //     console.log(arr_data);
       //     penggunaanPerUser(arr_data)
       // });
+
+      // datatables here
+
+      $("#datatablePenggunaanUser").dataTable({
+          element.DataTable({
+          "paging": true,
+          "lengthChange": false,
+          "searching": true,
+          "ordering": true,
+          "info": true,
+          "autoWidth": false,
+          "responsive": true,
+          "ajax" :  {
+                      url: base_url + '/api/report/penggunaan/'+ range +'/'+ date_str,
+                      type: "GET",
+                      headers: {'Accept': 'application/json'},
+                      data: {'api_token': '<?php echo(Auth::user()->api_token) ?>' },
+                    }
+      });
 
       $.ajax({
         url: base_url + '/api/report/penggunaan/'+ range +'/'+ date_str,

@@ -854,9 +854,9 @@ class AdminController extends Controller
                                     ->whereDate('acctstarttime', $date->format('Y-m-d'))
                                     ->whereRaw("HOUR(acctstarttime) = $x")
                                     ->count();
+                    
+                    $array[$x] += $count_user;
                 }
-
-                array_push($array, $count_user);
                 
                 $date->modify('+1 day');
             }

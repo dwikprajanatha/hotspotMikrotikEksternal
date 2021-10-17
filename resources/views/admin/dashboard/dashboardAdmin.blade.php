@@ -171,6 +171,8 @@
     //Create pie or douhnut chart
     // You can switch between pie and douhnut using the method below.
 
+    var base_url = window.location.origin;
+
     $.ajax({
         url: base_url + '/api/report/platform/'+ range +'/'+ date_str,
         type: "GET",

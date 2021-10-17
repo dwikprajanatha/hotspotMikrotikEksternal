@@ -688,6 +688,7 @@ class AdminController extends Controller
                         ->select('username', DB::raw('(SUM(acctinputoctets)/1000/1000/1000) + (SUM(acctoutputoctets)/1000/1000/1000) AS GB_total'))
                         ->whereNotNull('period_end')
                         ->whereBetween('period_start',[$senin,$minggu])
+                        ->groupBy('username')
                         ->orderBy('GB_total', 'desc')->get();
 
                 

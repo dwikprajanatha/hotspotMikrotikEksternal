@@ -714,6 +714,7 @@ class AdminController extends Controller
 
                     
                     $det_user = [
+                        'no' => $loop->iteration,
                         'username' => $user->username,
                         'kategori' => $kategori,
                         'platform' => $platform,
@@ -755,6 +756,7 @@ class AdminController extends Controller
 
                     
                     $det_user = [
+                        'no' => $loop->iteration,
                         'username' => $user->username,
                         'kategori' => $kategori,
                         'platform' => $platform,
@@ -795,6 +797,7 @@ class AdminController extends Controller
 
                     
                     $det_user = [
+                        'no' => $loop->iteration,
                         'username' => $user->username,
                         'kategori' => $kategori,
                         'platform' => $platform,

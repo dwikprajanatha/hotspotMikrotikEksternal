@@ -460,16 +460,20 @@ class AdminController extends Controller
         
     }
 
-    public function apiProporsiPlatform($range, $tgl)
+    public function apiProporsiPlatform($range, $tgl = null)
     {
         try {
             
-            $date_now = DateTime::createFromFormat('dmY', $tgl);
-            // dd($date);
+            if(!is_null($tgl)){
 
-            $year = $date_now->format('Y');
-            $month = $date_now->format('m');
-            $week = $date_now->format('W');
+                $date_now = DateTime::createFromFormat('dmY', $tgl);
+                // dd($date);
+    
+                $year = $date_now->format('Y');
+                $month = $date_now->format('m');
+                $week = $date_now->format('W');
+
+            }
 
             if($range == 'weekly'){
             
@@ -527,7 +531,21 @@ class AdminController extends Controller
 
                 $array = [$organik,$facebook,$google];
 
+            } elseif($range == 'all'){
+
+                $organik = DB::connection('mysql')->table('tb_user_hotspot')
+                            ->whereYear('created_at',$year)->count();
+
+                $facebook = DB::connection('mysql')->table('tb_user_social')
+                            ->where('platform','facebook')->count();
+
+                $google = DB::connection('mysql')->table('tb_user_social')
+                            ->where('platform','google')->count();
+
+                $array = [$organik,$facebook,$google];
+
             }
+
 
 
             return response()->json([
@@ -541,16 +559,20 @@ class AdminController extends Controller
         }
     }
 
-    public function apiProporsiUmur($range, $tgl)
+    public function apiProporsiUmur($range, $tgl = null)
     {
         try {
             
-            $date_now = DateTime::createFromFormat('dmY', $tgl);
-            // dd($date);
+            if(!is_null($tgl)){
 
-            $year = $date_now->format('Y');
-            $month = $date_now->format('m');
-            $week = $date_now->format('W');
+                $date_now = DateTime::createFromFormat('dmY', $tgl);
+                // dd($date);
+    
+                $year = $date_now->format('Y');
+                $month = $date_now->format('m');
+                $week = $date_now->format('W');
+
+            }
 
             if($range == 'weekly'){
             
@@ -612,6 +634,18 @@ class AdminController extends Controller
 
                 $array = [$dewasa,$remaja,$anak];
 
+            } elseif($range == 'all'){
+
+                $dewasa = DB::connection('mysql')->table('tb_user_hotspot')
+                            ->where('kategori','dewasa')->count();
+
+                $remaja = DB::connection('mysql')->table('tb_user_hotspot')
+                            ->where('kategori','remaja')->count();
+
+                $anak = DB::connection('mysql')->table('tb_user_hotspot')
+                            ->where('kategori','anak')->count();
+
+                $array = [$dewasa,$remaja,$anak];
             }
 
 

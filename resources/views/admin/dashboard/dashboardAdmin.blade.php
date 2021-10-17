@@ -90,7 +90,7 @@
       </div><!-- /.row -->
 
       <div class="row">
-        <div class="col-12">
+        <div class="col-6">
 
           <div class="card">
             <div class="card-header">
@@ -106,11 +106,34 @@
               </div>
             </div>
             <div class="card-body">
-              <canvas id="pieChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+              <canvas id="platform" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
             </div><!-- /.card-body -->
           </div><!-- /.card -->
 
-        </div><!-- /.col-12 -->
+        </div><!-- /.col-6 -->
+
+
+        <div class="col-6">
+
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">Proporsi Pengguna</h3>
+  
+              <div class="card-tools">
+                <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                  <i class="fas fa-minus"></i>
+                </button>
+                <button type="button" class="btn btn-tool" data-card-widget="remove">
+                  <i class="fas fa-times"></i>
+                </button>
+              </div>
+            </div>
+            <div class="card-body">
+              <canvas id="umur" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+            </div><!-- /.card-body -->
+          </div><!-- /.card -->
+
+        </div><!-- /.col-6 -->
         
 
       </div><!-- /.row -->
@@ -161,8 +184,8 @@
     //-------------
     // Get context with jQuery - using jQuery's .get() method.
 
-    var pieChartCanvas = $('#pieChart').get(0).getContext('2d')
-
+    var platformCanvas = $('#platform').get(0).getContext('2d')
+    var platformUmur = $('#umur').get(0).getContext('2d')
 
     var pieOptions     = {
       maintainAspectRatio : false,
@@ -194,7 +217,38 @@
                     ]
                   }
 
-                  new Chart(pieChartCanvas, {
+                  new Chart(platformCanvas, {
+                    type: 'pie',
+                    data: pieData,
+                    options: pieOptions
+                  });
+
+                },
+      });
+
+
+      $.ajax({
+        url: base_url + '/api/report/umur/'+ range +'/'+ date_str,
+        type: "GET",
+        headers: {'Accept': 'application/json'},
+        data: {'api_token': '<?php echo(Auth::user()->api_token) ?>' },
+        success: function(response){
+                       
+                  var pieData = {
+                    labels: [
+                        'Organik',
+                        'Facebook',
+                        'Google',
+                    ],
+                    datasets: [
+                      {
+                        data: response.data,
+                        backgroundColor : ['#0F9D58', '#3b5998', '#DB4437'],
+                      }
+                    ]
+                  }
+
+                  new Chart(platformUmur, {
                     type: 'pie',
                     data: pieData,
                     options: pieOptions

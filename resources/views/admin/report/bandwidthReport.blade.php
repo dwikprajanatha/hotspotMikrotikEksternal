@@ -353,7 +353,7 @@
 
     // BAR CHART OPTION
     var barChartOptions = {
-      responsive              : false,
+      responsive              : true,
       maintainAspectRatio     : false,
       datasetFill             : false
     };
@@ -457,7 +457,7 @@ function penggunaanBandwidth(arr_data){
 
   var optionsBarPenggunaanBandwidth = barChartOptions;
 
-  lineChart(ctx_barChartPenggunaanBandwidth, optionsBarPenggunaanBandwidth, dataPenggunaanBandwidth);
+  barChart(ctx_barChartPenggunaanBandwidth, optionsBarPenggunaanBandwidth, dataPenggunaanBandwidth);
 
 
 }

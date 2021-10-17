@@ -275,47 +275,57 @@ class LoginController extends Controller
                     $username = $cek_username->username . "_" . $provider;
                 }
 
-                DB::connection('mysql')->transaction(function() use(&$provider, &$user, &$password, &$username) {
+                DB::connection('mysql')->beginTransaction();
+                DB::connection('mysql_radius')->beginTransaction();
 
-                    DB::connection('mysql')->table('tb_user_social')->insert([
-                        'social_id' => $user->id,
-                        'nama' => $user->name,
-                        'username' => $username,
-                        'email' => $user->email,
-                        'password' => $password,
-                        'platform' => $provider,
-                        'created_at' => date('Y-m-d'),
-                        'isDeleted' => 0,
-                    ]);
+                try {
 
-                });
+                    $social = DB::connection('mysql')->table('tb_user_social')->insert([
+                                    'social_id' => $user->id,
+                                    'nama' => $user->name,
+                                    'username' => $username,
+                                    'email' => $user->email,
+                                    'password' => $password,
+                                    'platform' => $provider,
+                                    'created_at' => date('Y-m-d'),
+                                    'isDeleted' => 0,
+                                ]);
 
-                DB::connection('mysql_radius')->transaction(function() use(&$provider, &$password, &$username) {
-                    
-                    DB::connection('mysql_radius')->table('radcheck')->insert([
-                        'username' => $username,
-                        'attribute' => 'Cleartext-Password',
-                        'op' => ':=',
-                        'value' => $password,
-                    ]);
+                    $radcheck = DB::connection('mysql_radius')->table('radcheck')->insert([
+                                    'username' => $username,
+                                    'attribute' => 'Cleartext-Password',
+                                    'op' => ':=',
+                                    'value' => $password,
+                                ]);
     
                     $radusergroup = DB::connection('mysql_radius')->table('radusergroup')->insert([
-                        'username' => $username,
-                        'groupname' => "social_media",
-                        'priority' => 10,
-                    ]);
+                                    'username' => $username,
+                                    'groupname' => "social_media",
+                                    'priority' => 10,
+                                ]);
 
                     $radreply = DB::connection('mysql_radius')->table('radreply')->insert([
-                        'username' => $username,
-                        'attribute' => 'Mikrotik-Rate-Limit',
-                        'op' => ':=',
-                        'value' => '4M/4M 0/0 0/0 0/0 8 2M/2M',
-                    ]);
-     
+                                    'username' => $username,
+                                    'attribute' => 'Mikrotik-Rate-Limit',
+                                    'op' => ':=',
+                                    'value' => '4M/4M 0/0 0/0 0/0 8 2M/2M',
+                                ]);
 
-                });
+                    DB::connection('mysql')->commit();
+                    DB::connection('mysql_radius')->commit();
+     
+                    return view('hotspot/loginAfterRegister',['username' => $username, 'password' => $password]);
+
+
+                } catch (\Exception $e) {
+                    DB::connection('mysql')->rollback();
+                    DB::connection('mysql_radius')->rollback();
+                    
+                    $request->session()->flash('error', 'Terjadi kesalahan saat upload ke database');
+                    return view('hotspot/register');
+                    // dd($e->getMessage());
+                }
                 
-                return view('hotspot/loginAfterRegister',['username' => $username, 'password' => $password]);
  
             } else {
                 
@@ -324,7 +334,7 @@ class LoginController extends Controller
 
 
         } catch (\Exception $e) {
-            // echo("<h1> 500 Internal Server Error </h1>");
+            $request->session()->flash('error', 'Terjadi kesalahan saat request data akun');
             dd($e->getMessage());
         }
     }

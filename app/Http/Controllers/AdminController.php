@@ -396,7 +396,7 @@ class AdminController extends Controller
 
                     $date->modify('+1 day');
                 }
-                dd($arr_data);
+                // dd($arr_data);
 
             } elseif($range == 'monthly'){
                 
@@ -416,7 +416,7 @@ class AdminController extends Controller
                                             ->whereBetween('period_start',[$senin,$minggu])
                                             ->groupBy(DB::raw('WEEK(period_start)'))->get();
 
-                    array_push($arr_data, $penggunaanTotal);
+                    array_push($arr_data, $penggunaanTotal->isEmpty() ? 0 : $penggunaanTotal[0]->GB_total);
                     array_push($arr_label, 'Minggu ke '.$i+1);
 
                     $week++;
@@ -437,7 +437,7 @@ class AdminController extends Controller
                                         ->whereYear('period_start', $year)
                                         ->groupBy(DB::raw('MONTH(period_start)'))->get();
                    
-                    array_push($arr_data, $penggunaanTotal);
+                    array_push($arr_data, $penggunaanTotal->isEmpty() ? 0 : $penggunaanTotal[0]->GB_total);
                     array_push($arr_label, $date->format('F'));
 
                     $date->modify('+1 month');
@@ -669,7 +669,7 @@ class AdminController extends Controller
                     if(is_null($detail)){
 
                         $detail = DB::connection('mysql')->table('tb_user_social')
-                        ->where('username',$user->username)->first();
+                                    ->where('username',$user->username)->first();
                         
                         $platform = $user->platform;
                         $kategori = '-';
@@ -683,7 +683,7 @@ class AdminController extends Controller
                         'username' => $user->username,
                         'kategori' => $kategori,
                         'platform' => $platform,
-                        'penggunaan' => $user->GB_total,
+                        'penggunaan' => empty($user->GB_total) ? 0 : $user->GB_total,
                         'lastLogin' => $lastLogin[0]->acctstarttime,
                     ];
 
@@ -725,7 +725,7 @@ class AdminController extends Controller
                         'username' => $user->username,
                         'kategori' => $kategori,
                         'platform' => $platform,
-                        'penggunaan' => $user->GB_total,
+                        'penggunaan' => empty($user->GB_total) ? 0 : $user->GB_total,
                         'lastLogin' => $lastLogin[0]->acctstarttime,
                     ];
 
@@ -766,7 +766,7 @@ class AdminController extends Controller
                         'username' => $user->username,
                         'kategori' => $kategori,
                         'platform' => $platform,
-                        'penggunaan' => $user->GB_total,
+                        'penggunaan' => empty($user->GB_total) ? 0 : $user->GB_total,
                         'lastLogin' => $lastLogin[0]->acctstarttime,
                     ];
 

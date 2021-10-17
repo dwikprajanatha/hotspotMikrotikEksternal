@@ -856,13 +856,14 @@ class AdminController extends Controller
                                     ->count();
                 // }
 
-                return response()->json([
-                    'data' => $count_user,
-                ]);
+                array_push($array, $count_user);
                 
-
                 $date->modify('+1 day');
             }
+
+            return response()->json([
+                'data' => $array,
+            ]);
 
 
 

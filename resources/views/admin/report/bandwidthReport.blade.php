@@ -197,7 +197,7 @@
                           <th>Username</th>
                           <th>Kategori</th>
                           <th>Platform</th>
-                          <th>Penggunaan</th>
+                          <th>Penggunaan (GB)</th>
                       </tr>
                       </thead>
 

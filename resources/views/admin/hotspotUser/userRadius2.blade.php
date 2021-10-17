@@ -20,7 +20,7 @@
 
             <div class="card">
               <div class="card-header">
-                <h3 class="card-title">Hotspot User <b>RADIUS</b></h3>
+                <h3 class="card-title">Hotspot User <b>Social Media</b></h3>
               </div><!-- /.card-header -->
               
               <div class="card-body">

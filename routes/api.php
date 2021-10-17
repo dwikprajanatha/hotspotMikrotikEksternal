@@ -52,5 +52,6 @@ Route::get('user/checkUser',[LoginController::class, 'getUsername']);
     Route::get('report/platform/{range}/{tgl?}', [AdminController::class, 'apiProporsiPlatform']);
     Route::get('report/umur/{range}/{tgl?}', [AdminController::class, 'apiProporsiUmur']);
     Route::get('report/penggunaan/{range}/{tgl}', [AdminController::class, 'apiPenggunaanPerUser']);
+    Route::get('report/waktupenggunaan/{range}/{tgl}',[AdminController::class, 'apiWaktuPenggunaan']);
 
 // });

@@ -733,6 +733,7 @@ class AdminController extends Controller
                         ->select('username', DB::raw('(SUM(acctinputoctets)/1000/1000/1000) + (SUM(acctoutputoctets)/1000/1000/1000) AS GB_total'))
                         ->whereNotNull('period_end')
                         ->whereMonth('period_start', $month)
+                        ->groupBy('username')
                         ->orderBy('GB_total', 'desc')->get();
 
                 
@@ -758,7 +759,7 @@ class AdminController extends Controller
 
                     
                     $det_user = [
-                        'no' => $loop->iteration,
+                        'no' => $i,
                         'username' => $user->username,
                         'kategori' => $kategori,
                         'platform' => $platform,
@@ -774,6 +775,7 @@ class AdminController extends Controller
                         ->select('username', DB::raw('(SUM(acctinputoctets)/1000/1000/1000) + (SUM(acctoutputoctets)/1000/1000/1000) AS GB_total'))
                         ->whereNotNull('period_end')
                         ->whereYear('period_start', $year)
+                        ->groupBy('username')
                         ->orderBy('GB_total', 'desc')->get();
 
                 
@@ -799,7 +801,7 @@ class AdminController extends Controller
 
                     
                     $det_user = [
-                        'no' => $loop->iteration,
+                        'no' => $i,
                         'username' => $user->username,
                         'kategori' => $kategori,
                         'platform' => $platform,
@@ -819,6 +821,57 @@ class AdminController extends Controller
         } catch (\Execption $th) {
             dd($th);
         }
+    }
+
+
+    public function apiWaktuPenggunaan($range, $tgl)
+    {
+        $date_now = DateTime::createFromFormat('dmY', $tgl);
+        // dd($date);
+
+        $year = $date_now->format('Y');
+        $month = $date_now->format('m');
+        $week = $date_now->format('W');
+
+        if($range == 'weekly'){
+
+            $date = new DateTime();
+            $date->setISODate($year, $week);
+
+            $array = [];
+
+            for ($i=0; $i < 7; $i++) {
+
+                // $penggunaanTotal = DB::connection('mysql_radius')->table('data_usage_by_period')
+                //                         ->select(DB::raw('((SUM(acctinputoctets)/1000/1000/1000) + (SUM(acctoutputoctets)/1000/1000/1000)) as GB_total'))
+                //                         ->whereNotNull('period_end')
+                //                         ->whereDate('period_start', $date->format('Y-m-d'))
+                //                         ->groupBy('period_start')
+                //                         ->get();
+                
+                // for ($x=0; $x < 24; $x++) { 
+                    $count_user = DB::connection('mysql_radius')->table('radacct')
+                                    ->whereDate('acctstarttime', $date->format('Y-m-d'))
+                                    ->groupBy(DB::raw('HOUR(acctstarttime)'))
+                                    ->count();
+                // }
+
+                return response()->json([
+                    'data' => $count_user,
+                ]);
+                
+
+                $date->modify('+1 day');
+            }
+
+
+
+        } elseif($range == 'monthly'){
+
+        } elseif($range == 'yearly'){
+
+        }
+
     }
 
 }

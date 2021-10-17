@@ -446,18 +446,18 @@ function pertumbuhanUser(arr_data){
 function penggunaanBandwidth(arr_data){
   
   // Line Chart Penggunaan Bandwidth
-  var ctx_lineChartPenggunaanBandwidth = $('#chartPenggunaanBandwidth').get(0).getContext('2d');
+  var ctx_barChartPenggunaanBandwidth = $('#chartPenggunaanBandwidth').get(0).getContext('2d');
 
-  var dataPenggunaanBandwidth = $.extend(true,{},lineChartData);
+  var dataPenggunaanBandwidth = $.extend(true,{},barChartData);
 
   dataPenggunaanBandwidth.labels = arr_data.label;
 
   dataPenggunaanBandwidth.datasets[0].label = "Penggunaan";
   dataPenggunaanBandwidth.datasets[0].data = arr_data.data;
 
-  var optionsLinePenggunaanBandwidth = lineChartOptions;
+  var optionsBarPenggunaanBandwidth = barChartOptions;
 
-  lineChart(ctx_lineChartPenggunaanBandwidth, optionsLinePenggunaanBandwidth, dataPenggunaanBandwidth);
+  lineChart(ctx_barChartPenggunaanBandwidth, optionsBarPenggunaanBandwidth, dataPenggunaanBandwidth);
 
 
 }

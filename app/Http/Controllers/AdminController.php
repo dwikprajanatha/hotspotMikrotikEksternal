@@ -838,7 +838,8 @@ class AdminController extends Controller
             $date = new DateTime();
             $date->setISODate($year, $week);
 
-            $array = [];
+            // Buat array panjangnya 24
+            $array = array_fill(0,24,0);
 
             for ($i=0; $i < 7; $i++) {
 

@@ -635,7 +635,6 @@ $(document).ready(function(){
       // datatables here
 
       $("#datatablePenggunaanUser").dataTable({
-          element.DataTable({
           "paging": true,
           "lengthChange": false,
           "searching": true,

@@ -191,36 +191,6 @@
                   <!-- /.card-header -->
                   <div class="card-body">
                   <table id="datatablePenggunaanUser" class="table table-bordered table-hover">
-                      <thead>
-                      <tr>
-                          <th>No.</th>
-                          <th>Username</th>
-                          <th>Kategori</th>
-                          <th>Platform</th>
-                          <th>Penggunaan</th>
-                          <th>last login</th>
-                      </tr>
-                      </thead>
-
-                      <tbody>
-                      {{-- <tr>
-                          <td>1</td>
-                          <td>MadeMade</td>
-                          <td>Dewasa</td>
-                          <td>Original</td>
-                          <td>4.1 GB</td>
-                          <td>22-02-2021</td>
-                      </tr>
-                      <tr>
-                          <td>2</td>
-                          <td>MadeCenik</td>
-                          <td>Remaja</td>
-                          <td>Facebook</td>
-                          <td>5.2 GB</td>
-                          <td>21-02-2021</td>
-                      </tr> --}}
-                      </tbody>
-
                   </table>
                   </div><!-- /.card-body -->
                 </div><!-- /.card -->

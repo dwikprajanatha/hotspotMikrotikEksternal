@@ -826,53 +826,64 @@ class AdminController extends Controller
 
     public function apiWaktuPenggunaan($range, $tgl)
     {
-        $date_now = DateTime::createFromFormat('dmY', $tgl);
-        // dd($date);
+        try {
 
-        $year = $date_now->format('Y');
-        $month = $date_now->format('m');
-        $week = $date_now->format('W');
-
-        if($range == 'weekly'){
-
-            $date = new DateTime();
-            $date->setISODate($year, $week);
-
+            $date_now = DateTime::createFromFormat('dmY', $tgl);
+            // dd($date);
+    
+            $year = $date_now->format('Y');
+            $month = $date_now->format('m');
+            $week = $date_now->format('W');
+    
             // Buat array panjangnya 24
             $array = array_fill(0,24,0);
-
-            for ($i=0; $i < 7; $i++) {
-
-                // $penggunaanTotal = DB::connection('mysql_radius')->table('data_usage_by_period')
-                //                         ->select(DB::raw('((SUM(acctinputoctets)/1000/1000/1000) + (SUM(acctoutputoctets)/1000/1000/1000)) as GB_total'))
-                //                         ->whereNotNull('period_end')
-                //                         ->whereDate('period_start', $date->format('Y-m-d'))
-                //                         ->groupBy('period_start')
-                //                         ->get();
+    
+            if($range == 'weekly'){
+    
+                    for ($x=0; $x < 24; $x++) { 
+                        $count_user = DB::connection('mysql_radius')->table('radacct')
+                                        ->whereRaw("WEEK(acctstarttime) = $week")
+                                        ->whereRaw("HOUR(acctstarttime) = $x")
+                                        ->count();
+                        
+                        $array[$x] += $count_user;
+                    }
+    
+            } elseif($range == 'monthly'){
+    
+                    for ($x=0; $x < 24; $x++) { 
+                        $count_user = DB::connection('mysql_radius')->table('radacct')
+                                        ->whereMonth('acctstarttime', $month)
+                                        ->whereRaw("HOUR(acctstarttime) = $x")
+                                        ->count();
+                        
+                        $array[$x] += $count_user;
+                    }
                 
+    
+            } elseif($range == 'yearly'){
+    
                 for ($x=0; $x < 24; $x++) { 
                     $count_user = DB::connection('mysql_radius')->table('radacct')
-                                    ->whereDate('acctstarttime', $date->format('Y-m-d'))
+                                    ->whereYear('acctstarttime', $year)
                                     ->whereRaw("HOUR(acctstarttime) = $x")
                                     ->count();
                     
                     $array[$x] += $count_user;
                 }
-                
-                $date->modify('+1 day');
+    
             }
-
+    
             return response()->json([
+                'status' => 200,
                 'data' => $array,
             ]);
 
-
-
-        } elseif($range == 'monthly'){
-
-        } elseif($range == 'yearly'){
-
+        } catch (\Exception $e) {
+            dd($e);
         }
+        
+
 
     }
 

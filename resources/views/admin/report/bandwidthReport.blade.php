@@ -353,7 +353,7 @@
 
     // BAR CHART OPTION
     var barChartOptions = {
-      responsive              : true,
+      responsive              : false,
       maintainAspectRatio     : false,
       datasetFill             : false
     };

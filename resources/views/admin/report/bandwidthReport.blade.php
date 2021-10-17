@@ -450,14 +450,14 @@ function penggunaanBandwidth(arr_data){
 
   var dataPenggunaanBandwidth = $.extend(true,{},lineChartData);
 
-  dataPertumbuhanUser.labels = arr_data.label;
+  dataPenggunaanBandwidth.labels = arr_data.label;
 
   dataPenggunaanBandwidth.datasets[0].label = "Penggunaan";
   dataPenggunaanBandwidth.datasets[0].data = arr_data.data;
 
   var optionsLinePenggunaanBandwidth = lineChartOptions;
 
-  lineChart(ctx_lineChartPenggunaanBandwidth,optionsLinePenggunaanBandwidth,dataPenggunaanBandwidth);
+  lineChart(ctx_lineChartPenggunaanBandwidth, optionsLinePenggunaanBandwidth, dataPenggunaanBandwidth);
 
 
 }

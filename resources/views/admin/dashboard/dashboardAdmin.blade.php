@@ -94,7 +94,7 @@
 
           <div class="card">
             <div class="card-header">
-              <h3 class="card-title">Proporsi Pengguna</h3>
+              <h3 class="card-title">Proporsi Asal Pengguna</h3>
   
               <div class="card-tools">
                 <button type="button" class="btn btn-tool" data-card-widget="collapse">
@@ -117,7 +117,7 @@
 
           <div class="card">
             <div class="card-header">
-              <h3 class="card-title">Proporsi Pengguna</h3>
+              <h3 class="card-title">Proporsi Umur Pengguna</h3>
   
               <div class="card-tools">
                 <button type="button" class="btn btn-tool" data-card-widget="collapse">
@@ -236,9 +236,9 @@
                        
                   var pieData = {
                     labels: [
-                        'Organik',
-                        'Facebook',
-                        'Google',
+                        'Dewasa',
+                        'Remaja',
+                        'Anak',
                     ],
                     datasets: [
                       {

@@ -849,12 +849,12 @@ class AdminController extends Controller
                 //                         ->groupBy('period_start')
                 //                         ->get();
                 
-                // for ($x=0; $x < 24; $x++) { 
+                for ($x=0; $x < 24; $x++) { 
                     $count_user = DB::connection('mysql_radius')->table('radacct')
                                     ->whereDate('acctstarttime', $date->format('Y-m-d'))
                                     ->whereRaw("HOUR(acctstarttime) = $x")
                                     ->count();
-                // }
+                }
 
                 array_push($array, $count_user);
                 

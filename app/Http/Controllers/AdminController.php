@@ -691,8 +691,10 @@ class AdminController extends Controller
                         ->groupBy('username')
                         ->orderBy('GB_total', 'desc')->get();
 
-                
+                $i = 0;
                 foreach ($users_radius as $user) {
+
+                    $i++;
                     
                     $detail = DB::connection('mysql')->table('tb_user_hotspot')
                                 ->where('username',$user->username)->first();
@@ -714,7 +716,7 @@ class AdminController extends Controller
 
                     
                     $det_user = [
-                        'no' => $loop->iteration,
+                        'no' => $i,
                         'username' => $user->username,
                         'kategori' => $kategori,
                         'platform' => $platform,

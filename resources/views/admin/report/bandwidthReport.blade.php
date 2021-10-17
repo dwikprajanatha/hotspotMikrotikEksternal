@@ -203,7 +203,7 @@
                       </thead>
 
                       <tbody>
-                      <tr>
+                      {{-- <tr>
                           <td>1</td>
                           <td>MadeMade</td>
                           <td>Dewasa</td>
@@ -218,7 +218,7 @@
                           <td>Facebook</td>
                           <td>5.2 GB</td>
                           <td>21-02-2021</td>
-                      </tr>
+                      </tr> --}}
                       </tbody>
 
                   </table>

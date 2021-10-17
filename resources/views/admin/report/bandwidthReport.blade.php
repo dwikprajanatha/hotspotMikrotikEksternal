@@ -657,6 +657,17 @@ $(document).ready(function(){
       });
 
 
+      $.ajax({
+        url: base_url + '/api/report/waktupenggunaan/'+ range +'/'+ date_str,
+        type: "GET",
+        headers: {'Accept': 'application/json'},
+        data: {'api_token': '<?php echo(Auth::user()->api_token) ?>' },
+        success: function(response){
+                  var arr_data = response.data;
+                  console.log(arr_data);
+                  penggunaanBerdasarkanWaktu(arr_data);
+                },
+      });
                 
     });
 

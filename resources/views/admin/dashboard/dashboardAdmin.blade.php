@@ -197,7 +197,7 @@
     var base_url = window.location.origin;
 
     $.ajax({
-        url: base_url + '/api/report/platform/'+ range +'/'+ date_str,
+        url: base_url + '/api/report/platform/all',
         type: "GET",
         headers: {'Accept': 'application/json'},
         data: {'api_token': '<?php echo(Auth::user()->api_token) ?>' },
@@ -228,7 +228,7 @@
 
 
       $.ajax({
-        url: base_url + '/api/report/umur/'+ range +'/'+ date_str,
+        url: base_url + '/api/report/umur/all',
         type: "GET",
         headers: {'Accept': 'application/json'},
         data: {'api_token': '<?php echo(Auth::user()->api_token) ?>' },

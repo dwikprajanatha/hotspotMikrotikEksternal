@@ -852,7 +852,7 @@ class AdminController extends Controller
                 // for ($x=0; $x < 24; $x++) { 
                     $count_user = DB::connection('mysql_radius')->table('radacct')
                                     ->whereDate('acctstarttime', $date->format('Y-m-d'))
-                                    ->groupBy(DB::raw('HOUR(acctstarttime)'))
+                                    ->whereRaw("HOUR(acctstarttime) = $x")
                                     ->count();
                 // }
 

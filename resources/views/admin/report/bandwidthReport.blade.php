@@ -632,8 +632,10 @@ $(document).ready(function(){
       // });
 
       // datatables here
+  
 
       $("#datatablePenggunaanUser").dataTable({
+          "destroy":true,
           "paging": true,
           "lengthChange": false,
           "searching": true,

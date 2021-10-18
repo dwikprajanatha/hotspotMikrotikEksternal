@@ -32,8 +32,8 @@
                           <th>Queue Name</th>
                           <th>Target</th>
                           <th>Priority</th>
-                          <th>Limit at</th>
-                          <th>Max Limit at</th>
+                          <th>Limit at (bits)</th>
+                          <th>Max Limit at (bits)</th>
                           <th>Disabled</th>
                           <th>Action</th>
                       </tr>

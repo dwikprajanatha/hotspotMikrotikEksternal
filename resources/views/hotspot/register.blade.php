@@ -175,7 +175,7 @@
 							</a>
 
 	
-						<div class="text-center p-t-136">
+						<div class="text-center p-t-20">
 
 				</div>
 			</div>

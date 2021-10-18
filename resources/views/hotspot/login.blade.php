@@ -78,16 +78,17 @@
 						</button>
 					</div>
 
-					<div class="text-center p-t-12">
-						<a class="txt2" href="{{route('hotspot.forgot.view')}}">
+					<div class="text-center p-t-14">
+						<a class="txt3" href="{{route('hotspot.forgot.view')}}">
 							Lupa  Password?
 						</a>
 					</div>
 
-					<div class="text-center p-t-136">
+					<div class="text-center p-t-50">
 						<span class="txt1">
 							Belum Punya akun?
 						</span>
+						<br>
 
 						{{ session()->put('request', $request) }}
 

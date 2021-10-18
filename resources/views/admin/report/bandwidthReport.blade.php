@@ -387,6 +387,8 @@ function lineChart(ctx, options, data){
     options: options,
   });
 
+  line.update();
+
 };
 
 
@@ -397,6 +399,8 @@ function pieChart(ctx, options, data){
     options : options,
     data : data,
   });
+
+  pie.update();
 
 };
 

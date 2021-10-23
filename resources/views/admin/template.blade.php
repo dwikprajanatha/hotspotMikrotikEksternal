@@ -148,7 +148,7 @@
     <!-- Brand Logo -->
     <a href="{{ route('admin.dashboard') }}" class="brand-link">
       <img src="{{asset('admin/dist/img/logo-punggul.png')}}" class="brand-image img-circle elevation-3" style="opacity: .8">
-      <span class="brand-text font-weight-light">Admin Hotspot Punggul</span>
+      <span class="brand-text font-weight-light">Admin Hotspot</span>
     </a>
 
     <!-- Sidebar -->

@@ -533,8 +533,6 @@ $(document).ready(function(){
         format  : 'YYYY'
     });
 
-    var isi = 0;
-
     $("#reload").click(function(){
 
       var date = $('.input-group.date').data('datetimepicker').date();
@@ -556,11 +554,7 @@ $(document).ready(function(){
         data: {'api_token': '<?php echo(Auth::user()->api_token) ?>' },
         success: function(response){
                   var arr_data = response.data;
-                  console.log(arr_data);
-                  if(isi == 1){
-                    var chart = pertumbuhanUser(arr_data);
-                    chart.destroy();
-                  }
+                  console.log(arr_data);}
                   pertumbuhanUser(arr_data);
                 },
       });
@@ -580,10 +574,6 @@ $(document).ready(function(){
         success: function(response){
                   var arr_data = response.data;
                   console.log(arr_data);
-                  if(isi == 1){
-                    var chart = penggunaanBandwidth(arr_data);
-                    chart.destroy();
-                  }
                   penggunaanBandwidth(arr_data);
                 },
       });
@@ -602,10 +592,6 @@ $(document).ready(function(){
         success: function(response){
                   var arr_data = response.data;
                   console.log(arr_data);
-                  if(isi == 1){
-                    var chart = proporsiPengguna(arr_data);
-                    chart.destroy();
-                  }
                   proporsiPengguna(arr_data);
                 },
       });
@@ -624,10 +610,6 @@ $(document).ready(function(){
         success: function(response){
                   var arr_data = response.data;
                   console.log(arr_data);
-                  if(isi == 1){
-                    var chart = proporsiUmurPengguna(arr_data);
-                    chart.destroy();
-                  }
                   proporsiUmurPengguna(arr_data);
                 },
       });
@@ -681,15 +663,9 @@ $(document).ready(function(){
         success: function(response){
                   var arr_data = response.data;
                   console.log(arr_data);
-                  if(isi == 1){
-                    var chart = penggunaanBerdasarkanWaktu(arr_data);
-                    chart.destroy();
-                  }
                   penggunaanBerdasarkanWaktu(arr_data);
                 },
       });
-
-      isi = 1;
                 
     });
 

@@ -438,7 +438,7 @@ function pertumbuhanUser(arr_data){
   } 
 
   var line = lineChart(ctx_lineChartPertumbuhanUser,optionsLineChartPertumbuhan, dataPertumbuhanUser);
-  isi = 1;
+  
 
 }
 
@@ -463,7 +463,7 @@ function penggunaanBandwidth(arr_data){
   } 
 
   var bar = barChart(ctx_barChartPenggunaanBandwidth, optionsBarPenggunaanBandwidth, dataPenggunaanBandwidth);
-  isi = 1;
+  
 
 }
 
@@ -487,7 +487,7 @@ function proporsiPengguna(data){
   } 
 
   var pie = pieChart(ctx_pieChartProporsiUser, optionsProporsiUser, dataProporsiUser);
-  isi = 1;
+  
 
 }
 
@@ -511,7 +511,7 @@ function proporsiUmurPengguna(data){
   } 
 
   var pie = pieChart(ctx_pieChartProporsiUmur, optionsProporsiUmur, dataProporsiUmur);
-  isi = 1;
+  
 }
 
 function penggunaanBerdasarkanWaktu(data) {
@@ -533,7 +533,7 @@ function penggunaanBerdasarkanWaktu(data) {
   } 
 
   var bar = barChart(ctx_chartWaktuPenggunaan, optionChartWaktuPenggunaan, dataChartWaktuPenggunaan);
-  isi = 1;
+  
 
 }
 
@@ -697,6 +697,8 @@ $(document).ready(function(){
                   penggunaanBerdasarkanWaktu(arr_data);
                 },
       });
+
+      isi = 1;
                 
     });
 

@@ -429,15 +429,9 @@ function pertumbuhanUser(arr_data){
   dataPertumbuhanUser.datasets[0].label = "User";
   dataPertumbuhanUser.datasets[0].data = arr_data.data;
 
-  var optionsLineChartPertumbuhan = lineChartOptions;
+  var optionsLineChartPertumbuhan = lineChartOptions; 
 
-  if(isi == 1){
-
-    line.destroy();
-    
-  } 
-
-  var line = lineChart(ctx_lineChartPertumbuhanUser,optionsLineChartPertumbuhan, dataPertumbuhanUser);
+  return lineChart(ctx_lineChartPertumbuhanUser,optionsLineChartPertumbuhan, dataPertumbuhanUser);
   
 
 }
@@ -456,13 +450,7 @@ function penggunaanBandwidth(arr_data){
 
   var optionsBarPenggunaanBandwidth = barChartOptions;
 
-  if(isi == 1){
-
-    bar.destroy();
-    
-  } 
-
-  var bar = barChart(ctx_barChartPenggunaanBandwidth, optionsBarPenggunaanBandwidth, dataPenggunaanBandwidth);
+  return barChart(ctx_barChartPenggunaanBandwidth, optionsBarPenggunaanBandwidth, dataPenggunaanBandwidth);
   
 
 }
@@ -480,13 +468,7 @@ function proporsiPengguna(data){
 
   var optionsProporsiUser = pieChartOptions;
 
-  if(isi == 1){
-
-    pie.destroy();
-    
-  } 
-
-  var pie = pieChart(ctx_pieChartProporsiUser, optionsProporsiUser, dataProporsiUser);
+  return pieChart(ctx_pieChartProporsiUser, optionsProporsiUser, dataProporsiUser);
   
 
 }
@@ -504,13 +486,7 @@ function proporsiUmurPengguna(data){
 
   var optionsProporsiUmur = pieChartOptions;
 
-  if(isi == 1){
-
-    pie.destroy();
-    
-  } 
-
-  var pie = pieChart(ctx_pieChartProporsiUmur, optionsProporsiUmur, dataProporsiUmur);
+  return pieChart(ctx_pieChartProporsiUmur, optionsProporsiUmur, dataProporsiUmur);
   
 }
 
@@ -526,15 +502,8 @@ function penggunaanBerdasarkanWaktu(data) {
   dataChartWaktuPenggunaan.datasets[0].data = data;
   // [19, 36, 26, 7, 12, 36, 46, 16, 41, 22, 6, 38, 41, 23, 43, 14, 26, 19, 43, 46, 9, 44, 27, 23]
 
-  if(isi == 1){
-
-    bar.destroy();
-    
-  } 
-
-  var bar = barChart(ctx_chartWaktuPenggunaan, optionChartWaktuPenggunaan, dataChartWaktuPenggunaan);
+  return barChart(ctx_chartWaktuPenggunaan, optionChartWaktuPenggunaan, dataChartWaktuPenggunaan);
   
-
 }
 
 // function penggunaanPerUser(data) {
@@ -564,6 +533,8 @@ $(document).ready(function(){
         format  : 'YYYY'
     });
 
+    var isi = 0;
+
     $("#reload").click(function(){
 
       var date = $('.input-group.date').data('datetimepicker').date();
@@ -586,6 +557,10 @@ $(document).ready(function(){
         success: function(response){
                   var arr_data = response.data;
                   console.log(arr_data);
+                  if(isi == 1){
+                    var chart = pertumbuhanUser(arr_data);
+                    chart.destroy();
+                  }
                   pertumbuhanUser(arr_data);
                 },
       });
@@ -605,6 +580,10 @@ $(document).ready(function(){
         success: function(response){
                   var arr_data = response.data;
                   console.log(arr_data);
+                  if(isi == 1){
+                    var chart = penggunaanBandwidth(arr_data);
+                    chart.destroy();
+                  }
                   penggunaanBandwidth(arr_data);
                 },
       });
@@ -623,6 +602,10 @@ $(document).ready(function(){
         success: function(response){
                   var arr_data = response.data;
                   console.log(arr_data);
+                  if(isi == 1){
+                    var chart = proporsiPengguna(arr_data);
+                    chart.destroy();
+                  }
                   proporsiPengguna(arr_data);
                 },
       });
@@ -641,6 +624,10 @@ $(document).ready(function(){
         success: function(response){
                   var arr_data = response.data;
                   console.log(arr_data);
+                  if(isi == 1){
+                    var chart = proporsiUmurPengguna(arr_data);
+                    chart.destroy();
+                  }
                   proporsiUmurPengguna(arr_data);
                 },
       });
@@ -694,6 +681,10 @@ $(document).ready(function(){
         success: function(response){
                   var arr_data = response.data;
                   console.log(arr_data);
+                  if(isi == 1){
+                    var chart = penggunaanBerdasarkanWaktu(arr_data);
+                    chart.destroy();
+                  }
                   penggunaanBerdasarkanWaktu(arr_data);
                 },
       });

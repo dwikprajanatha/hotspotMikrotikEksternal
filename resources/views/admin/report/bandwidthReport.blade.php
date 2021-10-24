@@ -202,22 +202,7 @@
                       </thead>
 
                       <tbody>
-                      {{-- <tr>
-                          <td>1</td>
-                          <td>MadeMade</td>
-                          <td>Dewasa</td>
-                          <td>Original</td>
-                          <td>4.1 GB</td>
-                          <td>22-02-2021</td>
-                      </tr>
-                      <tr>
-                          <td>2</td>
-                          <td>MadeCenik</td>
-                          <td>Remaja</td>
-                          <td>Facebook</td>
-                          <td>5.2 GB</td>
-                          <td>21-02-2021</td>
-                      </tr> --}}
+                      
                       </tbody>
 
                   </table>
@@ -387,7 +372,7 @@ function lineChart(ctx, options, data){
     options: options,
   });
 
-  line.update();
+  return line;
 
 };
 
@@ -400,7 +385,7 @@ function pieChart(ctx, options, data){
     data : data,
   });
 
-  pie.update();
+  return pie;
 
 };
 
@@ -427,6 +412,8 @@ function barChart(ctx, options, data){
     data    : data,
   });
 
+  return bar;
+
 };
 
   
@@ -443,7 +430,10 @@ function pertumbuhanUser(arr_data){
 
   var optionsLineChartPertumbuhan = lineChartOptions;
 
-  lineChart(ctx_lineChartPertumbuhanUser,optionsLineChartPertumbuhan, dataPertumbuhanUser);
+  var line = lineChart(ctx_lineChartPertumbuhanUser,optionsLineChartPertumbuhan, dataPertumbuhanUser);
+
+  line.update();
+
 }
 
 function penggunaanBandwidth(arr_data){
@@ -460,8 +450,8 @@ function penggunaanBandwidth(arr_data){
 
   var optionsBarPenggunaanBandwidth = barChartOptions;
 
-  barChart(ctx_barChartPenggunaanBandwidth, optionsBarPenggunaanBandwidth, dataPenggunaanBandwidth);
-
+  var bar = barChart(ctx_barChartPenggunaanBandwidth, optionsBarPenggunaanBandwidth, dataPenggunaanBandwidth);
+  bar.update();
 
 }
 
@@ -478,7 +468,8 @@ function proporsiPengguna(data){
 
   var optionsProporsiUser = pieChartOptions;
 
-  pieChart(ctx_pieChartProporsiUser, optionsProporsiUser, dataProporsiUser);
+  var pie = pieChart(ctx_pieChartProporsiUser, optionsProporsiUser, dataProporsiUser);
+  pie.update();
 
 }
 
@@ -495,7 +486,8 @@ function proporsiUmurPengguna(data){
 
   var optionsProporsiUmur = pieChartOptions;
 
-  pieChart(ctx_pieChartProporsiUmur, optionsProporsiUmur, dataProporsiUmur);
+  var pie = pieChart(ctx_pieChartProporsiUmur, optionsProporsiUmur, dataProporsiUmur);
+  pie.update();
 
 }
 
@@ -510,8 +502,9 @@ function penggunaanBerdasarkanWaktu(data) {
   dataChartWaktuPenggunaan.labels = ["00:00", "01:00", "02:00", "03:00", "04:00", "05:00", "06:00", "07:00", "08:00", "09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00", "20:00", "21:00", "22:00", "23:00"]
   dataChartWaktuPenggunaan.datasets[0].data = data;
   // [19, 36, 26, 7, 12, 36, 46, 16, 41, 22, 6, 38, 41, 23, 43, 14, 26, 19, 43, 46, 9, 44, 27, 23]
-  barChart(ctx_chartWaktuPenggunaan, optionChartWaktuPenggunaan, dataChartWaktuPenggunaan);
-
+  var bar = barChart(ctx_chartWaktuPenggunaan, optionChartWaktuPenggunaan, dataChartWaktuPenggunaan);
+  bar.update();
+  
 }
 
 // function penggunaanPerUser(data) {

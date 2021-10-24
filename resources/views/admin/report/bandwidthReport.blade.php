@@ -416,9 +416,10 @@ function barChart(ctx, options, data){
 
 };
 
-  
+var isi = 0;
 //Line Chart Pertumbuhan User
 function pertumbuhanUser(arr_data){
+
   var ctx_lineChartPertumbuhanUser = $('#chartPertumbuhanUser').get(0).getContext('2d');
 
   var dataPertumbuhanUser = $.extend(true,{},lineChartData);
@@ -430,9 +431,14 @@ function pertumbuhanUser(arr_data){
 
   var optionsLineChartPertumbuhan = lineChartOptions;
 
-  var line = lineChart(ctx_lineChartPertumbuhanUser,optionsLineChartPertumbuhan, dataPertumbuhanUser);
+  if(isi == 1){
 
-  line.update();
+    line.destroy();
+    
+  } 
+
+  var line = lineChart(ctx_lineChartPertumbuhanUser,optionsLineChartPertumbuhan, dataPertumbuhanUser);
+  isi = 1;
 
 }
 
@@ -450,8 +456,14 @@ function penggunaanBandwidth(arr_data){
 
   var optionsBarPenggunaanBandwidth = barChartOptions;
 
+  if(isi == 1){
+
+    bar.destroy();
+    
+  } 
+
   var bar = barChart(ctx_barChartPenggunaanBandwidth, optionsBarPenggunaanBandwidth, dataPenggunaanBandwidth);
-  bar.update();
+  isi = 1;
 
 }
 
@@ -468,8 +480,14 @@ function proporsiPengguna(data){
 
   var optionsProporsiUser = pieChartOptions;
 
+  if(isi == 1){
+
+    pie.destroy();
+    
+  } 
+
   var pie = pieChart(ctx_pieChartProporsiUser, optionsProporsiUser, dataProporsiUser);
-  pie.update();
+  isi = 1;
 
 }
 
@@ -486,9 +504,14 @@ function proporsiUmurPengguna(data){
 
   var optionsProporsiUmur = pieChartOptions;
 
-  var pie = pieChart(ctx_pieChartProporsiUmur, optionsProporsiUmur, dataProporsiUmur);
-  pie.update();
+  if(isi == 1){
 
+    pie.destroy();
+    
+  } 
+
+  var pie = pieChart(ctx_pieChartProporsiUmur, optionsProporsiUmur, dataProporsiUmur);
+  isi = 1;
 }
 
 function penggunaanBerdasarkanWaktu(data) {
@@ -502,9 +525,16 @@ function penggunaanBerdasarkanWaktu(data) {
   dataChartWaktuPenggunaan.labels = ["00:00", "01:00", "02:00", "03:00", "04:00", "05:00", "06:00", "07:00", "08:00", "09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00", "20:00", "21:00", "22:00", "23:00"]
   dataChartWaktuPenggunaan.datasets[0].data = data;
   // [19, 36, 26, 7, 12, 36, 46, 16, 41, 22, 6, 38, 41, 23, 43, 14, 26, 19, 43, 46, 9, 44, 27, 23]
+
+  if(isi == 1){
+
+    bar.destroy();
+    
+  } 
+
   var bar = barChart(ctx_chartWaktuPenggunaan, optionChartWaktuPenggunaan, dataChartWaktuPenggunaan);
-  bar.update();
-  
+  isi = 1;
+
 }
 
 // function penggunaanPerUser(data) {

@@ -362,11 +362,17 @@
     //all options and dataset configuration end here
 
 
+var bar = new Chart();
+var line = new Chart();
+var pie = new Chart();
+
     //all function goes here
 
 function lineChart(ctx, options, data){
 
-  var line = new Chart(ctx, {
+  line.destroy();
+
+  line = new Chart(ctx, {
     type: 'line',
     data: data,
     options: options,
@@ -379,7 +385,9 @@ function lineChart(ctx, options, data){
 
 function pieChart(ctx, options, data){
 
-  var pie = new Chart(ctx, {
+  pie.destroy();
+  
+  pie = new Chart(ctx, {
     type : 'pie',
     options : options,
     data : data,
@@ -403,15 +411,18 @@ function pieChart(ctx, options, data){
 //     });
 
 // }
+  
 
 function barChart(ctx, options, data){
 
-  var bar = new Chart(ctx, {
+  bar.destroy();
+  
+  bar = new Chart(ctx, {
     type    : 'bar',
     options : options,
     data    : data,
   });
-
+  
   return bar;
 
 };

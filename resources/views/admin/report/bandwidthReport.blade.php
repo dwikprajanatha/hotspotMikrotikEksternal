@@ -554,7 +554,7 @@ $(document).ready(function(){
         data: {'api_token': '<?php echo(Auth::user()->api_token) ?>' },
         success: function(response){
                   var arr_data = response.data;
-                  console.log(arr_data);}
+                  console.log(arr_data);
                   pertumbuhanUser(arr_data);
                 },
       });

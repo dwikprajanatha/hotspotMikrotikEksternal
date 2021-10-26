@@ -127,7 +127,7 @@ class MikrotikController extends Controller
 
             $client = $this->connectRouterOS();
 
-            $query = (new Query('queue/simple/print/stats'));
+            $query = (new Query('queue/simple/print'));
     
             $result = $client->query($query)->read();
     

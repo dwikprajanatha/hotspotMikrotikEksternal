@@ -362,9 +362,9 @@
     //all options and dataset configuration end here
 
 
-var bar = new Chart();
-var line = new Chart();
-var pie = new Chart();
+var bar = new Chart($('#chartPertumbuhanUser').get(0).getContext('2d'));
+var line = new Chart($('#chartPertumbuhanUser').get(0).getContext('2d'));
+var pie = new Chart($('#chartPertumbuhanUser').get(0).getContext('2d'));
 
     //all function goes here
 
@@ -427,7 +427,7 @@ function barChart(ctx, options, data){
 
 };
 
-var isi = 0;
+
 //Line Chart Pertumbuhan User
 function pertumbuhanUser(arr_data){
 

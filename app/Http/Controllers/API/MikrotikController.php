@@ -120,6 +120,30 @@ class MikrotikController extends Controller
         }
     }
 
+    public function getSpeedAllConnectedUser()
+    {
+
+        try {
+
+            $client = $this->connectRouterOS();
+
+            $query = (new Query('queue/simple/print/stats'));
+    
+            $result = $client->query($query)->read();
+    
+            return json_encode([
+                'status' => 200,
+                'data' => [
+                    'queues' => $result,
+                ],
+            ]);
+
+        } catch (\Throwable $th) {
+            dd($th);
+        }
+
+    }
+
 
 
     /**

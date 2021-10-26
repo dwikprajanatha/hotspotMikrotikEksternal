@@ -25,6 +25,13 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         // $schedule->command('inspire')->hourly();
+        $schedule->call(function() {
+
+            $connect = app('App\Http\Controllers\API\MikrotikController')->connectRouterOS();
+            
+
+
+        })->everyMinute();
     }
 
     /**

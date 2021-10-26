@@ -38,7 +38,7 @@ Route::get('user/checkUser',[LoginController::class, 'getUsername']);
     Route::get('check/bandwidth',[MikrotikController::class, 'checkBandwidth']);
     Route::get('check/health', [MikrotikController::class, 'checkHealth']);
     Route::get('check/userActive', [MikrotikController::class, 'checkActiveUserHotspot']);
-
+    Route::get('check/getAllSpeed', [MikrotikController::class, 'getSpeedAllConnectedUser']);
 
     //User Management API
     Route::get('user/show', [MikrotikController::class, 'showUserHotspot']);

@@ -136,12 +136,12 @@ class MikrotikController extends Controller
             foreach($result as $res){
 
                 //ambil username
-                $a = explode('-', $res->name);
+                $a = explode('-', $res['name']);
                 $username = preg_replace('/[^a-zA-Z0-9]/', "", $a[1]);
 
                 if($username != 'hotspot1'){
 
-                    list($upload, $download) = explode("/", $res->rate);
+                    list($upload, $download) = explode("/", $res['rate']);
 
                     array_push($arr_result, [
                         'username' => $username,

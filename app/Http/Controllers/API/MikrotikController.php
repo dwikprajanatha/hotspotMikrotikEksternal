@@ -130,11 +130,33 @@ class MikrotikController extends Controller
             $query = (new Query('/queue/simple/print'));
     
             $result = $client->query($query)->read();
+
+            $arr_result = [];
+
+            foreach($result as $res){
+
+                //ambil username
+                $a = explode('-', $res->name);
+                $username = preg_replace('/[^a-zA-Z0-9]/', "", $a[1]);
+
+                if($username != 'hotspot1'){
+
+                    list($upload, $download) = explode("/", $res->rate);
+
+                    array_push($arr_result, [
+                        'username' => $username,
+                        'speed_upload' => $upload,
+                        'speed_download' => $download,
+                    ]);
+                    
+                }
+
+            }
     
             return json_encode([
                 'status' => 200,
                 'data' => [
-                    'queues' => $result,
+                    'queues' => $arr_result,
                 ],
             ]);
 

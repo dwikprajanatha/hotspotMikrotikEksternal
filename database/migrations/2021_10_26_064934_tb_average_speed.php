@@ -16,7 +16,8 @@ class TbAverageSpeed extends Migration
         Schema::connection('mysql')->create('tb_average_speed', function (Blueprint $table) {
             $table->id();
             $table->string('username');
-            $table->integer('speed');
+            $table->integer('download_speed');
+            $table->integer('upload_speed');
             $table->integer('count');
             $table->date('created_at');
         });

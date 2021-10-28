@@ -730,7 +730,7 @@ class AdminController extends Controller
                         'username' => $user->username,
                         'kategori' => $kategori,
                         'platform' => $platform,
-                        'average_speed' => empty($speed->download_speed) ? 'No Data' : number_format(floatval($speed->upload_speed /1000/1000/1000) , 2 ,'.' , '') . 'Mb / ' . number_format(floatval($speed->download_speed /1000/1000/1000) , 2 ,'.' , '') . 'Mb',
+                        'average_speed' => empty($speed->download_speed) ? 'No Data' : number_format(floatval($speed->upload_speed /1000/1000) , 2 ,'.' , '') . 'Mb / ' . number_format(floatval($speed->download_speed /1000/1000) , 2 ,'.' , '') . 'Mb',
                         'penggunaan' => empty($user->GB_total) ? 0 : number_format(floatval($user->GB_total) , 2 ,'.' , '') ,
                     ];
 

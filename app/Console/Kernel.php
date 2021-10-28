@@ -39,7 +39,7 @@ class Kernel extends ConsoleKernel
     
                 $arr_username = [];
     
-                DB::connection('mysql')->transaction(function() use($arr_username, $result){
+                DB::connection('mysql')->transaction(function() use(&$arr_username, &$result){
     
                     //ambil username
                     $users = DB::connection('mysql')->table('tb_average_speed')->select('username')->get();
@@ -63,7 +63,6 @@ class Kernel extends ConsoleKernel
                         } else {
                             
                             $user = DB::connection('mysql')->table('tb_average_speed')
-                                        ->select('upload_speed', 'download_speed', 'count', 'created_at')
                                         ->where('username', $result[$i]->username)
                                         ->latest('created_at')
                                         ->first();
@@ -73,9 +72,9 @@ class Kernel extends ConsoleKernel
                                 DB::connection('mysql')->table('tb_average_speed')
                                     ->where('username', $result[$i]->username)
                                     ->update([
-                                        'upload_speed' => $users[$i]->upload_speed + $result[$i]->upload_speed,
-                                        'download_speed' => $users[$i]->download_speed + $result[$i]->download_speed,
-                                        'count' => $users[$i]->count + 1,
+                                        'upload_speed' => $user->upload_speed + $result[$i]->upload_speed,
+                                        'download_speed' => $user->download_speed + $result[$i]->download_speed,
+                                        'count' => $user->count + 1,
                                     ]);
     
                             } else {
@@ -96,6 +95,7 @@ class Kernel extends ConsoleKernel
                 });
 
                 Log::info("success running");
+
             } catch (\Exception $e) {
                 Log::warning($e->getMessage());
             }

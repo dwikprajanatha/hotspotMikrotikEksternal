@@ -137,7 +137,7 @@ class MikrotikController extends Controller
 
                 //ambil username
                 $a = explode('-', $res['name']);
-                $username = preg_replace('/[^a-zA-Z0-9]/', "", $a[1]);
+                $username = preg_replace('/[^a-zA-Z0-9@.]/', "", $a[1]);
 
                 if($username != 'hotspot1'){
 

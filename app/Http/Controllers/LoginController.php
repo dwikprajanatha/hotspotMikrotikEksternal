@@ -305,10 +305,15 @@ class LoginController extends Controller
                                 ]);
 
                     $radreply = DB::connection('mysql_radius')->table('radreply')->insert([
-                                    'username' => $username,
+                                    ['username' => $username,
                                     'attribute' => 'Mikrotik-Rate-Limit',
                                     'op' => ':=',
-                                    'value' => '4M/4M 0/0 0/0 0/0 8 2M/2M',
+                                    'value' => '4M/4M 0/0 0/0 0/0 8 2M/2M'],
+
+                                    ['username' => $username,
+                                    'attribute' => 'Session-Timeout',
+                                    'op' => ':=',
+                                    'value' => '1h'],
                                 ]);
 
                     DB::connection('mysql')->commit();

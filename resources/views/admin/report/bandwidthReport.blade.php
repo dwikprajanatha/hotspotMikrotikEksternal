@@ -409,7 +409,10 @@ function pieChart(ctx, options, data){
 //     });
 
 // }
-  
+
+var bar = new Chart($('#chartDummy'));
+var line = new Chart($('#chartDummy'));
+var pie = new Chart($('#chartDummy'));
 
 function barChart(ctx, options, data){
 
@@ -554,11 +557,7 @@ $(document).ready(function(){
       //     console.log(arr_data);
       //     pertumbuhanUser(arr_data);
       // });
-      
-      var bar = new Chart($('#chartDummy'));
-      var line = new Chart($('#chartDummy'));
-      var pie = new Chart($('#chartDummy'));
-      
+
       $.ajax({
         url: base_url + '/api/report/pertumbuhan/'+ range +'/'+ date_str,
         type: "GET",

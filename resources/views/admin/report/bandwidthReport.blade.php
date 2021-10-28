@@ -236,6 +236,7 @@
         </div><!-- /.row -->
 
       </div><!-- /.container-fluid -->
+      <canvas id="chartDummy"></canvas>
     </section>
     <!-- /.content -->
 
@@ -363,9 +364,9 @@
     //all options and dataset configuration end here
 
 
-var bar = new Chart($('#chartPertumbuhanUser').get(0).getContext('2d'));
-var line = new Chart($('#chartPertumbuhanUser').get(0).getContext('2d'));
-var pie = new Chart($('#chartPertumbuhanUser').get(0).getContext('2d'));
+var bar = new Chart($('#chartDummy');
+var line = new Chart($('#chartDummy');
+var pie = new Chart($('#chartDummy');
 
     //all function goes here
 
@@ -464,7 +465,6 @@ function penggunaanBandwidth(arr_data){
 
   return barChart(ctx_barChartPenggunaanBandwidth, optionsBarPenggunaanBandwidth, dataPenggunaanBandwidth);
   
-
 }
 
 function proporsiPengguna(data){

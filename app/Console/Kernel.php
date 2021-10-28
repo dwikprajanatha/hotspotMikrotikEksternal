@@ -39,7 +39,7 @@ class Kernel extends ConsoleKernel
     
                 $arr_username = [];
     
-                DB::connecton('mysql')->transaction(function() use($arr_username, $result){
+                DB::connection('mysql')->transaction(function() use($arr_username, $result){
     
                     //ambil username
                     $users = DB::connection('mysql')->table('tb_average_speed')->select('username')->get();

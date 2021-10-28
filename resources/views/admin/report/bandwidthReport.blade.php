@@ -364,9 +364,9 @@
     //all options and dataset configuration end here
 
 
-var bar = new Chart($('#chartDummy');
-var line = new Chart($('#chartDummy');
-var pie = new Chart($('#chartDummy');
+var bar = new Chart($('#chartDummy'));
+var line = new Chart($('#chartDummy'));
+var pie = new Chart($('#chartDummy'));
 
     //all function goes here
 

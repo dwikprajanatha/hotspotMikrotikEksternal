@@ -145,8 +145,8 @@ class MikrotikController extends Controller
 
                     array_push($arr_result, [
                         'username' => $username,
-                        'speed_upload' => $upload,
-                        'speed_download' => $download,
+                        'upload_speed' => $upload,
+                        'download_speed' => $download,
                     ]);
                     
                 }

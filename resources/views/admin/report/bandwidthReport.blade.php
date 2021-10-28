@@ -236,7 +236,7 @@
         </div><!-- /.row -->
 
       </div><!-- /.container-fluid -->
-      <canvas id="chartDummy"></canvas>
+      <canvas id="chartDummy" style="display:none"></canvas>
     </section>
     <!-- /.content -->
 
@@ -363,10 +363,6 @@
     
     //all options and dataset configuration end here
 
-
-var bar = new Chart($('#chartDummy'));
-var line = new Chart($('#chartDummy'));
-var pie = new Chart($('#chartDummy'));
 
     //all function goes here
 
@@ -558,6 +554,10 @@ $(document).ready(function(){
       //     console.log(arr_data);
       //     pertumbuhanUser(arr_data);
       // });
+      
+      var bar = new Chart($('#chartDummy'));
+      var line = new Chart($('#chartDummy'));
+      var pie = new Chart($('#chartDummy'));
       
       $.ajax({
         url: base_url + '/api/report/pertumbuhan/'+ range +'/'+ date_str,

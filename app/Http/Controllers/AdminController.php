@@ -697,8 +697,10 @@ class AdminController extends Controller
                     $i++;
                     
                     $detail = DB::connection('mysql')->table('tb_user_hotspot')
+                                // ->join('tb_average_speed','tb_user_hotspot.username', '=', 'tb_average_speed.username')
+                                // ->select('tb_average_speed.download_speed', 'tb_average_speed.upload_speed', 'tb_user_hotspot.username', 'tb_user_hotspot.kategori')
                                 ->where('username',$user->username)->first();
-                    
+
                     if(is_null($detail)){
 
                         $detail = DB::connection('mysql')->table('tb_user_social')
@@ -714,12 +716,21 @@ class AdminController extends Controller
 
                     }
 
+                    $speed = DB::connection('mysql')->table('tb_average_speed')
+                                ->select(DB::raw('(SUM(download_speed) / SUM(count)) as download_speed, (SUM(upload_speed) / SUM(count)) as upload_speed'))
+                                ->where('username',$user->username)
+                                ->whereBetween('created_at',[$senin,$minggu])
+                                ->groupBy('username')
+                                ->first();
+
+                    // dd($speed);
                     
                     $det_user = [
                         'no' => $i,
                         'username' => $user->username,
                         'kategori' => $kategori,
                         'platform' => $platform,
+                        'average_speed' => empty($speed->download_speed) ? 'No Data' : number_format(floatval($speed->upload_speed /1000/1000/1000) , 2 ,'.' , '') . 'Mb / ' . number_format(floatval($speed->download_speed /1000/1000/1000) , 2 ,'.' , '') . 'Mb',
                         'penggunaan' => empty($user->GB_total) ? 0 : number_format(floatval($user->GB_total) , 2 ,'.' , '') ,
                     ];
 

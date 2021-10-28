@@ -197,6 +197,7 @@
                           <th>Username</th>
                           <th>Kategori</th>
                           <th>Platform</th>
+                          <th>Average Speed <br>(upload/download)</th>
                           <th>Penggunaan (GB)</th>
                       </tr>
                       </thead>
@@ -661,6 +662,7 @@ $(document).ready(function(){
             {"data" : "username"},
             {"data" : "kategori"},
             {"data" : "platform"},
+            {"data" : "average_speed"},
             {"data" : "penggunaan"},
           ],
       });

@@ -770,12 +770,20 @@ class AdminController extends Controller
 
                     }
 
+                    $speed = DB::connection('mysql')->table('tb_average_speed')
+                            ->select(DB::raw('(SUM(download_speed) / SUM(count)) as download_speed, (SUM(upload_speed) / SUM(count)) as upload_speed'))
+                            ->where('username',$user->username)
+                            ->whereMonth('period_start', $month)
+                            ->groupBy('username')
+                            ->get();
+
                     
                     $det_user = [
                         'no' => $i,
                         'username' => $user->username,
                         'kategori' => $kategori,
                         'platform' => $platform,
+                        'average_speed' => empty($speed[0]->download_speed) ? 'No Data' : number_format(floatval($speed[0]->upload_speed /1000/1000) , 2 ,'.' , '') . 'Mb / ' . number_format(floatval($speed[0]->download_speed /1000/1000) , 2 ,'.' , '') . 'Mb',
                         'penggunaan' => empty($user->GB_total) ? 0 : number_format(floatval($user->GB_total) , 2 ,'.' , ''),
                     ];
 
@@ -814,12 +822,20 @@ class AdminController extends Controller
 
                     }
 
+                    $speed = DB::connection('mysql')->table('tb_average_speed')
+                            ->select(DB::raw('(SUM(download_speed) / SUM(count)) as download_speed, (SUM(upload_speed) / SUM(count)) as upload_speed'))
+                            ->where('username',$user->username)
+                            ->whereYear('period_start', $year)
+                            ->groupBy('username')
+                            ->get();
+
                     
                     $det_user = [
                         'no' => $i,
                         'username' => $user->username,
                         'kategori' => $kategori,
                         'platform' => $platform,
+                        'average_speed' => empty($speed[0]->download_speed) ? 'No Data' : number_format(floatval($speed[0]->upload_speed /1000/1000) , 2 ,'.' , '') . 'Mb / ' . number_format(floatval($speed[0]->download_speed /1000/1000) , 2 ,'.' , '') . 'Mb',
                         'penggunaan' => empty($user->GB_total) ? 0 : number_format(floatval($user->GB_total) , 2 ,'.' , ''),
                     ];
 

@@ -91,7 +91,7 @@ class Kernel extends ConsoleKernel
                 }
             });
 
-        })->everyMinutes()->appendOutputTo(public_path('log/cron_log.log'));
+        })->everyMinute()->appendOutputTo(public_path('log/cron_log.log'));
     }
 
     /**

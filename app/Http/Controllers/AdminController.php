@@ -773,7 +773,7 @@ class AdminController extends Controller
                     $speed = DB::connection('mysql')->table('tb_average_speed')
                             ->select(DB::raw('(SUM(download_speed) / SUM(count)) as download_speed, (SUM(upload_speed) / SUM(count)) as upload_speed'))
                             ->where('username',$user->username)
-                            ->whereMonth('period_start', $month)
+                            ->whereMonth('created_at', $month)
                             ->groupBy('username')
                             ->get();
 
@@ -825,7 +825,7 @@ class AdminController extends Controller
                     $speed = DB::connection('mysql')->table('tb_average_speed')
                             ->select(DB::raw('(SUM(download_speed) / SUM(count)) as download_speed, (SUM(upload_speed) / SUM(count)) as upload_speed'))
                             ->where('username',$user->username)
-                            ->whereYear('period_start', $year)
+                            ->whereYear('created_at', $year)
                             ->groupBy('username')
                             ->get();
 

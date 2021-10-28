@@ -366,6 +366,10 @@
 
     //all function goes here
 
+var bar = new Chart($('#chartDummy'));
+var line = new Chart($('#chartDummy'));
+var pie = new Chart($('#chartDummy'));
+
 function lineChart(ctx, options, data){
 
   line.destroy();
@@ -409,10 +413,6 @@ function pieChart(ctx, options, data){
 //     });
 
 // }
-
-var bar = new Chart($('#chartDummy'));
-var line = new Chart($('#chartDummy'));
-var pie = new Chart($('#chartDummy'));
 
 function barChart(ctx, options, data){
 

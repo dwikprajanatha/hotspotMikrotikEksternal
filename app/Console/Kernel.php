@@ -65,7 +65,7 @@ class Kernel extends ConsoleKernel
                             $user = DB::connection('mysql')->table('tb_average_speed')
                                         ->select('upload_speed', 'download_speed', 'count', 'created_at')
                                         ->where('username', $result[$i]->username)
-                                        ->whereRaw('MAX(created_at)')
+                                        ->latest('created_at')
                                         ->first();
                             
                             if($user->created_at == date('Y-m-d')){

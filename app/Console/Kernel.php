@@ -42,7 +42,8 @@ class Kernel extends ConsoleKernel
                 DB::connection('mysql')->transaction(function() use(&$arr_username, &$result){
     
                     //ambil username
-                    $users = DB::connection('mysql')->table('tb_average_speed')->select('username')->get();
+                    $users = DB::connection('mysql')->table('tb_average_speed')
+                                ->select('username')->groupBy('username')->get();
     
                     foreach($users as $user){
                         array_push($arr_username, $user->username);
@@ -71,6 +72,7 @@ class Kernel extends ConsoleKernel
     
                                 DB::connection('mysql')->table('tb_average_speed')
                                     ->where('username', $result[$i]->username)
+                                    ->whereDate('created_at', date('Y-m-d'))
                                     ->update([
                                         'upload_speed' => $user->upload_speed + $result[$i]->upload_speed,
                                         'download_speed' => $user->download_speed + $result[$i]->download_speed,

@@ -153,6 +153,8 @@
 								$('#errorKategori').append('<div class="alert alert-danger" role="alert"><p class="text-center"><b>ERROR</b>, Sudah lewat batas waktu login untuk user anak anak. Terima Kasih</p></div>')
 
 							} else {
+								
+								console.log(result);
 
 								$('#formLogin').submit();
 								

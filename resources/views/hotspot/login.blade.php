@@ -76,7 +76,7 @@
 					</div>
 					
 					<div class="container-login100-form-btn">
-						<button class="login100-form-btn" onClick="submitForm()">
+						<button class="login100-form-btn" id="submitButton">
 							Masuk Hotspot
 						</button>
 					</div>
@@ -129,40 +129,48 @@
 
 	<script>
 
-		var base_url = window.location.origin;
 
-		function submitForm(){
+		$(document).ready(function(){
 
-			// var date = new Date();
-			var date = new Date(new Date().toLocaleString("en-US", {timeZone: "Asia/Makassar"}));
-			console.log(date);
-			var input_user = $('#formLogin').find('input[name="username"]').val();
-			console.log(input_user);
+			var base_url = window.location.origin;
+
+			$('#submitButton').click(function(){
+
+				// var date = new Date();
+				var date = new Date(new Date().toLocaleString("en-US", {timeZone: "Asia/Makassar"}));
+				console.log(date);
+				var input_user = $('#formLogin').find('input[name="username"]').val();
+				console.log(input_user);
+				
+				$.ajax({
+					url: base_url + '/api/user/cekKategori',
+					type: "GET",
+					headers: {'Accept': 'application/json'},
+					data: { 'username': input_user.toString() },
+					success: function(response){
+							var result = response.data.kategori;
+							console.log(result);
+
+								if( result.toString() == 'Anak' && date.getHours() > 20){
+
+									$('#errorKategori').append('<div class="alert alert-danger" role="alert"><p class="text-center"><b>ERROR</b>, Sudah lewat batas waktu login untuk user anak anak. Terima Kasih</p></div>');
+
+								} else {
+
+									console.log(result);
+
+									$('#formLogin').submit();
+									
+								}
+
+							},
+				});
+
+			)};
 			
-			$.ajax({
-				url: base_url + '/api/user/cekKategori',
-				type: "GET",
-				headers: {'Accept': 'application/json'},
-				data: { 'username': input_user.toString() },
-				success: function(response){
-						var result = response.data.kategori;
-						console.log(result);
+		});
 
-							if( result.toString() == 'Anak' && date.getHours() > 20){
-
-								$('#errorKategori').append('<div class="alert alert-danger" role="alert"><p class="text-center"><b>ERROR</b>, Sudah lewat batas waktu login untuk user anak anak. Terima Kasih</p></div>');
-
-							} else {
-
-								console.log(result);
-
-								$('#formLogin').submit();
-								
-							}
-
-						},
-      		});
-		}
+		
 
 		// '<div class="alert alert-info" role="alert"><p class="text-center"><b>PENGUMUMAN</b>, bagi yang sudah membuat akun tapi usernamenya berisi spasi, <b> harap membuat akun kembali </b>. Terima Kasih</p></div>'
 

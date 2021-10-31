@@ -143,9 +143,9 @@
 				url: base_url + '/api/user/cekKategori',
 				type: "GET",
 				headers: {'Accept': 'application/json'},
-				data: { 'username': input_user },
+				data: { 'username': input_user.toString() },
 				success: function(response){
-						var result = response.data;
+						var result = response;
 						console.log(result);
 
 							if( result == 'Anak' && date.getHour() > 20){

@@ -135,6 +135,7 @@
 			// var date = new Date();
 			var date = new Date(new Date().toLocaleString("en-US", {timeZone: "Asia/Makassar"}));
 			console.log(date);
+			console.log($('#formLogin').find('input[name="username"]').val());
 
 			$.ajax({
 				url: base_url + '/api/user/cekKategori',

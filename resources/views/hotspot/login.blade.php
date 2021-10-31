@@ -132,7 +132,8 @@
 
 		function submitForm(){
 
-			var date = new Date();
+			// var date = new Date();
+			var date = new Date(new Date().toLocaleString("en-US", {timeZone: "Asia/Makassar"}));
 
 			$.ajax({
 				url: base_url + '/api/user/cekKategori',

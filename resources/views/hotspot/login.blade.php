@@ -30,7 +30,7 @@
 					<img src="{{asset('login/images/logo-punggul.png')}}" alt="IMG">
 				</div>
 
-				<form class="login100-form validate-form" name="login" action="{{isset($request['link-login-only']) ? $request['link-login-only'] : '#' }}" method="post">
+				<form id="formLogin" class="login100-form validate-form" name="login" action="{{isset($request['link-login-only']) ? $request['link-login-only'] : '#' }}" method="post">
 					<span class="login100-form-title">
 						Login Hotspot Desa Punggul
 					</span>
@@ -54,6 +54,8 @@
 						</p>
 					</div>
 
+					<div id="errorKategori"></div>
+
 
 				
 					<div class="wrap-input100">
@@ -73,7 +75,7 @@
 					</div>
 					
 					<div class="container-login100-form-btn">
-						<button class="login100-form-btn" type="submit">
+						<button class="login100-form-btn" onClick="submitForm()">
 							Masuk Hotspot
 						</button>
 					</div>
@@ -123,6 +125,41 @@
 	</script>
 <!--===============================================================================================-->
 	<script src="{{asset('login/js/main.js')}}"></script>
+
+	<script>
+
+		var base_url = window.location.origin;
+
+		function submitForm(){
+
+			var date = new Date();
+
+			$.ajax({
+				url: base_url + '/api/user/cekKategori',
+				type: "GET",
+				headers: {'Accept': 'application/json'},
+				data: { 'username':  $('#formLogin').find('input[name="username"]').val() },
+				success: function(response){
+						var data = response.data;
+						console.log(data);
+
+							if(data == 'Anak' && date.getHour() > 20){
+
+								$('#errorKategori').append('<div class="alert alert-danger" role="alert"><p class="text-center"><b>ERROR</b>, Sudah lewat batas waktu login untuk user anak anak. Terima Kasih</p></div>')
+
+							} else {
+
+								$('#formLogin').submit();
+								
+							}
+
+						},
+      		});
+		}
+
+		// '<div class="alert alert-info" role="alert"><p class="text-center"><b>PENGUMUMAN</b>, bagi yang sudah membuat akun tapi usernamenya berisi spasi, <b> harap membuat akun kembali </b>. Terima Kasih</p></div>'
+
+	</script>
 
 </body>
 </html>

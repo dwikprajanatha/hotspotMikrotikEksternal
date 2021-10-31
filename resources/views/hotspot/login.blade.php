@@ -129,7 +129,6 @@
 
 	<script>
 
-
 		$(document).ready(function(){
 
 			var base_url = window.location.origin;
@@ -157,14 +156,14 @@
 
 								} else {
 
-									console.log(result);
+									console.log(response);
 
 									$('#formLogin').submit();
 									
 								}
 
 							},
-					});
+				});
 
 			});
 

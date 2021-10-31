@@ -142,10 +142,10 @@
 				headers: {'Accept': 'application/json'},
 				data: { 'username':  $('#formLogin').find('input[name="username"]').val() },
 				success: function(response){
-						var data = response.data;
-						console.log(data);
+						var result = response.data;
+						console.log(result);
 
-							if(data['kategori'] == 'Anak' && date.getHour() > 20){
+							if(result['kategori'] == 'Anak' && date.getHour() > 20){
 
 								$('#errorKategori').append('<div class="alert alert-danger" role="alert"><p class="text-center"><b>ERROR</b>, Sudah lewat batas waktu login untuk user anak anak. Terima Kasih</p></div>')
 

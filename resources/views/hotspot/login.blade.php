@@ -145,7 +145,7 @@
 				headers: {'Accept': 'application/json'},
 				data: { 'username': input_user.toString() },
 				success: function(response){
-						var result = response;
+						var result = response.data.kategori;
 						console.log(result);
 
 							if( result == 'Anak' && date.getHour() > 20){

@@ -135,18 +135,18 @@
 			// var date = new Date();
 			var date = new Date(new Date().toLocaleString("en-US", {timeZone: "Asia/Makassar"}));
 			console.log(date);
-			console.log($('#formLogin').find('input[name="username"]').val());
+			var input_user = $('#formLogin').find('input[name="username"]').val();
 
 			$.ajax({
 				url: base_url + '/api/user/cekKategori',
 				type: "GET",
 				headers: {'Accept': 'application/json'},
-				data: { 'username':  $('#formLogin').find('input[name="username"]').val() },
+				data: { 'username': input_user },
 				success: function(response){
-						var result = response.data;
+						var result = response.data.kategori;
 						console.log(result);
 
-							if(result['kategori'] == 'Anak' && date.getHour() > 20){
+							if( result == 'Anak' && date.getHour() > 20){
 
 								$('#errorKategori').append('<div class="alert alert-danger" role="alert"><p class="text-center"><b>ERROR</b>, Sudah lewat batas waktu login untuk user anak anak. Terima Kasih</p></div>')
 

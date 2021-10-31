@@ -148,12 +148,12 @@
 						var result = response.data.kategori;
 						console.log(result);
 
-							if( result == 'Anak' && date.getHours() > 20){
+							if( result.toString() == 'Anak' && date.getHours() > 20){
 
-								$('#errorKategori').append('<div class="alert alert-danger" role="alert"><p class="text-center"><b>ERROR</b>, Sudah lewat batas waktu login untuk user anak anak. Terima Kasih</p></div>')
+								$('#errorKategori').append('<div class="alert alert-danger" role="alert"><p class="text-center"><b>ERROR</b>, Sudah lewat batas waktu login untuk user anak anak. Terima Kasih</p></div>');
 
 							} else {
-								
+
 								console.log(result);
 
 								$('#formLogin').submit();

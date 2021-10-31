@@ -134,6 +134,7 @@
 
 			// var date = new Date();
 			var date = new Date(new Date().toLocaleString("en-US", {timeZone: "Asia/Makassar"}));
+			console.log(date);
 
 			$.ajax({
 				url: base_url + '/api/user/cekKategori',
@@ -144,7 +145,7 @@
 						var data = response.data;
 						console.log(data);
 
-							if(data == 'Anak' && date.getHour() > 20){
+							if(data['kategori'] == 'Anak' && date.getHour() > 20){
 
 								$('#errorKategori').append('<div class="alert alert-danger" role="alert"><p class="text-center"><b>ERROR</b>, Sudah lewat batas waktu login untuk user anak anak. Terima Kasih</p></div>')
 

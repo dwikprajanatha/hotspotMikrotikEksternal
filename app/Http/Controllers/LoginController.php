@@ -244,6 +244,22 @@ class LoginController extends Controller
     }
 
 
+    public function getKategori(Request $request)
+    {
+        // Get Kategori
+
+        $kategori = DB::connection('mysql')->table('tb_user_hotspot')->select('kategori')->where('username', $request->username)->first();
+
+        return json_encode([
+            'status' => 200,
+            'data' => [
+                'kategori' => $kategori->kategori,
+            ],
+        ]);
+
+
+    }
+
     public function redirect($provider)
     {
         return Socialite::driver($provider)->redirect();

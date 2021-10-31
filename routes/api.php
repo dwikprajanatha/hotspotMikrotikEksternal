@@ -30,6 +30,7 @@ use App\Http\Controllers\LoginController;
 // });
 
 Route::get('user/checkUser',[LoginController::class, 'getUsername']);
+Route::get('user/cekKategori',[LoginController::class, 'getKategori']);
 
 
 // Route::group(['middleware' => 'auth:api'], function() {

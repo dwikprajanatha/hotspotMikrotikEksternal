@@ -39,7 +39,7 @@
 				headers: {'Accept': 'application/json'},
 				data: { 'username': input_user },
 				success: function(response){
-						var result = response.data.kategori;
+						var result = response.data;
 						console.log(result);
 
 							if( result == 'Anak' && date.getHour() > 20){

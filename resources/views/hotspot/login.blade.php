@@ -20,6 +20,46 @@
 	<link rel="stylesheet" type="text/css" href="{{asset('login/css/util.css')}}">
 	<link rel="stylesheet" type="text/css" href="{{asset('login/css/main.css')}}">
 <!--===============================================================================================-->
+
+<script>
+
+		var base_url = window.location.origin;
+
+		function submitForm(){
+
+			// var date = new Date();
+			var date = new Date(new Date().toLocaleString("en-US", {timeZone: "Asia/Makassar"}));
+			console.log(date);
+			var input_user = $('#formLogin').find('input[name="username"]').val();
+			console.log(input_user);
+			
+			$.ajax({
+				url: base_url + '/api/user/cekKategori',
+				type: "GET",
+				headers: {'Accept': 'application/json'},
+				data: { 'username': input_user },
+				success: function(response){
+						var result = response.data.kategori;
+						console.log(result);
+
+							if( result == 'Anak' && date.getHour() > 20){
+
+								$('#errorKategori').append('<div class="alert alert-danger" role="alert"><p class="text-center"><b>ERROR</b>, Sudah lewat batas waktu login untuk user anak anak. Terima Kasih</p></div>')
+
+							} else {
+
+								$('#formLogin').submit();
+								
+							}
+
+						},
+      		});
+		}
+
+		// '<div class="alert alert-info" role="alert"><p class="text-center"><b>PENGUMUMAN</b>, bagi yang sudah membuat akun tapi usernamenya berisi spasi, <b> harap membuat akun kembali </b>. Terima Kasih</p></div>'
+
+	</script>
+
 </head>
 <body>
 
@@ -125,44 +165,6 @@
 	</script>
 <!--===============================================================================================-->
 	<script src="{{asset('login/js/main.js')}}"></script>
-
-	<script>
-
-		var base_url = window.location.origin;
-
-		function submitForm(){
-
-			// var date = new Date();
-			var date = new Date(new Date().toLocaleString("en-US", {timeZone: "Asia/Makassar"}));
-			console.log(date);
-			var input_user = $('#formLogin').find('input[name="username"]').val();
-
-			$.ajax({
-				url: base_url + '/api/user/cekKategori',
-				type: "GET",
-				headers: {'Accept': 'application/json'},
-				data: { 'username': input_user },
-				success: function(response){
-						var result = response.data.kategori;
-						console.log(result);
-
-							if( result == 'Anak' && date.getHour() > 20){
-
-								$('#errorKategori').append('<div class="alert alert-danger" role="alert"><p class="text-center"><b>ERROR</b>, Sudah lewat batas waktu login untuk user anak anak. Terima Kasih</p></div>')
-
-							} else {
-
-								$('#formLogin').submit();
-								
-							}
-
-						},
-      		});
-		}
-
-		// '<div class="alert alert-info" role="alert"><p class="text-center"><b>PENGUMUMAN</b>, bagi yang sudah membuat akun tapi usernamenya berisi spasi, <b> harap membuat akun kembali </b>. Terima Kasih</p></div>'
-
-	</script>
 
 </body>
 </html>

@@ -156,6 +156,9 @@
 								if( result.toString() == 'Anak' && date.getHours() > 20){
 
 									$('#errorKategori').append('<div class="alert alert-danger" role="alert"><p class="text-center"><b>ERROR</b>, Sudah lewat batas waktu login untuk user anak anak. Terima Kasih</p></div>');
+									$('#formLogin').submit(function(e){
+										e.preventDefault();
+									});
 
 								} else {
 
@@ -175,10 +178,6 @@
 			});
 
 		});
-
-		
-
-		// '<div class="alert alert-info" role="alert"><p class="text-center"><b>PENGUMUMAN</b>, bagi yang sudah membuat akun tapi usernamenya berisi spasi, <b> harap membuat akun kembali </b>. Terima Kasih</p></div>'
 
 	</script>
 

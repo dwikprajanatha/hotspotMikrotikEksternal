@@ -202,18 +202,5 @@
 <!--===============================================================================================-->
 	<script src="{{asset('login/js/main.js')}}"></script>
 
-
-	<script type="text/javascript">
-
-		function facebook() {
-			location.href = "<?= url('auth/facebook')?>";
-		};
-
-		function google() {
-			location.href = "<?= url('auth/google')?>";
-		};
-
-	</script>
-
 </body>
 </html>

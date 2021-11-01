@@ -140,6 +140,7 @@
 				console.log(date);
 				var input_user = $('#formLogin').find('input[name="username"]').val();
 				console.log(input_user);
+				console.log(base_url + '/api/user/cekKategori');
 				
 				$.ajax({
 					url: base_url + '/api/user/cekKategori',

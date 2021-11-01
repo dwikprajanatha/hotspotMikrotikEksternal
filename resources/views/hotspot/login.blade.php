@@ -141,11 +141,12 @@
 				var input_user = $('#formLogin').find('input[name="username"]').val();
 				console.log(input_user);
 				console.log(base_url + '/api/user/cekKategori');
-				
+
 				$.ajax({
 					url: base_url + '/api/user/cekKategori',
 					type: 'GET',
 					async: false,
+					dataType : "JSON",
 					headers: {'Accept': 'application/json'},
 					data: { 'username': input_user.toString() },
 					success: function(response){

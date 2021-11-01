@@ -143,7 +143,8 @@
 				
 				$.ajax({
 					url: base_url + '/api/user/cekKategori',
-					type: "GET",
+					type: 'GET',
+					async: false,
 					headers: {'Accept': 'application/json'},
 					data: { 'username': input_user.toString() },
 					success: function(response){

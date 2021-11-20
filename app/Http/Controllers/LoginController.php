@@ -248,16 +248,29 @@ class LoginController extends Controller
     {
         // Get Kategori
 
-        $kategori = DB::connection('mysql')->table('tb_user_hotspot')->select('kategori')->where('username', $request->username)->first();
+        $user = DB::connection('mysql')->table('tb_user_hotspot')->select('kategori', 'isDeleted')->where('username', $request->username)->first();
 
         return json_encode([
             'status' => 200,
             'data' => [
-                'kategori' => $kategori->kategori,
+                'kategori' => $user->kategori,
+                'isDeleted' => $user->isDeleted,
             ],
         ]);
 
 
+    }
+
+    public function getSocialStatus(Request $request)
+    {
+        $user = DB::connection('mysql')->table('tb_user_social')->select('isDeleted')->where('username', $request->username)->first();
+
+        return json_encode([
+            'status' => 200,
+            'data' => [
+                'isDeleted' => $user->isDeleted,
+            ],
+        ]);
     }
 
     public function redirect($provider)
@@ -329,7 +342,7 @@ class LoginController extends Controller
                                     ['username' => $username,
                                     'attribute' => 'Session-Timeout',
                                     'op' => ':=',
-                                    'value' => '1h'],
+                                    'value' => '3600'],
                                 ]);
 
                     DB::connection('mysql')->commit();

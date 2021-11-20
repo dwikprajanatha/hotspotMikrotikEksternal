@@ -150,10 +150,12 @@
 					headers: {'Accept': 'application/json'},
 					data: { 'username': input_user.toString() },
 					success: function(response){
-							var result = response.data.kategori;
+							var result = response.data;
 							console.log(result);
 
-								if( result.toString() == 'Anak' && date.getHours() > 20){
+							if( result.isDeleted == 0 ){
+
+								if( result.kategori.toString() == 'Anak' && date.getHours() > 20){
 
 									$('#errorKategori').append('<div class="alert alert-danger" role="alert"><p class="text-center"><b>ERROR</b>, Sudah lewat batas waktu login untuk user anak anak. Terima Kasih</p></div>');
 									$('#formLogin').submit(function(e){
@@ -163,12 +165,21 @@
 								} else {
 
 									console.log(response);
-
 									$('#formLogin').submit();
 									
 								}
 
-							},
+							} else {
+
+								$('#errorKategori').append('<div class="alert alert-danger" role="alert"><p class="text-center"><b>ERROR</b>, Akun anda di Non-Aktifkan oleh Admin Jaringan</p></div>');
+								$('#formLogin').submit(function(e){
+									e.preventDefault();
+								});
+
+							}
+
+								
+						},
 					error: function(jqXHR, textStatus, errorThrown){
 							console.log(textStatus);
 							console.log(errorThrown);

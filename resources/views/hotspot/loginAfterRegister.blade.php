@@ -41,6 +41,7 @@
 		var password = "<?php echo($password) ?>";
 		var link_login = "https://mikrotik.lpk-resortkuta.com/login";
 
+		autoLogIn(username,password,link_login);
 		
 	</script>
 	

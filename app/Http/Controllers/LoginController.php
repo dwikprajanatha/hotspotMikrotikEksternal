@@ -374,7 +374,7 @@ class LoginController extends Controller
 
 
         } catch (\Exception $e) {
-            Session::session()->flash('error', 'Terjadi kesalahan saat request data akun');
+            Session::flash('error', 'Terjadi kesalahan saat request data akun');
             dd($e->getMessage());
         }
     }

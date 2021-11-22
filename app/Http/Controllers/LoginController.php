@@ -355,20 +355,26 @@ class LoginController extends Controller
                     DB::connection('mysql')->rollback();
                     DB::connection('mysql_radius')->rollback();
                     
-                    $request->session()->flash('error', 'Terjadi kesalahan saat upload ke database');
+                    Session::flash('error', 'Terjadi kesalahan saat upload ke database');
                     return view('hotspot/register');
                     // dd($e->getMessage());
                 }
                 
  
             } else {
+
+                if($user_db->isDisabled == 1){
+                    Session::flash('error', 'Akun Anda telah di Non-Aktifkan oleh Admin');
+                    return view('hotspot/register');
+                } else {
+                    return view('hotspot/loginAfterRegister',['username' => $user_db->username, 'password' => $user_db->password]);
+                }
                 
-                return view('hotspot/loginAfterRegister',['username' => $user_db->username, 'password' => $user_db->password]);
             }
 
 
         } catch (\Exception $e) {
-            $request->session()->flash('error', 'Terjadi kesalahan saat request data akun');
+            Session::session()->flash('error', 'Terjadi kesalahan saat request data akun');
             dd($e->getMessage());
         }
     }

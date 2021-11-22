@@ -41,36 +41,10 @@
 		var password = "<?php echo($password) ?>";
 		var link_login = "https://mikrotik.lpk-resortkuta.com/login";
 
-		$.ajax({
-					url: base_url + '/api/user/cekSocialStatus',
-					type: 'GET',
-					async: false,
-					dataType : "JSON",
-					headers: {'Accept': 'application/json'},
-					data: { 'username': username },
-					success: function(response){
-						console.log(response);
-
-						if(response.data.isDeleted == 0){
-
-							autoLogIn(username,password,link_login);
-
-						} else {
-
-							<?php Session::put('error', 'Akun anda telah di Non-Aktifkan oleh Admin Jaringan'); ?>
-							document.location.href = '/daftar';
-							
-						}
-					},
-
-
 		
-
 	</script>
 	
-
 				
-
 
 </body>
 </html>

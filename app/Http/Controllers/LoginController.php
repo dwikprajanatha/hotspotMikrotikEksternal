@@ -363,7 +363,7 @@ class LoginController extends Controller
  
             } else {
 
-                if($user_db->isDisabled == 1){
+                if($user_db->isDeleted == 1){
                     Session::flash('error', 'Akun Anda telah di Non-Aktifkan oleh Admin');
                     return view('hotspot/register');
                 } else {

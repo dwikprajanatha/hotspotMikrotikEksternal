@@ -287,6 +287,8 @@ class LoginController extends Controller
             
             $user = Socialite::driver($provider)->stateless()->user();
 
+            dd($user);
+
             $username = preg_replace('/\s+/', '_', $user->name);
 
             $password = time();

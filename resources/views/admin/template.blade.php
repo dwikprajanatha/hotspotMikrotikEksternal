@@ -179,6 +179,30 @@
             </a>
           </li>
 
+          
+          <li class="nav-item {{Request::segment(2) == 'pengumuman' ? 'menu-open' : ''}}">
+            <a href="#" class="nav-link {{Request::segment(2) == 'pengumuman' ? 'active' : ''}}">
+              <i class="nav-icon fas fa-bullhorn"></i>
+              <p>
+                Pengumuman
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="#" class="nav-link {{Request::segment(3) == 'aktif' ? 'active' : ''}}">
+                  <i class="fas fa-users nav-icon"></i>
+                  <p>Aktif</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="#" class="nav-link {{Request::segment(3) == 'nonaktif' ? 'active' : ''}}">
+                  <i class="fas fa-users nav-icon"></i>
+                  <p>Tidak Aktif</p>
+                </a>
+              </li>
+            </ul>
+          </li>
+
           <li class="nav-item {{Request::segment(2) == 'account' ? 'menu-open' : ''}}">
             <a href="{{route('admin.account')}}" class="nav-link {{Request::segment(2) == 'account' ? 'active' : ''}}">
               <i class="nav-icon fas fa-user"></i>
@@ -201,7 +225,7 @@
               <li class="nav-item">
                 <a href="{{route('admin.user', ['user' => 'organik'])}}" class="nav-link {{Request::segment(3) == 'organik' ? 'active' : ''}}">
                   <i class="fas fa-users nav-icon"></i>
-                  <p>Organik</p>
+                  <p>Warga Asli</p>
                 </a>
               </li>
               <li class="nav-item">
@@ -265,11 +289,18 @@
               </p>
             </a>
             <ul class="nav nav-treeview">
+
+              <li class="nav-item">
+                <a href="#" class="nav-link {{Request::segment(3) == 'activeUser' ? 'active' : ''}}">
+                  <i class="fas fa-user nav-icon"></i>
+                  <p>Kategori User</p>
+                </a>
+              </li>
               
               <li class="nav-item">
                 <a href="{{route('admin.mikrotik.showActive')}}" class="nav-link {{Request::segment(3) == 'activeUser' ? 'active' : ''}}">
                   <i class="fas fa-users-cog nav-icon"></i>
-                  <p>Hotspot User</p>
+                  <p>Hotspot User Active</p>
                 </a>
               </li>
 
@@ -291,9 +322,7 @@
           </li>
 
           @endif
-
-
-
+          
         </ul>
       </nav>
       <!-- /.sidebar-menu -->

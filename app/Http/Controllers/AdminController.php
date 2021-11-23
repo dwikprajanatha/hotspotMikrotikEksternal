@@ -193,11 +193,17 @@ class AdminController extends Controller
     {
         if($user == 'organik'){
 
-            $Users = DB::connection('mysql')->table('tb_user_hotspot')
-                     ->join('tb_nik', 'tb_user_hotspot.nik_id', '=', 'tb_nik.id')
-                    //  ->select('tb_nik.nama', 'tb_user_hotspot.*')
-                     ->get();
+            // $Users = DB::connection('mysql')->table('tb_user_hotspot')
+            //          ->join('tb_nik', 'tb_user_hotspot.nik_id', '=', 'tb_nik.id')
+            //          ->get();
 
+            $user = DB::connection('mysql')->table('tb_user_hotspot')
+                    ->select('tb_user_hotspot.*','tb_kategori_user.*', 'tb_nik.*')
+                    ->join('tb_nik', 'tb_user_hotspot.nik_id', '=', 'tb_nik.id')
+                    ->join('tb_det_kategori_user', 'tb_user_hotspot.id', '=', 'tb_det_kategori_user.id_user_hotspot')
+                    ->join('tb_kategori_user','tb_det_kategori_user.id_kategori_user', '=', 'tb_kategori_user.id')
+                    ->get();
+            
             return view('admin.hotspotUser.userRadius', ['users' => $Users]);
 
         } else {
@@ -206,6 +212,37 @@ class AdminController extends Controller
 
             return view('admin.hotspotUser.userRadius2', ['users' => $Users]);
         }
+    }
+
+    //edit User
+    public function editUser(Request $request)
+    {
+        // $tabel = $request->user == 'organik' ? 'tb_user_hotspot' : 'tb_user_social';
+
+        if($request->user == 'organik'){
+
+            $user = DB::connection('mysql')->table('tb_user_hotspot')
+                    ->select('tb_user_hotspot.*','tb_kategori_user.id as group_id', 'tb_kategori_user.group', 'tb_nik.*')
+                    ->join('tb_nik', 'tb_user_hotspot.nik_id', '=', 'tb_nik.id')
+                    ->join('tb_det_kategori_user', 'tb_user_hotspot.id', '=', 'tb_det_kategori_user.id_user_hotspot')
+                    ->join('tb_kategori_user','tb_det_kategori_user.id_kategori_user', '=', 'tb_kategori_user.id')
+                    ->where('tb_user_hotspot.id', $request->id)
+                    ->first();
+
+            $kategori_user_all = DB::connection('mysql')->table('tb_kategori_user')->get();
+
+            $custom_rules = DB::connection('mysql')->table('tb_custom_rule')
+                            ->select('attribute', 'value')
+                            ->where('id_user_hotspot', $request->id)
+                            ->get();
+        }
+
+       return view('admin.hotspotUser.editUser', ['user' => $user, 'groups' => $kategori_user_all, 'custom_rules' => $custom_rules]);
+    }
+
+    public function editUserShow()
+    {
+        return view('admin.hotspotUser.editUser');
     }
 
     //disable user
@@ -243,6 +280,11 @@ class AdminController extends Controller
         }
     }
 
+
+
+
+
+    // REPORT
     public function reportUsage(Request $request, $range)
     {
         if(in_array($range, ['weekly', 'monthly', 'yearly'])){

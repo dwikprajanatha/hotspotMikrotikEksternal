@@ -65,7 +65,7 @@ Route::post('/admin/login', [AdminController::class, 'loginAdmin'])->name('admin
  * 
  */
 
-Route::group(['middleware' => 'auth:web'], function() {
+// Route::group(['middleware' => 'auth:web'], function() {
     
     // Dashboard
     Route::get('/admin/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
@@ -92,16 +92,19 @@ Route::group(['middleware' => 'auth:web'], function() {
 
     // Hotspot User
     Route::get('/admin/hotspot/{user}', [AdminController::class, 'hotspotUser'])->name('admin.user');
+
+    // Edit Hotspot User
+    Route::get('/admin/hotspot/{user}/edit/{id}', [AdminController::class, 'editUser'])->name('admin.user.edit');
     
     // Disable Hotspot User
     Route::get('/admin/hotspot/{user}/delete/{id}', [AdminController::class, 'deleteUser'])->name('admin.user.delete');
 
     // Enable Hotspot User
     Route::get('/admin/hotspot/{user}/enable/{id}', [AdminController::class, 'enableUser'])->name('admin.user.enable');
+    
     // Report
     Route::get('/admin/report/{range}', [AdminController::class, 'reportUsage'])->name('admin.report.usage');
-
-
+    
 
     //Mikrotik (admin Network & Root admin)
     
@@ -113,4 +116,4 @@ Route::group(['middleware' => 'auth:web'], function() {
 
     // Show Hotspot Control
     Route::get('/admin/mikrotik/hotspot', [MikrotikController::class, 'getHotspot'])->name('admin.mikrotik.getHotspot');
-});
+// });

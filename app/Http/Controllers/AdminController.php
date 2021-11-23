@@ -197,20 +197,25 @@ class AdminController extends Controller
             //          ->join('tb_nik', 'tb_user_hotspot.nik_id', '=', 'tb_nik.id')
             //          ->get();
 
-            $user = DB::connection('mysql')->table('tb_user_hotspot')
+            $users = DB::connection('mysql')->table('tb_user_hotspot')
                     ->select('tb_user_hotspot.*','tb_kategori_user.*', 'tb_nik.*')
                     ->join('tb_nik', 'tb_user_hotspot.nik_id', '=', 'tb_nik.id')
                     ->join('tb_det_kategori_user', 'tb_user_hotspot.id', '=', 'tb_det_kategori_user.id_user_hotspot')
                     ->join('tb_kategori_user','tb_det_kategori_user.id_kategori_user', '=', 'tb_kategori_user.id')
                     ->get();
             
-            return view('admin.hotspotUser.userRadius', ['users' => $Users]);
+            return view('admin.hotspotUser.userRadius', ['users' => $users]);
 
         } else {
 
-            $Users = DB::connection('mysql')->table('tb_user_social')->where('platform', $user)->get();
+            $user_social = DB::connection('mysql')->table('tb_user_social')
+                            ->select('tb_user_social.*','tb_kategori_user.*')
+                            ->join('tb_det_kategori_user', 'tb_user_social.id', '=', 'tb_det_kategori_user.id_user_social')
+                            ->join('tb_kategori_user','tb_det_kategori_user.id_kategori_user', '=', 'tb_kategori_user.id')
+                            ->where('tb_user_social.platform', $user)
+                            ->get();
 
-            return view('admin.hotspotUser.userRadius2', ['users' => $Users]);
+            return view('admin.hotspotUser.userRadius2', ['users' => $user_social]);
         }
     }
 

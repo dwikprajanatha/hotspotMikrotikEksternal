@@ -114,7 +114,7 @@
                     </div>
                 </div>
 
-                <div class="col-md-4">
+                <div class="col-md-5">
                     <div class="card card-warning">
                         <div class="card-header">
                             <h3 class="card-title">Read Me!</h3>
@@ -122,21 +122,21 @@
                         <div class="card-body">
                             <dl class="row">
                                 <dt class="col-sm-4">Receive Rate</dt>
-                                <dd class="col-sm-8 offset-sm-4">Receive Rate berarti yang diterima oleh Router, berarti Upload yang dilakukan oleh Device Client. Receive Rate berfungsi sebagai limitasi bandwidth upload maksimal yang didapat. contoh format penulisan adalah angka disertai Huruf M/k untuk menentukan Mbps atau Kbps, <mark>Contoh : 2M atau 512k </mark></dd>
+                                <dd class="col-sm-8">Receive Rate berarti yang diterima oleh Router, berarti Upload yang dilakukan oleh Device Client. Receive Rate berfungsi sebagai limitasi bandwidth upload maksimal yang didapat. contoh format penulisan adalah angka disertai Huruf M/k untuk menentukan Mbps atau Kbps, <mark>Contoh : 2M atau 512k </mark></dd>
                                 <dt class="col-sm-4">Transfer/Transmit Rate</dt>
-                                <dd class="col-sm-8 offset-sm-4">Transfer berarti yang dikirim oleh Router, berarti Download yang dilakukan oleh Device Client. Transmit Rate berfungsi sebagai limitasi bandwidth download maksimal yang didapat. contoh format penulisan adalah angka disertai Huruf M/k untuk menentukan Mbps atau Kbps, <mark>Contoh : 2M atau 512k </mark></dd>
+                                <dd class="col-sm-8">Transfer berarti yang dikirim oleh Router, berarti Download yang dilakukan oleh Device Client. Transmit Rate berfungsi sebagai limitasi bandwidth download maksimal yang didapat. contoh format penulisan adalah angka disertai Huruf M/k untuk menentukan Mbps atau Kbps, <mark>Contoh : 2M atau 512k </mark></dd>
                                 <dt class="col-sm-4">Minimum Receive Rate</dt>
-                                <dd class="col-sm-8 offset-sm-4">Minimum Receive Rate merupakan nilai bandwidth Upload terkecil yang wajib didapatkan ketika jaringan sedang sibuk atau padat. <mark>Contoh penulisan sama seperti Receive Rate dan Transfer Rate yaitu : 2M atau 512k </mark></dd>
+                                <dd class="col-sm-8">Minimum Receive Rate merupakan nilai bandwidth Upload terkecil yang wajib didapatkan ketika jaringan sedang sibuk atau padat. <mark>Contoh penulisan sama seperti Receive Rate dan Transfer Rate yaitu : 2M atau 512k </mark></dd>
                                 <dt class="col-sm-4">Minimum Transfer Rate</dt>
-                                <dd class="col-sm-8 offset-sm-4">Minimum Transfer Rate merupakan nilai bandwidth Download terkecil yang wajib didapatkan ketika jaringan sedang sibuk atau padat. <mark>Contoh penulisan sama seperti Receive Rate dan Transfer Rate yaitu : 2M atau 512k </mark></dd>
+                                <dd class="col-sm-8">Minimum Transfer Rate merupakan nilai bandwidth Download terkecil yang wajib didapatkan ketika jaringan sedang sibuk atau padat. <mark>Contoh penulisan sama seperti Receive Rate dan Transfer Rate yaitu : 2M atau 512k </mark></dd>
                                 <dt class="col-sm-4">Idle Timeout</dt>
-                                <dd class="col-sm-8 offset-sm-4">Idle Timeout merupakan nilai untuk menentukan berapa lama user akan di-disconnect ketika tidak terdapat aktifitas internet pada devicenya. <mark>contoh penulisannya menggunakan detik, misalnya ingin 1 jam, maka tulislah 3600</mark></dd>
+                                <dd class="col-sm-8">Idle Timeout merupakan nilai untuk menentukan berapa lama user akan di-disconnect ketika tidak terdapat aktifitas internet pada devicenya. <mark>contoh penulisannya menggunakan detik, misalnya ingin 1 jam, maka tulislah 3600</mark></dd>
                                 <dt class="col-sm-4">Session Timeout</dt>
-                                <dd class="col-sm-8 offset-sm-4">Idle Timeout merupakan nilai untuk menentukan berapa lama user dapat mengakses internet dalam satu sesi login dan akan di-disconnect dan harus login kembali. <mark>contoh penulisannya menggunakan detik, misalnya ingin 1 jam, maka tulislah 3600</mark></dd>
+                                <dd class="col-sm-8">Idle Timeout merupakan nilai untuk menentukan berapa lama user dapat mengakses internet dalam satu sesi login dan akan di-disconnect dan harus login kembali. <mark>contoh penulisannya menggunakan detik, misalnya ingin 1 jam, maka tulislah 3600</mark></dd>
                                 <dt class="col-sm-4">Shared User</dt>
-                                <dd class="col-sm-8 offset-sm-4">Shared User merupakan nilai untuk menentukan berapa banyak device yang dapat menggunakan akun yang sama. <mark>contoh penulisannya normal angka saja</mark></dd>
+                                <dd class="col-sm-8">Shared User merupakan nilai untuk menentukan berapa banyak device yang dapat menggunakan akun yang sama. <mark>contoh penulisannya normal angka saja</mark></dd>
                                 <dt class="col-sm-4">Priority</dt>
-                                <dd class="col-sm-8 offset-sm-4">Priority merupakan nilai untuk menentukan prioritas dari kategori (1 sampai dengan 8), semakin kecil semakin tinggi prioritasnya. <mark>contoh penulisannya normal angka saja</mark></dd>
+                                <dd class="col-sm-8">Priority merupakan nilai untuk menentukan prioritas dari kategori (1 sampai dengan 8), semakin kecil semakin tinggi prioritasnya. <mark>contoh penulisannya normal angka saja</mark></dd>
                             </dl>
                         </div>
                     </div>

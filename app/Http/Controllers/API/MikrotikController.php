@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use DB;
 use Illuminate\Support\Facades\Http;
+use Session;
 
 //Mikrotik RouterOS
 use RouterOS;
@@ -215,6 +216,9 @@ class MikrotikController extends Controller
             DB::connection('mysql')->commit();
             DB::connection('mysql_radius')->commit();
 
+            $request->session()->flash('success', 'Kategori User Berhasil dibuat!');
+            return redirect(route('admin.mikrotik.listGroupUser'));
+
         } catch (\Throwable $th) {
 
             DB::connection('mysql')->rollback();
@@ -288,6 +292,9 @@ class MikrotikController extends Controller
             DB::connection('mysql')->commit();
             DB::connection('mysql_radius')->commit();
 
+            $request->session()->flash('success', 'Kategori User Berhasil di Update!');
+            return redirect(route('admin.mikrotik.listGroupUser'));
+
         } catch (\Throwable $th) {
             DB::connection('mysql')->rollback();
             DB::connection('mysql_radius')->rollback();
@@ -317,6 +324,9 @@ class MikrotikController extends Controller
 
             DB::connection('mysql')->commit();
             DB::connection('mysql_radius')->commit();
+
+            $request->session()->flash('success', 'Kategori User Berhasil di Disable!');
+            return redirect(route('admin.mikrotik.listGroupUser'));
 
         } catch (\Throwable $th) {
             DB::connection('mysql')->rollback();

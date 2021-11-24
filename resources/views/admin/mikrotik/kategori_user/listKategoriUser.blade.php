@@ -58,7 +58,7 @@
                           <td>{{$k->port_limit}}</td>
                           <td>{{$k->priority}}</td>
                           <td>
-                              <a href="{{route('admin.mikrotik.editCreateGroupUser')}}" class="btn btn-primary">Edit</a>
+                              <a href="{{route('admin.mikrotik.editCreateGroupUser', ['id' => $k->id])}}" class="btn btn-primary">Edit</a>
                               <a href="#" class="btn btn-danger">Disable</a>
                           </td>
                       </tr>

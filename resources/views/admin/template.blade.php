@@ -291,7 +291,7 @@
             <ul class="nav nav-treeview">
 
               <li class="nav-item">
-                <a href="{{route('admin.mikrotik.listGroupUser')}}" class="nav-link {{Request::segment(3) == 'activeUser' ? 'active' : ''}}">
+                <a href="{{route('admin.mikrotik.listGroupUser')}}" class="nav-link {{Request::segment(3) == 'kategori_user' ? 'active' : ''}}">
                   <i class="fas fa-user nav-icon"></i>
                   <p>Kategori User</p>
                 </a>

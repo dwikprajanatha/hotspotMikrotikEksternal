@@ -18,7 +18,7 @@
                             <h3 class="card-title">Edit Kategori Akun Hotspot</h3>
                         </div>
                         <div class="card-body">
-                            <form id="formEditKategori" action="{{route('admin.mikrotik.CreateGroupUser')}}" method="POST">
+                            <form id="formEditKategori" action="{{route('admin.mikrotik.updateGroupUser')}}" method="POST">
                                 @csrf
 
                                 <input type="hidden" name="id" value="{{$kategori->id}}">

@@ -18,7 +18,7 @@
                             <h3 class="card-title">Buat Baru Kategori Akun Hotspot</h3>
                         </div>
                         <div class="card-body">
-                            <form action="{{route('admin.mikrotik.CreateGroupUser')}}" method="POST">
+                            <form id="formCreateKategori" action="{{route('admin.mikrotik.CreateGroupUser')}}" method="POST">
                                 @csrf
                                 <div class="form-group">
                                     <label for="group">Nama Kategori (Group Name)</label>
@@ -31,11 +31,23 @@
                                             <label for="rx_rate">Receive Rate</label>
                                             <input type="text" name="rx_rate" id="rx_rate" class="form-control">
                                         </div>
+                                        <!-- <div class="col-1">
+                                            <select class="custom-select rounded-0" name="tipe_rx_rate">
+                                                <option value="kbps" selected>Kbps</option>
+                                                <option value="mbps">Mbps</option>
+                                            </select>
+                                        </div> -->
 
                                         <div class="col-6">
                                             <label for="tx_rate">Transfer Rate</label>
                                             <input type="text" name="tx_rate" id="tx_rate" class="form-control">
                                         </div>
+                                        <!-- <div class="col-1">
+                                            <select class="custom-select rounded-0" name="tipe_tx_rate">
+                                                <option value="kbps" selected>Kbps</option>
+                                                <option value="mbps">Mbps</option>
+                                            </select>
+                                        </div> -->
                                     </div>
                                 </div>
 
@@ -45,23 +57,35 @@
                                             <label for="min_rx_rate">Minimum Receive Rate</label>
                                             <input type="text" name="min_rx_rate" id="min_rx_rate" class="form-control">
                                         </div>
+                                        <!-- <div class="col-1">
+                                            <select class="custom-select rounded-0" name="tipe_min_rx_rate">
+                                                <option value="kbps" selected>Kbps</option>
+                                                <option value="mbps">Mbps</option>
+                                            </select>
+                                        </div> -->
 
                                         <div class="col-6">
                                             <label for="min_tx_rate">Minimum Transfer Rate</label>
                                             <input type="text" name="min_tx_rate" id="min_tx_rate" class="form-control">
                                         </div>
+                                        <!-- <div class="col-1">
+                                            <select class="custom-select rounded-0" name="tipe_min_tx_rate">
+                                                <option value="kbps" selected>Kbps</option>
+                                                <option value="mbps">Mbps</option>
+                                            </select>
+                                        </div> -->
                                     </div>
                                 </div>
 
                                 <div class="form-group">
                                     <div class="row">
                                         <div class="col-6">
-                                            <label for="idle_timeout">Idle Timeout</label>
+                                            <label for="idle_timeout">Idle Timeout (dalam detik)</label>
                                             <input type="text" name="idle_timeout" id="idle_timeout" class="form-control">
                                         </div>
 
                                         <div class="col-6">
-                                            <label for="session_timeout">Session Timeout</label>
+                                            <label for="session_timeout">Session Timeout (dalam detik)</label>
                                             <input type="text" name="session_timeout" id="session_timeout" class="form-control">
                                         </div>
                                     </div>
@@ -101,5 +125,105 @@
 @endsection
 
 @push("js")
+
+<script src="{{asset('login/vendor/validate/jquery.validate.min.js')}}"></script>
+<script src="{{asset('login/vendor/validate/additional-methods.min.js')}}"></script>
+
+<script type="text/javascript">
+	$(document).ready(function(){
+		$("#formCreateKategori").validate({
+			errorElement: "p",
+			errorClass: "text-danger",
+			rules: {
+				group: {
+					required: true,
+					nowhitespace: true,
+				},
+				rx_rate: {
+					required: true,
+					nowhitespace: true,
+				},
+				tx_rate: {
+					required: true,
+					nowhitespace: true,
+				},
+				min_rx_rate: {
+					required: true,
+					nowhitespace: true,
+				},
+				min_tx_rate: {
+					required: true,
+					nowhitespace: true,
+				},
+				idle_timeout: {
+					required: true,
+					nowhitespace: true,
+                    number: true,
+				},
+                session_timeout: {
+					required: true,
+					nowhitespace: true,
+                    number: true,
+				},
+                port_limit: {
+					required: true,
+					nowhitespace: true,
+                    number: true,
+				},
+                priority: {
+					required: true,
+					nowhitespace: true,
+                    number: true,
+                    range: [1,8],
+				},
+			}, 
+
+			messages: {
+                group: {
+					required: "Nama Kategori diperlukan",
+					nowhitespace: "Mohon tidak menggunakan spasi",
+				},
+				rx_rate: {
+					required: "RX rate diperlukan",
+                    nowhitespace: "Mohon tidak menggunakan spasi",
+				},
+				tx_rate: {
+					required: "TX rate diperlukan",
+                    nowhitespace: "Mohon tidak menggunakan spasi",
+				},
+				min_rx_rate: {
+					required: "Minimum RX rate diperlukan",
+                    nowhitespace: "Mohon tidak menggunakan spasi",
+				},
+				min_tx_rate: {
+					required: "Minimum TX rate diperlukan",
+                    nowhitespace: "Mohon tidak menggunakan spasi",
+				},
+				idle_timeout: {
+					required: "idle timeout diperlukan",
+					nowhitespace: "Mohon tidak menggunakan spasi",
+                    number: "Harus Angka",
+				},
+                session_timeout: {
+					required: "session timeout diperlukan",
+					nowhitespace: "Mohon tidak menggunakan spasi",
+                    number: "Harus Angka",
+				},
+                port_limit: {
+					required: "port limit diperlukan",
+					nowhitespace: "Mohon tidak menggunakan spasi",
+                    number: "Harus Angka",
+				},
+                priority: {
+					required: "priority diperlukan",
+					nowhitespace: "Mohon tidak menggunakan spasi",
+                    number: "Harus Angka",
+                    range: "Antara 1 sampai 8",
+				}
+			},
+		});
+	});
+</script>
+
 
 @endpush

@@ -285,7 +285,6 @@ class MikrotikController extends Controller
 
             }
 
-
             DB::connection('mysql')->commit();
             DB::connection('mysql_radius')->commit();
 

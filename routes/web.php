@@ -65,7 +65,7 @@ Route::post('/admin/login', [AdminController::class, 'loginAdmin'])->name('admin
  * 
  */
 
-// Route::group(['middleware' => 'auth:web'], function() {
+Route::group(['middleware' => 'auth:web'], function() {
     
     // Dashboard
     Route::get('/admin/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
@@ -118,7 +118,7 @@ Route::post('/admin/login', [AdminController::class, 'loginAdmin'])->name('admin
     Route::post('/admin/mikrotik/kategori_user/edit', [MikrotikController::class, 'updateGroupUser'])->name('admin.mikrotik.updateGroupUser');
     // Disable Kategori User
 
-    
+
     // Show Pengguna Hotspot
     Route::get('/admin/mikrotik/activeUser', [MikrotikController::class, 'showUserHotspot'])->name('admin.mikrotik.showActive');
     
@@ -127,4 +127,4 @@ Route::post('/admin/login', [AdminController::class, 'loginAdmin'])->name('admin
 
     // Show Hotspot Control
     Route::get('/admin/mikrotik/hotspot', [MikrotikController::class, 'getHotspot'])->name('admin.mikrotik.getHotspot');
-// });
+});

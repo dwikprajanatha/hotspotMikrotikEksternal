@@ -24,6 +24,7 @@ class TbKategoriUser extends Migration
             $table->string('idle_timeout');
             $table->string('session_timeout');
             $table->string('port_limit');
+            $table->string('status')->default(1);
         });
     }
 

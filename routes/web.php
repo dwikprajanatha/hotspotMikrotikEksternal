@@ -107,6 +107,17 @@ Route::post('/admin/login', [AdminController::class, 'loginAdmin'])->name('admin
     
 
     //Mikrotik (admin Network & Root admin)
+
+    // Kategori User
+    Route::get('/admin/mikrotik/kategori_user', [MikrotikController::class, 'listGroupUser'])->name('admin.mikrotik.listGroupUser');
+    // Tambah Kategori User
+    Route::get('/admin/mikrotik/kategori_user/add', [MikrotikController::class, 'showCreateGroupUser'])->name('admin.mikrotik.showCreateGroupUser');
+    Route::post('/admin/mikrotik/kategori_user/add', [MikrotikController::class, 'createGroupUser'])->name('admin.mikrotik.CreateGroupUser');
+    // Edit Kategori User
+    Route::get('/admin/mikrotik/kategori_user/edit/{id}', [MikrotikController::class, 'editCreateGroupUser'])->name('admin.mikrotik.editCreateGroupUser');
+    Route::post('/admin/mikrotik/kategori_user/edit', [MikrotikController::class, 'updateGroupUser'])->name('admin.mikrotik.updateGroupUser');
+    // Disable Kategori User
+
     
     // Show Pengguna Hotspot
     Route::get('/admin/mikrotik/activeUser', [MikrotikController::class, 'showUserHotspot'])->name('admin.mikrotik.showActive');

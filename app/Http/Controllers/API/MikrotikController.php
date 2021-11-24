@@ -167,13 +167,203 @@ class MikrotikController extends Controller
 
     }
 
+    /**
+     * KATEGORI USER
+     */
+
+    public function listGroupUser()
+    {
+        $kategori = DB::connection('mysql')->table('tb_kategori_user')->get();
+
+        return view('admin.mikrotik.kategori_user.listKategoriUser', ['kategori' => $kategori]);
+    } 
+
+    public function showCreateGroupUser()
+    {
+        return view('admin.mikrotik.kategori_user.createKategoriUser');
+    }
+
+    public function createGroupUser(Request $request)
+    {
+        DB::connection('mysql')->beginTransaction();
+        DB::connection('mysql_radius')->beginTransaction();
+
+        try {
+
+            DB::connection('mysql')->table('tb_kategori_user')->insert([
+                'group' => $request->group,
+                'rx_rate' => $request->rx_rate,
+                'tx_rate' => $request->tx_rate,
+                'min_rx_rate' => $request->min_rx_rate,
+                'min_tx_rate' => $request->min_tx_rate,
+                'priority' => $request->priority,
+                'idle_timeout' => $request->idle_timeout,
+                'session_timeout' => $request->session_timeout,
+                'port_limit' => $request->port_limit,
+            ]);
+
+            // rx-rate[/tx-rate] [rx-burst-rate[/tx-burst-rate] [rx-burst-threshold[/tx-burst-threshold] [rx-burst-time[/tx-burst-time] [priority] [rx-rate-min[/tx-rate-min]]]]
+            $rate = $request->rx_rate . '/' . $request->tx_rate . ' 0/0 0/0 0/0 ' . $request->priority . ' ' . $request->min_rx_rate . '/' .  $request->min_tx_rate;
+
+            DB::connection('mysql_radius')->table('radgroupreply')->insert([
+                ['groupname' => $request->group, 'attribute' => 'Mikrotik-Rate-Limit', 'op' => ':=', 'value' => $rate],
+                ['groupname' => $request->group, 'attribute' => 'Idle-Timeout', 'op' => ':=', 'value' => $request->idle_timeout],
+                ['groupname' => $request->group, 'attribute' => 'Session-Timeout', 'op' => ':=', 'value' => $request->session_timeout],
+                ['groupname' => $request->group, 'attribute' => 'Port-Limit', 'op' => ':=', 'value' => $request->port_limit],
+            ]);
+
+            DB::connection('mysql')->commit();
+            DB::connection('mysql_radius')->commit();
+
+        } catch (\Throwable $th) {
+
+            DB::connection('mysql')->rollback();
+            DB::connection('mysql_radius')->rollback();
+
+            dd($th);
+        }
+    }
+
+    public function editCreateGroupUser(Request $request)
+    {
+        $kategori = DB::connection('mysql')->table('tb_kategori_user')->where('id', $request->id)->first();
+
+        return view('admin.mikrotik.kategori_user.editKategoriUser', ['kategori' => $kategori]);
+    }
+
+    public function updateGroupUser(Request $request)
+    {
+        DB::connection('mysql')->beginTransaction();
+        DB::connection('mysql_radius')->beginTransaction();
+        
+        try {
+
+            $group_lama = DB::connection('mysql')->table('tb_kategori_user')->select('group')->where('id', $request->id)->first();
+            
+            DB::connection('mysql')->table('tb_kategori_user')
+            ->where('id', $request->id)
+            ->update([
+                'group' => $request->group,
+                'rx_rate' => $request->rx_rate,
+                'tx_rate' => $request->tx_rate,
+                'min_rx_rate' => $request->min_rx_rate,
+                'min_tx_rate' => $request->min_tx_rate,
+                'priority' => $request->priority,
+                'idle_timeout' => $request->idle_timeout,
+                'session_timeout' => $request->session_timeout,
+                'port_limit' => $request->port_limit,
+            ]);
+
+            // rx-rate[/tx-rate] [rx-burst-rate[/tx-burst-rate] [rx-burst-threshold[/tx-burst-threshold] [rx-burst-time[/tx-burst-time] [priority] [rx-rate-min[/tx-rate-min]]]]
+            $rate = $request->rx_rate . '/' . $request->tx_rate . ' 0/0 0/0 0/0 ' . $request->priority . ' ' . $request->min_rx_rate . '/' .  $request->min_tx_rate;
+
+            if($group_lama->group != $request->group){
+
+                DB::connection('mysql_radius')->table('radgroupreply')
+                    ->where('groupname', $group_lama->group)
+                    ->update([
+                        ['groupname' => $request->group, 'attribute' => 'Mikrotik-Rate-Limit', 'op' => ':=', 'value' => $rate],
+                        ['groupname' => $request->group, 'attribute' => 'Idle-Timeout', 'op' => ':=', 'value' => $request->idle_timeout],
+                        ['groupname' => $request->group, 'attribute' => 'Session-Timeout', 'op' => ':=', 'value' => $request->session_timeout],
+                        ['groupname' => $request->group, 'attribute' => 'Port-Limit', 'op' => ':=', 'value' => $request->port_limit],
+                    ]);
+
+                DB::connection('mysql_radius')->table('radusergroup')
+                    ->where('groupname', $group_lama->group)
+                    ->update(['groupname' => $request->group]);
+                
+            } else {
+
+                DB::connection('mysql_radius')->table('radgroupreply')
+                ->where('groupname', $group_lama->group)
+                ->update([
+                    ['attribute' => 'Mikrotik-Rate-Limit', 'op' => ':=', 'value' => $rate],
+                    ['attribute' => 'Idle-Timeout', 'op' => ':=', 'value' => $request->idle_timeout],
+                    ['attribute' => 'Session-Timeout', 'op' => ':=', 'value' => $request->session_timeout],
+                    ['attribute' => 'Port-Limit', 'op' => ':=', 'value' => $request->port_limit],
+                ]);
+
+            }
+
+
+            DB::connection('mysql')->commit();
+            DB::connection('mysql_radius')->commit();
+
+        } catch (\Throwable $th) {
+            DB::connection('mysql')->rollback();
+            DB::connection('mysql_radius')->rollback();
+
+            dd($th);
+        }
+    }
+
+    public function deleteKategoriUser(Request $request)
+    {
+        DB::connection('mysql')->beginTransaction();
+        DB::connection('mysql_radius')->beginTransaction();
+
+        try {
+
+            $group_name = DB::connection('mysql')->table('tb_kategori_user')->select('group')->where('id', $request->id)->first();
+
+            DB::connection('mysql')->table('tb_kategori_user')
+                ->where('id', $request->id)
+                ->update(['status' => 0]);
+
+            DB::connection('mysql_radius')->table('radgroupreply')
+                ->where('groupname', $group_name->group)->delete();
+
+            DB::connection('mysql_radius')->table('radusergroup')
+                ->where('groupname', $group_name->group)->delete();
+
+            DB::connection('mysql')->commit();
+            DB::connection('mysql_radius')->commit();
+
+        } catch (\Throwable $th) {
+            DB::connection('mysql')->rollback();
+            DB::connection('mysql_radius')->rollback();
+
+            dd($th);
+        }
+    }
+
+    // public function enableKategoriUser(Request $request)
+    // {
+    //     DB::connection('mysql')->beginTransaction();
+    //     DB::connection('mysql_radius')->beginTransaction();
+
+    //     try {
+    //         $kategori = DB::connection('mysql')->table('tb_kategori_user')->where('id', $request->id)->first();
+
+    //         DB::connection('mysql')->table('tb_kategori_user')
+    //         ->where('id', $request->id)
+    //         ->update(['status' => 1]);
+
+    //         $rate = $kategori->rx_rate . '/' . $kategori->tx_rate . ' 0/0 0/0 0/0 ' . $kategori->priority . ' ' . $kategori->min_rx_rate . '/' .  $kategori->min_tx_rate;
+
+    //         DB::connection('mysql_radius')->table('radgroupreply')->insert([
+    //             ['groupname' => $kategori->group, 'attribute' => 'Mikrotik-Rate-Limit', 'op' => ':=', 'value' => $rate],
+    //             ['groupname' => $kategori->group, 'attribute' => 'Idle-Timeout', 'op' => ':=', 'value' => $kategori->idle_timeout],
+    //             ['groupname' => $kategori->group, 'attribute' => 'Session-Timeout', 'op' => ':=', 'value' => $kategori->session_timeout],
+    //             ['groupname' => $kategori->group, 'attribute' => 'Port-Limit', 'op' => ':=', 'value' => $kategori->port_limit],
+    //         ]);
+
+    //         DB::connection('mysql')->commit();
+    //         DB::connection('mysql_radius')->commit();
+
+    //     } catch (\Throwable $th) {
+    //         DB::connection('mysql')->rollback();
+    //         DB::connection('mysql_radius')->rollback();
+
+    //         dd($th);
+    //     }
+    // }
+    
 
 
     /**
      * QUEUE
      */
-
-
 
     // Show Queue 
     public function showQueue()

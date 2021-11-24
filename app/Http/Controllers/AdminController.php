@@ -198,7 +198,7 @@ class AdminController extends Controller
             //          ->get();
 
             $users = DB::connection('mysql')->table('tb_user_hotspot')
-                    ->select('tb_user_hotspot.*','tb_kategori_user.*', 'tb_nik.*')
+                    ->select('tb_user_hotspot.*','tb_kategori_user.group', 'tb_nik.nama as nama', 'tb_nik.alamat as alamat')
                     ->join('tb_nik', 'tb_user_hotspot.nik_id', '=', 'tb_nik.id')
                     ->join('tb_det_kategori_user', 'tb_user_hotspot.id', '=', 'tb_det_kategori_user.id_user_hotspot')
                     ->join('tb_kategori_user','tb_det_kategori_user.id_kategori_user', '=', 'tb_kategori_user.id')
@@ -209,7 +209,7 @@ class AdminController extends Controller
         } else {
 
             $user_social = DB::connection('mysql')->table('tb_user_social')
-                            ->select('tb_user_social.*','tb_kategori_user.*')
+                            ->select('tb_user_social.*','tb_kategori_user.group')
                             ->join('tb_det_kategori_user', 'tb_user_social.id', '=', 'tb_det_kategori_user.id_user_social')
                             ->join('tb_kategori_user','tb_det_kategori_user.id_kategori_user', '=', 'tb_kategori_user.id')
                             ->where('tb_user_social.platform', $user)

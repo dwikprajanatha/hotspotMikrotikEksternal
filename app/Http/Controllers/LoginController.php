@@ -70,100 +70,115 @@ class LoginController extends Controller
         // ]);
 
         
-        //verifikasi nik
-        $cek = DB::connection('mysql')->table('tb_nik')->select('id')->where('nik',$request->nik)->first();
-        
-        if($cek == null){
-            Session::flash('error', 'NIK Tidak Terdaftar!');
-            return redirect()->back();
-        }
+        DB::connection('mysql')->beginTransaction();
+        DB::connection('mysql_radius')->beginTransaction();
 
-        //check if exists
-        $cek_ada = DB::connection('mysql')->table('tb_user_hotspot')->where('nik_id',$cek->id)->first();
-
-        if($cek_ada != null){
-            Session::flash('error', 'NIK Sudah terdaftar!');
-            return redirect()->back();
-        }
-        
-        //pisah NIK
-        $nik_pisah = str_split($request->nik);
-
-        
-        $tgl_lahir = implode('',[$nik_pisah[6],$nik_pisah[7]]);
-        $bulan_lahir = implode('',[$nik_pisah[8],$nik_pisah[9]]);
-        $tahun_lahir = implode('',[$nik_pisah[10],$nik_pisah[11]]);
-        
-        if($tgl_lahir > 31){
-            $tgl_lahir = $tgl_lahir - 40;
-        }
-
-        //cek umur
-        $bday = DateTime::createFromFormat('d-m-y',join('-',[$tgl_lahir,$bulan_lahir,$tahun_lahir]));
-        $now = new DateTime(date('d-m-Y'));
-        $age = $now->diff($bday)->y;
-
-
-        //klasifikasi umur
-        if($age >= 21){
-            $kategori = "Dewasa";
-
-        } else if($age > 14 && $age < 21){
-            $kategori = "Remaja";
+        try {
             
-        } else{
-            $kategori = "Anak";
+            //verifikasi nik
+            $cek = DB::connection('mysql')->table('tb_nik')->select('id')->where('nik',$request->nik)->first();
+            
+            if($cek == null){
+                Session::flash('error', 'NIK Tidak Terdaftar!');
+                return redirect()->back();
+            }
+
+            //check if exists
+            $cek_ada = DB::connection('mysql')->table('tb_user_hotspot')->where('nik_id',$cek->id)->first();
+
+            if($cek_ada != null){
+                Session::flash('error', 'NIK Sudah terdaftar!');
+                return redirect()->back();
+            }
+            
+            //pisah NIK
+            $nik_pisah = str_split($request->nik);
+
+            $tgl_lahir = implode('',[$nik_pisah[6],$nik_pisah[7]]);
+            $bulan_lahir = implode('',[$nik_pisah[8],$nik_pisah[9]]);
+            $tahun_lahir = implode('',[$nik_pisah[10],$nik_pisah[11]]);
+            
+            if($tgl_lahir > 31){
+                $tgl_lahir = $tgl_lahir - 40;
+            }
+
+            //cek umur
+            $bday = DateTime::createFromFormat('d-m-y',join('-',[$tgl_lahir,$bulan_lahir,$tahun_lahir]));
+            $now = new DateTime(date('d-m-Y'));
+            $age = $now->diff($bday)->y;
+
+
+            //klasifikasi umur
+            if($age >= 21){
+                $kategori = "Dewasa";
+
+            } else if($age > 14 && $age < 21){
+                $kategori = "Remaja";
+                
+            } else{
+                $kategori = "Anak";
+            }
+
+            //buat akun di DB local
+            $user_local = DB::connection('mysql')->table('tb_user_hotspot')
+                            ->insertGetId([
+                                    'nik_id' => $cek->id,
+                                    'username' => $request->username,
+                                    // 'password' => $request->password,
+                                    'kategori' => $kategori,
+                                    'mac' => $request->mac,
+                                    'ip' => $request->ip,
+                                    'created_at' => date('Y-m-d'),
+                                    'isDeleted' => 0,
+                                ]);
+
+            $kategori_umum = DB::connection('mysql')->table('tb_kategori_user')
+                                ->where('group', 'masyarakat_umum')
+                                ->where('status', 1)
+                                ->first();
+
+            DB::connection('mysql')->table('tb_det_kategori_user')
+                ->insert([
+                        'id_kategori_user' => $kategori_umum->id,
+                        'id_user_social' => null,
+                        'id_user_hotspot' => $user_local,
+                    ]);
+
+            $radcheck = DB::connection('mysql_radius')->table('radcheck')->insert([
+                'username' => $request->username,
+                'attribute' => 'Cleartext-Password',
+                'op' => ':=',
+                'value' => $request->password,
+            ]);
+
+            $radusergroup = DB::connection('mysql_radius')->table('radusergroup')->insert([
+                'username' => $request->username,
+                'groupname' => $kategori_umum->group,
+                'priority' => 10,
+            ]);
+
+            
+
+                //    $radreply = DB::connection('mysql_radius')->table('radreply')->insert([
+                //        'username' => $request->username,
+                //        'attribute' => 'Mikrotik-Rate-Limit',
+                //        'op' => ':=',
+                //        'value' => '8M/8M 0/0 0/0 0/0 4 4M/4M',
+                //    ]);
+
+            DB::connection('mysql')->commit();
+            DB::connection('mysql_radius')->commit();
+
+            return view('hotspot/loginAfterRegister',['username' => $request->username, 'password' => $request->password]);
+            // $request->session()->put('userSuccess', 'Akun Berhasil dibuat!, Silahkan Login');
+            // return redirect()->intended('http://10.0.0.1/');
+
+        } catch (\Throwable $th) {
+            DB::connection('mysql')->rollback();
+            DB::connection('mysql_radius')->rollback();
+
+            dd($th);
         }
-
-        //start DB transaction
-        DB::transaction(function() use(&$request, &$kategori, &$cek){
-
-            // dd($request,$kategori,$cek);
-
-            DB::connection('mysql')->transaction(function() use(&$request, &$kategori, &$cek){
-
-                //buat akun di DB local
-               $user_local = DB::connection('mysql')->table('tb_user_hotspot')->insert([
-                   'nik_id' => $cek->id, //sementara
-                   'username' => $request->username,
-                   // 'password' => $request->password,
-                   'kategori' => $kategori,
-                   'mac' => $request->mac,
-                   'ip' => $request->ip,
-                   'created_at' => date('Y-m-d'),
-                   'isDeleted' => 0,
-               ]);
-
-           });
-
-           DB::connection('mysql_radius')->transaction(function() use(&$request, &$kategori){
-               $radcheck = DB::connection('mysql_radius')->table('radcheck')->insert([
-                   'username' => $request->username,
-                   'attribute' => 'Cleartext-Password',
-                   'op' => ':=',
-                   'value' => $request->password,
-               ]);
-
-               $radusergroup = DB::connection('mysql_radius')->table('radusergroup')->insert([
-                   'username' => $request->username,
-                   'groupname' => $kategori,
-                   'priority' => 10,
-               ]);
-
-               $radreply = DB::connection('mysql_radius')->table('radreply')->insert([
-                   'username' => $request->username,
-                   'attribute' => 'Mikrotik-Rate-Limit',
-                   'op' => ':=',
-                   'value' => '8M/8M 0/0 0/0 0/0 4 4M/4M',
-               ]);
-
-           });
-
-        });
-
-        return view('hotspot/loginAfterRegister',['username' => $request->username, 'password' => $request->password]);
-        // $request->session()->put('userSuccess', 'Akun Berhasil dibuat!, Silahkan Login');
-        // return redirect()->intended('http://10.0.0.1/');
         
     }
 
@@ -311,7 +326,7 @@ class LoginController extends Controller
 
                 try {
 
-                    $social = DB::connection('mysql')->table('tb_user_social')->insert([
+                    $social = DB::connection('mysql')->table('tb_user_social')->insertGetId([
                                     'social_id' => $user->id,
                                     'nama' => $user->name,
                                     'username' => $username,
@@ -322,30 +337,46 @@ class LoginController extends Controller
                                     'isDeleted' => 0,
                                 ]);
 
-                    $radcheck = DB::connection('mysql_radius')->table('radcheck')->insert([
-                                    'username' => $username,
-                                    'attribute' => 'Cleartext-Password',
-                                    'op' => ':=',
-                                    'value' => $password,
-                                ]);
+                    
+                    $kategori_sosmed = DB::connection('mysql')->table('tb_kategori_user')
+                                        ->where('group', 'social_media')
+                                        ->where('status', 1)
+                                        ->first();
+
+                    DB::connection('mysql')->table('tb_det_kategori_user')
+                        ->insert([
+                                'id_kategori_user' => $kategori_sosmed->id,
+                                'id_user_social' => $social,
+                                'id_user_hotspot' => null,
+                            ]);
+                                
+
+                    DB::connection('mysql_radius')->table('radcheck')
+                        ->insert([
+                                'username' => $username,
+                                'attribute' => 'Cleartext-Password',
+                                'op' => ':=',
+                                'value' => $password,
+                            ]);
     
-                    $radusergroup = DB::connection('mysql_radius')->table('radusergroup')->insert([
-                                    'username' => $username,
-                                    'groupname' => "social_media",
-                                    'priority' => 10,
-                                ]);
+                    DB::connection('mysql_radius')->table('radusergroup')
+                        ->insert([
+                                'username' => $username,
+                                'groupname' => $kategori_sosmed->group,
+                                'priority' => 10,
+                            ]);
 
-                    $radreply = DB::connection('mysql_radius')->table('radreply')->insert([
-                                    ['username' => $username,
-                                    'attribute' => 'Mikrotik-Rate-Limit',
-                                    'op' => ':=',
-                                    'value' => '4M/4M 0/0 0/0 0/0 8 2M/2M'],
+                    // $radreply = DB::connection('mysql_radius')->table('radreply')->insert([
+                    //                 ['username' => $username,
+                    //                 'attribute' => 'Mikrotik-Rate-Limit',
+                    //                 'op' => ':=',
+                    //                 'value' => '4M/4M 0/0 0/0 0/0 8 2M/2M'],
 
-                                    ['username' => $username,
-                                    'attribute' => 'Session-Timeout',
-                                    'op' => ':=',
-                                    'value' => '3600'],
-                                ]);
+                    //                 ['username' => $username,
+                    //                 'attribute' => 'Session-Timeout',
+                    //                 'op' => ':=',
+                    //                 'value' => '3600'],
+                    //             ]);
 
                     DB::connection('mysql')->commit();
                     DB::connection('mysql_radius')->commit();

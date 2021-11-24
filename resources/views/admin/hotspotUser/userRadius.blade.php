@@ -32,6 +32,7 @@
                             <th>Nama</th>
                             <th>Alamat</th>
                             <th>Kategori</th>
+                            <th>User Profile</th>
                             <th>Status</th>
                             <th>Action</th>
                         </tr>
@@ -47,6 +48,7 @@
                             <td>{{$u->nama}}</td>
                             <td>{{$u->alamat}}</td>
                             <td>{{$u->kategori}}</td>
+                            <td>{{$u->group}}</td>
                             <td>{{$u->isDeleted == 0 ? 'Aktif' : 'Non-Aktif'}}</td>
                             <td>
                               <a href="{{route('admin.user.edit',['user' => 'organik', 'id' => $u->id])}}" class="btn btn-primary">Edit</a>

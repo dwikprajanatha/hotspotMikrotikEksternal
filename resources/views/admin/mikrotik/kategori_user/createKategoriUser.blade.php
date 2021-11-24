@@ -123,7 +123,7 @@
                             <dl class="row">
                                 <dt class="col-sm-4">Receive Rate</dt>
                                 <dd class="col-sm-8">Receive Rate berarti yang diterima oleh Router, berarti Upload yang dilakukan oleh Device Client. Receive Rate berfungsi sebagai limitasi bandwidth upload maksimal yang didapat. contoh format penulisan adalah angka disertai Huruf M/k untuk menentukan Mbps atau Kbps, <mark>Contoh : 2M atau 512k </mark></dd>
-                                <dt class="col-sm-4">Transfer/Transmit Rate</dt>
+                                <dt class="col-sm-4">Transfer Rate</dt>
                                 <dd class="col-sm-8">Transfer berarti yang dikirim oleh Router, berarti Download yang dilakukan oleh Device Client. Transmit Rate berfungsi sebagai limitasi bandwidth download maksimal yang didapat. contoh format penulisan adalah angka disertai Huruf M/k untuk menentukan Mbps atau Kbps, <mark>Contoh : 2M atau 512k </mark></dd>
                                 <dt class="col-sm-4">Minimum Receive Rate</dt>
                                 <dd class="col-sm-8">Minimum Receive Rate merupakan nilai bandwidth Upload terkecil yang wajib didapatkan ketika jaringan sedang sibuk atau padat. <mark>Contoh penulisan sama seperti Receive Rate dan Transfer Rate yaitu : 2M atau 512k </mark></dd>

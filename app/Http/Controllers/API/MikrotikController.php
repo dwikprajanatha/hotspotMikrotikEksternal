@@ -261,33 +261,42 @@ class MikrotikController extends Controller
             // rx-rate[/tx-rate] [rx-burst-rate[/tx-burst-rate] [rx-burst-threshold[/tx-burst-threshold] [rx-burst-time[/tx-burst-time] [priority] [rx-rate-min[/tx-rate-min]]]]
             $rate = $request->rx_rate . '/' . $request->tx_rate . ' 0/0 0/0 0/0 ' . $request->priority . ' ' . $request->min_rx_rate . '/' .  $request->min_tx_rate;
 
-            if($group_lama->group != $request->group){
 
-                DB::connection('mysql_radius')->table('radgroupreply')
-                    ->where('groupname', $group_lama->group)
-                    ->update([
-                        ['groupname' => $request->group, 'attribute' => 'Mikrotik-Rate-Limit', 'op' => ':=', 'value' => $rate],
-                        ['groupname' => $request->group, 'attribute' => 'Idle-Timeout', 'op' => ':=', 'value' => $request->idle_timeout],
-                        ['groupname' => $request->group, 'attribute' => 'Session-Timeout', 'op' => ':=', 'value' => $request->session_timeout],
-                        ['groupname' => $request->group, 'attribute' => 'Port-Limit', 'op' => ':=', 'value' => $request->port_limit],
-                    ]);
-
-                DB::connection('mysql_radius')->table('radusergroup')
-                    ->where('groupname', $group_lama->group)
-                    ->update(['groupname' => $request->group]);
-                
-            } else {
-
-                DB::connection('mysql_radius')->table('radgroupreply')
+            DB::connection('mysql_radius')->table('radgroupreply')
                 ->where('groupname', $group_lama->group)
+                ->where('attribute', 'Mikrotik-Rate-Limit')
                 ->update([
-                    ['attribute' => 'Mikrotik-Rate-Limit', 'op' => ':=', 'value' => $rate],
-                    ['attribute' => 'Idle-Timeout', 'op' => ':=', 'value' => $request->idle_timeout],
-                    ['attribute' => 'Session-Timeout', 'op' => ':=', 'value' => $request->session_timeout],
-                    ['attribute' => 'Port-Limit', 'op' => ':=', 'value' => $request->port_limit],
+                    'groupname' => $request->group, 
+                    'value' => $rate,
                 ]);
 
-            }
+            DB::connection('mysql_radius')->table('radgroupreply')
+                ->where('groupname', $group_lama->group)
+                ->where('attribute', 'Idle-Timeout')
+                ->update([
+                    'groupname' => $request->group, 
+                    'value' => $request->idle_timeout,
+                ]);
+
+            DB::connection('mysql_radius')->table('radgroupreply')
+                ->where('groupname', $group_lama->group)
+                ->where('attribute', 'Session-Timeout')
+                ->update([
+                    'groupname' => $request->group, 
+                    'value' => $request->session_timeout,
+                ]);
+
+            DB::connection('mysql_radius')->table('radgroupreply')
+                ->where('groupname', $group_lama->group)
+                ->where('attribute', 'Port-Limit')
+                ->update([
+                    'groupname' => $request->group, 
+                    'value' => $request->port_limit,
+                ]);
+
+            DB::connection('mysql_radius')->table('radusergroup')
+                ->where('groupname', $group_lama->group)
+                ->update(['groupname' => $request->group]);
 
             DB::connection('mysql')->commit();
             DB::connection('mysql_radius')->commit();

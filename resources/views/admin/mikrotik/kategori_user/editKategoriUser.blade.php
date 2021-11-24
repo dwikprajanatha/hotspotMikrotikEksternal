@@ -103,7 +103,7 @@
 
 @endsection
 
-@push("js")
+@push("javascript")
 
 <script src="{{asset('login/vendor/validate/jquery.validate.min.js')}}"></script>
 <script src="{{asset('login/vendor/validate/additional-methods.min.js')}}"></script>

@@ -106,6 +106,6 @@
 
 @endsection
 
-@push("js")
+@push("javascript")
 
 @endpush

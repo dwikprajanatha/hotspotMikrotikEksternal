@@ -33,7 +33,7 @@
                         <tr><td>Time Left: </td><td>{{$request->session_time_left}}</td></tr>
                         @else
                         <tr><td>connected: <i class="glyphicon glyphicon-time"></i> </td><td>{{$request->uptime}}</td></tr>
-                        $(endif)
+                        @endif
                     </tbody>
                 </table>
                 <center><a href="{{$request->link_logout}}" class="btn btn-primary">Log Out</a></center>                  
@@ -74,8 +74,8 @@
                         <td>{{$data->acctstarttime}}</td>
                         <td>{{$data->acctstoptime}}</td>
                         <td>{{date('d:h:i:s', $data->acctsessiontime)}}</td>
-                        <td>{{number_format(floatval($data->acctinputoctets) , 2 ,'.' , '')}} GB</td>
-                        <td>{{number_format(floatval($data->acctoutputoctets) , 2 ,'.' , '')}} GB</td>
+                        <td>{{ number_format(floatval($data->acctinputoctets) , 2 ,'.' , '') }} GB</td>
+                        <td>{{ number_format(floatval($data->acctoutputoctets) , 2 ,'.' , '') }} GB</td>
                         @endforeach
                     </tbody>
                 </table>

@@ -74,8 +74,8 @@
                         <td>{{$data->acctstarttime}}</td>
                         <td>{{$data->acctstoptime}}</td>
                         <td>{{date('d:h:i:s', $data->acctsessiontime)}}</td>
-                        <td>{{$data->acctstoptime}} GB</td>
-                        <td>{{$data->acctstoptime}} GB</td>
+                        <td>{{number_format(floatval($data->acctinputoctets) , 2 ,'.' , '')}} GB</td>
+                        <td>{{number_format(floatval($data->acctoutputoctets) , 2 ,'.' , '')}} GB</td>
                         @endforeach
                     </tbody>
                 </table>

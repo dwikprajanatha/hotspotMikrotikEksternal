@@ -37,6 +37,7 @@ class LoginController extends Controller
                                 // ->whereDate('acctstarttime', '<=', $date->format('Y-m-d'))
                                 ->whereDate('acctstarttime', '>=', $date->modify('-6 day')->format('Y-m-d'))
                                 ->groupBy('acctstarttime')
+                                ->groupBy('username')
                                 ->get();
 
         dd($data_usage);

@@ -70,12 +70,14 @@
                     </thead>
                     <tbody>
                         @foreach($data_usage as $data)
-                        <td>{{$loop->iteration}}</td>
-                        <td>{{$data->acctstarttime}}</td>
-                        <td>{{$data->acctstoptime}}</td>
-                        <td>{{date('d:h:i:s', $data->acctsessiontime)}}</td>
-                        <td>{{ number_format(floatval($data->acctinputoctets) , 2 ,'.' , '') }} GB</td>
-                        <td>{{ number_format(floatval($data->acctoutputoctets) , 2 ,'.' , '') }} GB</td>
+                        <tr>
+                            <td>{{$loop->iteration}}</td>
+                            <td>{{$data->acctstarttime}}</td>
+                            <td>{{$data->acctstoptime}}</td>
+                            <td>{{date('d:h:i:s', $data->acctsessiontime)}}</td>
+                            <td>{{ number_format(floatval($data->acctinputoctets) , 2 ,'.' , '') }} GB</td>
+                            <td>{{ number_format(floatval($data->acctoutputoctets) , 2 ,'.' , '') }} GB</td>
+                        </tr>
                         @endforeach
                     </tbody>
                 </table>

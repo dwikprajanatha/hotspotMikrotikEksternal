@@ -32,7 +32,7 @@ class LoginController extends Controller
         $date = new DateTime();
 
         $data_usage = DB::connection('mysql_radius')->table('radacct')
-                                ->select('username', 'acctstarttime', 'acctstoptime', DB::raw('((acctinputoctets)/1000/1000/1000) as acctinputoctets'), DB::raw('((acctoutputoctets)/1000/1000/1000) as acctoutputoctets'))
+                                ->select('username', 'acctstarttime', 'acctstoptime', 'acctsessiontime', DB::raw('((acctinputoctets)/1000/1000/1000) as acctinputoctets'), DB::raw('((acctoutputoctets)/1000/1000/1000) as acctoutputoctets'))
                                 ->where('username', $request->username)
                                 // ->whereDate('acctstarttime', '<=', $date->format('Y-m-d'))
                                 ->whereDate('acctstarttime', '>=', $date->modify('-6 day')->format('Y-m-d'))

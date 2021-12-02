@@ -39,7 +39,7 @@ class LoginController extends Controller
                                 // ->groupBy(DB::raw('DATE(acctstarttime)'))
                                 ->get();
 
-        dd($data_usage);
+        // dd($data_usage);
                 
         return view('hotspot.status', ['data_usage' => $data_usage, 'request' => $request->all()]);
     }

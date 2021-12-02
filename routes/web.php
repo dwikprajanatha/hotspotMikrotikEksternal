@@ -28,8 +28,8 @@ use App\Http\Controllers\API\MikrotikController;
 
 Route::post('/loginHotspot', [LoginController::class, 'index'])->name('hotspot.login');
 
-Route::post('user/statusHotspot', [LoginController::class, 'status'])->name('hotspot.status');
 Route::get('user/statusHotspot', [LoginController::class, 'redirectStatus'])->name('hotspot.redirect.status');
+Route::post('user/statusHotspot', [LoginController::class, 'status'])->name('hotspot.status');
 
 Route::get('/forgotPassword', [LoginController::class, 'showforgotPassword'])->name('hotspot.forgot.view');
 Route::post('/forgotPassword', [LoginController::class, 'forgotPassword'])->name('hotspot.forgot');

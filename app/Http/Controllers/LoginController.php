@@ -34,8 +34,8 @@ class LoginController extends Controller
                         ->where('username', $request->username)
                         ->whereDate('acctstarttime', '<=', $date->format('Y-m-d'))
                         ->whereDate('acctstarttime', '>=', $date->modify('-6 day')->format('Y-m-d'))
-                        ->get()
-                        ->groupBy(DB::raw('DATE(acctstarttime)'));
+                        // ->groupBy(DB::raw('DATE(acctstarttime)'))
+                        ->get();
                 
         return view('hotspot.status', ['data_usage' => $data_usage, 'request' => $request->all()]);
     }

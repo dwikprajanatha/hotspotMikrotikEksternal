@@ -36,7 +36,7 @@
                         @endif
                     </tbody>
                 </table>
-                <center><a href="{{$request->link_logout}}" class="btn btn-primary">Log Out</a></center>                  
+                <center><a href="{{$request['link_logout']}}" class="btn btn-primary">Log Out</a></center>                  
             </div>
         </div>
 

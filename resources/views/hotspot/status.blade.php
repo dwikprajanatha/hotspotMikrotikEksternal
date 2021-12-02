@@ -2,7 +2,7 @@
 @extends('admin.template')
 
 @section('meta')
-<meta http-equiv="refresh" content="3;url=http://mikrotik.lpk-resortkuta.com/status" />
+<meta http-equiv="refresh" content="60;url=http://mikrotik.lpk-resortkuta.com/status" />
 @endsection
 
 @section('title', 'Status Pengguna')

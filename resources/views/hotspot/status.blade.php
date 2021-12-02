@@ -9,8 +9,8 @@
 
     <div class="row">
 
-            <div class="col-6"></div>
-            
+            <div class="col-3"></div>
+
             <div class="col-6">
                 <div class="card">
                     <div class="card-header">
@@ -43,7 +43,8 @@
                     </div>
                 </div>
             </div>
-
+            
+            <div class="col-3"></div>
         
     </div>
 

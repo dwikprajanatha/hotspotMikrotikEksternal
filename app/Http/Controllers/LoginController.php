@@ -27,17 +27,19 @@ class LoginController extends Controller
     public function status(Request $request)
     {
 
-        dd($request);
+        // dd($request);
 
         $date = new DateTime();
 
         $data_usage = DB::connection('mysql_radius')->table('radacct')
                         ->select('username', 'acctstarttime', 'acctstoptime', DB::raw('(SUM(acctinputoctets)/1000/1000/1000) as acctinputoctets'), DB::raw('(SUM(acctoutputoctets)/1000/1000/1000) as acctoutputoctets'))
                         ->where('username', $request->username)
-                        ->whereDate('acctstarttime', '<=', $date->format('Y-m-d'))
+                        // ->whereDate('acctstarttime', '<=', $date->format('Y-m-d'))
                         ->whereDate('acctstarttime', '>=', $date->modify('-6 day')->format('Y-m-d'))
                         // ->groupBy(DB::raw('DATE(acctstarttime)'))
                         ->get();
+
+        dd($data_usage);
                 
         return view('hotspot.status', ['data_usage' => $data_usage, 'request' => $request->all()]);
     }

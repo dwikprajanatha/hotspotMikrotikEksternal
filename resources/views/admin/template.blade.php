@@ -351,7 +351,16 @@
         <!-- Add icons to the links using the .nav-icon class
              with font-awesome or any other icon font library -->
 
-        <li class="nav-item {{Request::segment(2) == 'p' ? 'privacy-policy' : ''}}">
+        <li class="nav-item {{Request::segment(2) == 'privacy-policy' ? 'active' : ''}}">
+          <a href="{{route('hotspot.redirect.status')}}" class="nav-link">
+            <i class="nav-icon fas fa-user"></i>
+            <p>
+              Status
+            </p>
+          </a>
+        </li>
+
+        <li class="nav-item {{Request::segment(2) == 'privacy-policy' ? 'active' : ''}}">
           <a href="{{route('hotspot.privacy')}}" class="nav-link">
             <i class="nav-icon fas fa-user"></i>
             <p>
@@ -361,7 +370,7 @@
         </li>
 
         
-        <li class="nav-item {{Request::segment(2) == 'p' ? 'terms-of-service' : ''}}">
+        <li class="nav-item {{Request::segment(2) == 'terms-of-service' ? 'active' : ''}}">
           <a href="{{route('hotspot.tos')}}" class="nav-link">
             <i class="nav-icon fas fa-user"></i>
             <p>

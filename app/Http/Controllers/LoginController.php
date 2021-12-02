@@ -19,7 +19,7 @@ class LoginController extends Controller
 
     public function redirectStatus()
     {
-        $url = "https://mikrotik.lpk-resortkuta.com/status";
+        $url = "http://mikrotik.lpk-resortkuta.com/status";
 
         return redirect($url);
     }

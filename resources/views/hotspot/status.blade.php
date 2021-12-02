@@ -43,7 +43,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <div class="col-3"></div>
         
     </div>
@@ -52,7 +52,7 @@
 
         <div class="card">
             <div class="card-header">
-                <h3 class="card-title">Statistik Pengguna 7 Hari terakhir</h3>
+                <h3 class="card-title">Statistik Pengguna 1 Bulan terakhir</h3>
 
                 <div class="card-tools">
                 <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">

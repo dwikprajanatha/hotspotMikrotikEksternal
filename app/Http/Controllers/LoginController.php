@@ -35,7 +35,7 @@ class LoginController extends Controller
                                 ->select('username', 'acctstarttime', 'acctstoptime', DB::raw('SEC_TO_TIME(acctsessiontime) as acctsessiontime'), DB::raw('((acctinputoctets)/1000/1000/1000) as acctinputoctets'), DB::raw('((acctoutputoctets)/1000/1000/1000) as acctoutputoctets'))
                                 ->where('username', $request->username)
                                 // ->whereDate('acctstarttime', '<=', $date->format('Y-m-d'))
-                                ->whereDate('acctstarttime', '>=', $date->modify('-6 day')->format('Y-m-d'))
+                                ->whereDate('acctstarttime', '>=', $date->modify('-1 month')->format('Y-m-d'))
                                 // ->groupBy(DB::raw('DATE(acctstarttime)'))
                                 ->get();
 

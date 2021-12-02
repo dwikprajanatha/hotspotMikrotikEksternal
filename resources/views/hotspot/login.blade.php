@@ -169,7 +169,7 @@
 
 		$(document).ready(function(){
 
-			$('#pengumumanModal').modal('show');
+			// $('#pengumumanModal').modal('show');
 
 			var base_url = window.location.origin;
 

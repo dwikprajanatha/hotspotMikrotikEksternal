@@ -1,8 +1,6 @@
 @extends('admin.template')
 
 @section('body')
-
-@dd($request)
     
  <!-- Main content -->
  <section class="content">

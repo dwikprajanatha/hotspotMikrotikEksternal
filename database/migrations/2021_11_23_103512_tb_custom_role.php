@@ -13,12 +13,11 @@ class TbCustomRole extends Migration
      */
     public function up()
     {
-        Schema::connection('mysql')->create('tb_custom_role', function (Blueprint $table) {
+        Schema::connection('mysql')->create('tb_custom_rule', function (Blueprint $table) {
             $table->id();
             $table->foreignId('id_user_social')->nullable()->constrained('tb_user_social');
             $table->foreignId('id_user_hotspot')->nullable()->constrained('tb_user_hotspot');
-            $table->string('attribute');
-            $table->string('value');
+            $table->string('nama_custom_rule');
             $table->string('status');
         });
     }
@@ -30,6 +29,6 @@ class TbCustomRole extends Migration
      */
     public function down()
     {
-        Schema::connection('mysql')->dropIfExists('tb_custom_role');
+        Schema::connection('mysql')->dropIfExists('tb_custom_rule');
     }
 }

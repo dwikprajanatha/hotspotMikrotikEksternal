@@ -32,6 +32,7 @@
                             <th>Nama</th>
                             <th>Email</th>
                             <th>Platform</th>
+                            <th>User Profile</th>
                             <th>Status</th>
                             <th>Action</th>
                         </tr>
@@ -46,6 +47,7 @@
                             <td>{{$u->nama}}</td>
                             <td>{{$u->email}}</td>
                             <td>{{$u->platform}}</td>
+                            <td>{{$u->group}}</td>
                             <td>{{$u->isDeleted == 0 ? 'Aktif' : 'Non-Aktif'}}</td>
                             <td>
                             @if($u->isDeleted == 0)

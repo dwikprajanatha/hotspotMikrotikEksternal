@@ -18,34 +18,34 @@
                         <div class="card-body">
                             <form action="#" method="POST">
                                 @csrf
-                                <div class="form-group">
-                                    <label for="nik">NIK</label>
-                                    <input type="text" name="nik" id="nik" class="form-control"  placeholder="NIK" disabled value="{{isset($user->nik) ? $user->nik : ''}}">
-                                </div>
 
+                                <input type="hidden" name="user_id" value="{{$user->user_id}}">
+                                <input type="hidden" name="platform" value="{{$platform}}">
                                 <div class="form-group">
                                     <label for="nama">Nama</label>
-                                    <input type="text" name="nama" id="nama" class="form-control"  placeholder="Nama" disabled value="{{isset($user->nama) ? $user->nama : ''}}">
+                                    <input type="text" name="nama" id="nama" class="form-control" disabled value="{{isset($user->nama) ? $user->nama : ''}}">
                                 </div>
 
                                 <div class="form-group">
                                     <label for="alamat">Alamat</label>
-                                    <input type="text" name="alamat" id="alamat" class="form-control"  placeholder="Alamat" disabled value="{{isset($user->alamat) ? $user->alamat : ''}}">
+                                    <input type="text" name="alamat" id="alamat" class="form-control" disabled value="{{isset($user->alamat) ? $user->alamat : '-'}}">
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="kategori_umur">Kategori</label>
-                                    <input type="text" name="kategori_umur" id="kategori_umur" class="form-control"  disabled placeholder="Kategori" disabled value="{{isset($user->kategori) ? $user->kategori : ''}}">
+                                    <label for="kategori">Kategori</label>
+                                    <input type="text" name="kategori" id="kategori" class="form-control"  disabled disabled value="{{isset($user->kategori) ? $user->kategori : ''}}">
                                 </div>
+
 
                                 <div class="form-group">
                                     <label for="username">Username</label>
-                                    <input type="text" name="username" id="username" class="form-control"  placeholder="username" disabled value="{{isset($user->username) ? $user->username : ''}}">
+                                    <input type="text" name="username" id="username" class="form-control" disabled value="{{isset($user->username) ? $user->username : ''}}">
                                 </div>
 
+                                @if($platform == "organik")
                                 <div class="form-group">
-                                    <label for="kategori_user">User Profiles</label>
-                                    <select class="custom-select form-control-border" name="kategori_user" id="kategori_user">
+                                    <label for="group">User Profiles</label>
+                                    <select class="custom-select form-control-border" name="group" id="group">
 
                                         @foreach($groups as $g)
                                         <option value="{{$g->id}}" {{$user->group_id == $g->id ? 'selected' : ''}}>{{$g->group}}</option>
@@ -57,6 +57,7 @@
                                 <div class="form-group">
                                         <input type="submit" class="btn btn-primary" value="Submit">
                                 </div>
+                                @endif
 
                             </form>
                         </div>
@@ -76,12 +77,19 @@
                             @csrf
                             <div class="row">
 
+                                <input type="hidden" name="user_id" value="{{$user->user_id}}">
+                                <input type="hidden" name="platform" value="{{$platform}}">
+
                                 <div class="col-7">
-                                    <input type="text" class="form-control" placeholder="Attribute">
+                                    <select class="custom-select form-control-border" name="attribute">
+                                        <option value="quota">Quota</option>
+                                    </select>
+
+                                    <!-- <input type="text" class="form-control" placeholder="Attribute"> -->
                                 </div>
 
                                 <div class="col-3">
-                                    <input type="text" class="form-control" placeholder="Value">
+                                    <input type="text" class="form-control" name="value" placeholder="Value">
                                 </div>
 
                                 <div class="col-2">

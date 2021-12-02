@@ -227,7 +227,7 @@ class AdminController extends Controller
         if($request->user == 'organik'){
 
             $user = DB::connection('mysql')->table('tb_user_hotspot')
-                    ->select('tb_user_hotspot.*','tb_kategori_user.id as group_id', 'tb_kategori_user.group', 'tb_nik.*')
+                    ->select('tb_user_hotspot.id as user_id','tb_user_hotspot.username','tb_user_hotspot.kategori','tb_kategori_user.id as group_id','tb_kategori_user.group','tb_nik.nama', 'tb_nik.alamat')
                     ->join('tb_nik', 'tb_user_hotspot.nik_id', '=', 'tb_nik.id')
                     ->join('tb_det_kategori_user', 'tb_user_hotspot.id', '=', 'tb_det_kategori_user.id_user_hotspot')
                     ->join('tb_kategori_user','tb_det_kategori_user.id_kategori_user', '=', 'tb_kategori_user.id')
@@ -240,14 +240,218 @@ class AdminController extends Controller
                             ->select('attribute', 'value')
                             ->where('id_user_hotspot', $request->id)
                             ->get();
+        } else {
+
+            $user = DB::connection('mysql')->table('tb_user_social')
+                    ->select('tb_user_social.id as user_id','tb_user_social.username','tb_user_social.nama','tb_user_social.platform as kategori','tb_kategori_user.id as group_id', 'tb_kategori_user.group')
+                    ->join('tb_det_kategori_user', 'tb_user_social.id', '=', 'tb_det_kategori_user.id_user_social')
+                    ->join('tb_kategori_user','tb_det_kategori_user.id_kategori_user', '=', 'tb_kategori_user.id')
+                    ->where('tb_user_social.id', $request->id)
+                    ->first();
+
+            $kategori_user_all = DB::connection('mysql')->table('tb_kategori_user')->get();
+
+            $custom_rules = DB::connection('mysql')->table('tb_custom_rule')
+                            ->select('attribute', 'value')
+                            ->where('id_user_social', $request->id)
+                            ->get();
         }
 
-       return view('admin.hotspotUser.editUser', ['user' => $user, 'groups' => $kategori_user_all, 'custom_rules' => $custom_rules]);
+       return view('admin.hotspotUser.editUser', ['user' => $user, 'groups' => $kategori_user_all, 'custom_rules' => $custom_rules, 'platform' => $request->user]);
     }
 
-    public function editUserShow()
+    public function updateUser(Request $request)
+    {   
+
+        DB::connection('mysql')->beginTransaction();
+        DB::connection('mysql_radius')->beginTransaction();
+
+        try {
+
+            DB::connection('mysql')->table('tb_det_kategori_user')
+                ->where('id_user_hotspot', $request->user_id)
+                ->update([
+                    'id_kategori_user' => $request->group,
+                ]);
+            
+            $user = DB::connection('mysql')->table('tb_user_hotspot')
+                        ->where('id', $request->user_id)
+                        ->first();
+
+            $kategori_user = DB::connection('mysql')->table('tb_kategori_user')
+                        ->where('id', $request->group)
+                        ->first();
+            
+            DB::connection('mysql_radius')->table('radusergroup')
+                ->where('username', $user->username)
+                ->update([
+                    'groupname' => $kategori_user->group,
+                ]);
+
+            DB::connection('mysql')->commit();
+            DB::connection('mysql_radius')->commit();
+
+            $request->session()->flash('success', 'Akun Berhasil di Update!');
+            return redirect(route('admin.user',['user' => $request->platform]));
+
+        } catch (\Throwable $th) {
+            //throw $th;
+            DB::connection('mysql')->rollback();
+            DB::connection('mysql_radius')->rollback();
+
+            dd($th);
+        }
+    }
+
+    public function addCustomRules(Request $request)
     {
-        return view('admin.hotspotUser.editUser');
+        DB::connection('mysql')->beginTransaction();
+        DB::connection('mysql_radius')->beginTransaction();
+
+        try {
+
+            $table = $request->platform == 'organik' ? 'tb_user_hotspot' : 'tb_user_social';
+
+            $user = DB::connection('mysql')->table($table)->where('id', $request->user_id)->first();
+
+            $id_rule = DB::connection('mysql')->table('tb_custom_rule')
+                ->insertGetId([
+                    'id_user_social' => $request->platform != 'organik' ? $request->user_id : null,
+                    'id_user_hotspot' => $request->platform == 'organik' ? $request->user_id : null,
+                    'nama_custom_rule' => $request->attribute,
+                    'value_custom_rule' => $request->value,
+                    'status' => 1,
+                ]);
+
+            if($request->attribute == 'quota'){
+
+                //cek quota apa lebih dari 3 GB
+                $gb = 1073741824;
+
+                if($request->value > 3){
+
+                    $x = floor($request->value/4);
+                    $y = $request->value % 4;
+
+                    if($y > 0){
+                        $attributes = [
+                            ['id_custom_rule' => $id_rule, 'attribute' => 'Mikrotik-Recv-Limit-Gigawords', 'op' => ':=', 'value' => $x],
+                            ['id_custom_rule' => $id_rule, 'attribute' => 'Mikrotik-Recv-Limit', 'op' => ':=', 'value' => ($y*$gb)]
+                        ];
+
+                        $attributes_radius = [
+                            ['username' => $user->username, 'attribute' => 'Mikrotik-Recv-Limit-Gigawords', 'op' => ':=', 'value' => $x],
+                            ['username' => $user->username, 'attribute' => 'Mikrotik-Recv-Limit', 'op' => ':=', 'value' => ($y*$gb)]
+                        ];
+
+                    } else {
+                        $attributes = ['id_custom_rule' => $id_rule, 'attribute' => 'Mikrotik-Recv-Limit-Gigawords', 'op' => ':=', 'value' => $x];
+
+                        $attributes_radius = ['username' => $user->username, 'attribute' => 'Mikrotik-Recv-Limit-Gigawords', 'op' => ':=', 'value' => $x];
+                    }
+                    
+                } else {
+                    // kalikan langsung dengan 1073741824
+                    $attributes = ['id_custom_rule' => $id_rule, 'attribute' => 'Mikrotik-Recv-Limit', 'op' => ':=', 'value' => ($y*$gb)];
+
+                    $attributes_radius = ['username' => $user->username, 'attribute' => 'Mikrotik-Recv-Limit', 'op' => ':=', 'value' => ($y*$gb)];
+                }
+
+            }
+            
+            DB::connection('mysql')->table('tb_det_custom_rule')
+                ->insert($attributes);
+                
+
+            DB::connection('mysql_radius')->table('radreply')
+                ->insert($attributes_radius);
+
+            DB::connection('mysql')->commit();
+            DB::connection('mysql_radius')->commit();
+
+            return redirect(route('admin.user.edit',['user' => $request->platform, 'id' => $request->user_id]));
+            
+        } catch (\Throwable $th) {
+            //throw $th;
+            DB::connection('mysql')->rollback();
+            DB::connection('mysql_radius')->rollback();
+            
+            dd($th);
+        }
+        
+    }
+
+    public function deleteCustomRules(Request $request)
+    {
+        DB::connection('mysql')->beginTransaction();
+        DB::connection('mysql_radius')->beginTransaction();
+
+        try {
+            
+            DB::connection('mysql')->table('tb_custom_rule')
+                ->where($request->id)
+                ->update(['status' => 0]);
+            
+            $user = DB::connection('mysql')->table('tb_custom_rule')
+                        ->select('tb_user_hotspot.username')
+                        ->join('tb_user_hotspot', 'tb_custom_rule.id_user_hotspot','=','tb_user_hotspot.id')
+                        ->where('tb_custom_rule.id', $request->id)
+                        ->first();
+
+            // Delete attribute on RADIUS DB
+            DB::connection('mysql_radius')->table('radreply')
+                ->where('username', $user->username)
+                ->delete();
+                        
+            DB::connection('mysql')->commit();
+            DB::connection('mysql_radius')->commit();
+
+        } catch (\Throwable $th) {
+            //throw $th;
+        }
+    }
+
+    public function enableCustomRules(Request $request)
+    {
+        DB::connection('mysql')->beginTransaction();
+        DB::connection('mysql_radius')->beginTransaction();
+
+        try {
+            DB::connection('mysql')->table('tb_custom_rule')
+            ->where($request->id)
+            ->update(['status' => 1]);
+
+            $user = DB::connection('mysql')->table('tb_custom_rule')
+                ->select('tb_user_hotspot.username')
+                ->join('tb_user_hotspot', 'tb_custom_rule.id_user_hotspot','=','tb_user_hotspot.id')
+                ->where('tb_custom_rule.id', $request->id)
+                ->first();
+
+            $rules = DB::connection('mysql')->table('tb_det_custom_rule')
+                ->select('attribute', 'op', 'value')
+                ->where('id_custom_rule', $request->id)
+                ->get();
+
+            foreach($rules as $rule){
+                DB::connection('mysql_radius')->table('radreply')
+                    ->insert([
+                        'username' => $user->username,
+                        'attribute' => $rule->attribute,
+                        'op' => ':=',
+                        'value' => $rule->value,
+                    ]);
+            }
+
+            DB::connection('mysql')->commit();
+            DB::connection('mysql_radius')->commit();
+            
+        } catch (\Throwable $th) {
+            //throw $th;
+            DB::connection('mysql')->rollback();
+            DB::connection('mysql_radius')->rollback();
+
+            dd($th);
+        }
     }
 
     //disable user

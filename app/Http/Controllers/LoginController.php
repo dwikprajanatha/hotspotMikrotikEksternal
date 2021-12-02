@@ -17,6 +17,29 @@ class LoginController extends Controller
         return view('hotspot/login', ['request' => $request->all()]);
     }
 
+    public function redirectStatus()
+    {
+        $url = "https://mikrotik.lpk-resortkuta.com/status";
+
+        return redirect($url);
+    }
+
+    public function status(Request $request)
+    {
+
+        $date = new DateTime();
+
+        $data_usage = DB::connection('mysql_radius')->table('radacct')
+                        ->select('username', 'acctstarttime', 'acctstoptime', DB::raw('(SUM(acctinputoctets)/1000/1000/1000) as acctinputoctets'), DB::raw('(SUM(acctoutputoctets)/1000/1000/1000) as acctoutputoctets'))
+                        ->where('username', $request->username)
+                        ->whereDate('acctstarttime', '<=', $date->format('Y-m-d'))
+                        ->whereDate('acctstarttime', '>=', $date->modify('-6 day')->format('Y-m-d'))
+                        ->groupBy('acctstarttime')
+                        ->get();
+                
+        return view('hotspot.status', ['data_usage' => $data_usage, 'request' => $request->all()]);
+    }
+
     public function privacy(Request $request)
     {
         return view('hotspot.privacy');
@@ -112,10 +135,10 @@ class LoginController extends Controller
             if($age >= 21){
                 $kategori = "Dewasa";
 
-            } else if($age > 14 && $age < 21){
+            } elseif($age > 14 && $age < 21){
                 $kategori = "Remaja";
                 
-            } else{
+            } else {
                 $kategori = "Anak";
             }
 

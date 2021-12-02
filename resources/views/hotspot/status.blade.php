@@ -9,44 +9,48 @@
 
     <div class="row">
 
-        <div class="card">
-            <div class="card-header">
-                <h3 class="card-title">Status Pengguna</h3>
+        <center>
 
-                <div class="card-tools">
-                <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
-                    <i class="fas fa-minus"></i>
-                </button>
-                <button type="button" class="btn btn-tool" data-card-widget="remove" title="Remove">
-                    <i class="fas fa-times"></i>
-                </button>
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Status Pengguna</h3>
+
+                    <div class="card-tools">
+                    <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                        <i class="fas fa-minus"></i>
+                    </button>
+                    <button type="button" class="btn btn-tool" data-card-widget="remove" title="Remove">
+                        <i class="fas fa-times"></i>
+                    </button>
+                    </div>
+                </div>
+                <div class="card-body">
+
+                    <table class="table table-responsive table-borderless">
+                            <tbody>
+                            <tr><td> Username : </td><td>{{$request['username']}}</td></tr>
+                            <tr><td> IP address : </td><td>{{$request['ip']}}</td></tr>
+                            <tr><td>bytes up/down : </td><td>{{$request['bytes_up']}} / {{$request['bytes_down']}}</td></tr>
+                            @if(isset($request['session_time_left']))
+                            <tr><td>Time Left: </td><td>{{$request['session_time_left']}}</td></tr>
+                            @else
+                            <tr><td>connected: <i class="glyphicon glyphicon-time"></i> </td><td>{{$request['uptime']}}</td></tr>
+                            @endif
+                        </tbody>
+                    </table>
+                    <center><a href="{{$request['link_logout']}}" class="btn btn-primary">Log Out</a></center>                  
                 </div>
             </div>
-            <div class="card-body">
 
-                <table class="table table-responsive table-borderless">
-                        <tbody>
-                        <tr><td> Username : </td><td>{{$request['username']}}</td></tr>
-                        <tr><td> IP address : </td><td>{{$request['ip']}}</td></tr>
-                        <tr><td>bytes up/down : </td><td>{{$request['bytes_up']}} / {{$request['bytes_down']}}</td></tr>
-                        @if(isset($request['session_time_left']))
-                        <tr><td>Time Left: </td><td>{{$request['session_time_left']}}</td></tr>
-                        @else
-                        <tr><td>connected: <i class="glyphicon glyphicon-time"></i> </td><td>{{$request['uptime']}}</td></tr>
-                        @endif
-                    </tbody>
-                </table>
-                <center><a href="{{$request['link_logout']}}" class="btn btn-primary">Log Out</a></center>                  
-            </div>
-        </div>
-
+        </center>
+        
     </div>
 
     <div class="row">
 
         <div class="card">
             <div class="card-header">
-                <h3 class="card-title">Statistik Pengguna</h3>
+                <h3 class="card-title">Statistik Pengguna 7 Hari terakhir</h3>
 
                 <div class="card-tools">
                 <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">

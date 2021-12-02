@@ -27,6 +27,8 @@ class LoginController extends Controller
     public function status(Request $request)
     {
 
+        dd($request);
+
         $date = new DateTime();
 
         $data_usage = DB::connection('mysql_radius')->table('radacct')

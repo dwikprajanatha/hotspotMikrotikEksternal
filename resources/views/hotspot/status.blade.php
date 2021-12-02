@@ -26,13 +26,13 @@
 
                 <table class="table table-responsive table-borderless">
                         <tbody>
-                        <tr><td> Username : </td><td>{{$request->username}}</td></tr>
-                        <tr><td> IP address : </td><td>{{$request->ip}}</td></tr>
-                        <tr><td>bytes up/down : </td><td>{{$request->bytes_up}} / {{$request->bytes_down}}</td></tr>
-                        @if(isset($request->session_time_left))
-                        <tr><td>Time Left: </td><td>{{$request->session_time_left}}</td></tr>
+                        <tr><td> Username : </td><td>{{$request['username']}}</td></tr>
+                        <tr><td> IP address : </td><td>{{$request['ip']}}</td></tr>
+                        <tr><td>bytes up/down : </td><td>{{$request['bytes_up']}} / {{$request['bytes_down']}}</td></tr>
+                        @if(isset($request['session_time_left']))
+                        <tr><td>Time Left: </td><td>{{$request['session_time_left']}}</td></tr>
                         @else
-                        <tr><td>connected: <i class="glyphicon glyphicon-time"></i> </td><td>{{$request->uptime}}</td></tr>
+                        <tr><td>connected: <i class="glyphicon glyphicon-time"></i> </td><td>{{$request['uptime']}}</td></tr>
                         @endif
                     </tbody>
                 </table>

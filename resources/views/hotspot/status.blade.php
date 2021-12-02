@@ -74,7 +74,7 @@
                             <td>{{$loop->iteration}}</td>
                             <td>{{$data->acctstarttime}}</td>
                             <td>{{$data->acctstoptime}}</td>
-                            <td>{{$data->acctsessiontime)}}</td>
+                            <td>{{$data->acctsessiontime}}</td>
                             <td>{{ number_format(floatval($data->acctinputoctets) , 2 ,'.' , '') }} GB</td>
                             <td>{{ number_format(floatval($data->acctoutputoctets) , 2 ,'.' , '') }} GB</td>
                         </tr>

@@ -107,6 +107,44 @@
 			</div>
 		</div>
 	</div>
+
+	<!-- MODALS -->
+	<div class="modal fade" id="pengumumanModal" tabindex="-1" role="dialog" aria-labelledby="pengumumanModalLabel" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="pengumumanModalLabel">Pengumuman</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<!-- Carousel -->
+					<div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+						<div class="carousel-inner">
+							<div class="carousel-item active">
+							<img class="d-block w-100" src="{{asset('login/images/img-01.png')}}" alt="First slide">
+							</div>
+							<div class="carousel-item">
+							<img class="d-block w-100" src="{{asset('login/images/img-01.png')}}" alt="Second slide">
+							</div>
+							<div class="carousel-item">
+							<img class="d-block w-100" src="{{asset('login/images/img-01.png')}}" alt="Third slide">
+							</div>
+						</div>
+						<a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+							<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+							<span class="sr-only">Previous</span>
+						</a>
+						<a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+							<span class="carousel-control-next-icon" aria-hidden="true"></span>
+							<span class="sr-only">Next</span>
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 	
 
 	
@@ -130,6 +168,8 @@
 	<script>
 
 		$(document).ready(function(){
+
+			$('#pengumumanModal').modal('show');
 
 			var base_url = window.location.origin;
 

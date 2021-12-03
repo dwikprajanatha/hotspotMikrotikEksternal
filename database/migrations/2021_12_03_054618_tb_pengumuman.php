@@ -15,7 +15,7 @@ class TbPengumuman extends Migration
     {
         Schema::connection('mysql')->create('tb_pengumuman', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('id_admin')->nullable()->constrained('tb_admin');
+            $table->foreignId('id_users')->nullable()->constrained('users');
             $table->string('title');
             $table->string('desc');
             $table->string('status');

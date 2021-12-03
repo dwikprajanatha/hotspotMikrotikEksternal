@@ -23,7 +23,7 @@ class TbKategoriUser extends Seeder
             array (
                 'id' => 1,
                 'group' => 'masyarakat_umum',
-                'rx-rate' => '8M',
+                'rx_rate' => '8M',
                 'tx_rate' => '8M',
                 'min_rx_rate' => '4M',
                 'min_tx_rate' => '4M',
@@ -35,9 +35,9 @@ class TbKategoriUser extends Seeder
             ),
             1 =>
             array (
-                'id' => 1,
+                'id' => 2,
                 'group' => 'social_media',
-                'rx-rate' => '4M',
+                'rx_rate' => '4M',
                 'tx_rate' => '4M',
                 'min_rx_rate' => '1M',
                 'min_tx_rate' => '1M',

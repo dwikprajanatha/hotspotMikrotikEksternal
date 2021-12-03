@@ -136,7 +136,6 @@ class AdminController extends Controller
             'id' => ['required', 'numerid'],
         ]);
 
-
         DB::beginTransaction();
         try {
             $update = DB::connection('mysql')->table('users')
@@ -186,6 +185,26 @@ class AdminController extends Controller
 
             return redirect(route('admin.account'))->with('error', 'Hmm.. Sepertinya ada yang salah!');
         }
+    }
+
+    public function listPengumuman(Request $request)
+    {
+        // $list_pengumuman = DB::connection('mysql')->table('tb_pengumuman');
+    }
+
+    public function createPengumuman(Request $request)
+    {
+        # code...
+    }
+
+    public function updatePengumuman(Request $request)
+    {
+        # code...
+    }
+
+    public function deletePengumuman(Request $request)
+    {
+        # code...
     }
 
     //list hotspot user

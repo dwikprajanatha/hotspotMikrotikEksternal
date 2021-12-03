@@ -15,8 +15,8 @@ class DatabaseSeeder extends Seeder
     {
         // \App\Models\User::factory(10)->create();
         $this->call(UsersTableSeeder::class);
-        $this->call(TbNikTableSeeder::class);
-        $this->call(TbUserHotspotTableSeeder::class);
-        $this->call(TbUserSocialTableSeeder::class);
+        $this->call(TbKategoriUser::class);
+        // $this->call(TbUserHotspotTableSeeder::class);
+        // $this->call(TbUserSocialTableSeeder::class);
     }
 }

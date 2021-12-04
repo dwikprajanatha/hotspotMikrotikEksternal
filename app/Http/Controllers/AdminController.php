@@ -10,6 +10,7 @@ use Illuminate\Support\Str;
 use DateTime;
 use Hash;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Storage;
 
 class AdminController extends Controller
 {
@@ -189,22 +190,154 @@ class AdminController extends Controller
 
     public function listPengumuman(Request $request)
     {
-        // $list_pengumuman = DB::connection('mysql')->table('tb_pengumuman');
+        $list_pengumuman = DB::connection('mysql')->table('tb_pengumuman')
+                            ->select('tb_pengumuman.*', 'users.nama')
+                            ->join('users','tb_users.id', '=', 'tb_pengumuman.id_users')
+                            ->get();
+
+        return view('admin.pengumuman.listPengumuman', ['pengumuman' => $list_pengumuman]);
     }
 
     public function createPengumuman(Request $request)
     {
-        # code...
+        return view('admin.pengumuman.createPengumuman');
+    }
+
+    public function postPengumuman(Request $request)
+    {
+        $data = $request->validate([
+            'title' => ['required'],
+            'desc' => ['required'],
+            'files.*' => ['array', 'min:1', 'image'],
+        ]);
+
+        DB::connection('mysql')->beginTransaction();
+        $paths = [];
+
+        try {
+
+            if($request->hasFile('files')){
+                foreach($request->file('files') as $file){
+                    $path = Storage::putFile('pengumuman', $request->file('files'));
+                    array_push($paths, $path);
+                }
+            }
+
+            $id_pengumuman = DB::connection('mysql')->table('tb_pengumuman')
+                                ->insertGetId([
+                                    'title' => $request->title,
+                                    'desc' => $request->desc,
+                                    'status' => 1,
+                                    'created_at' => date('Y-m-d H:i:s'),
+                                ]);
+            
+            foreach($paths as $p){
+
+                $det_pengumuman = DB::connection('mysql')->table('tb_det_pengumuman')
+                                    ->insert([
+                                        'id_pengumuman' => $id_pengumuman,
+                                        'link' => $p,
+                                        'status' => 1,
+                                        'created_at' => date('Y-m-d H:i:s'),
+                                    ]);
+
+            }
+
+            DB::connection('mysql')->commit();
+
+
+        } catch (\Throwable $th) {
+            DB::connection('mysql')->rollback();
+            dd($th);
+        }
+
+    }
+
+    public function editPengumuman(Request $request)
+    {
+        $pengumuman = DB::connectionn('mysql')->table('tb_pengumuman')
+                        ->where('id', $request->id)
+                        ->first();
+
+        $files = DB::connectionn('mysql')->table('tb_det_pengumuman')
+                    ->where('id_pengumuman', $pengumuman->id)
+                    ->where('status', 1)
+                    ->get();
+        
+        return view('admin.pengumuman.editPengumuman', ['pengumuman' => $pengumuman, 'files' => $files]);
     }
 
     public function updatePengumuman(Request $request)
     {
-        # code...
+        $data = $request->validate([
+            'title' => ['required'],
+            'desc' => ['required'],
+            'files.*' => ['array', 'image'],
+        ]);
+
+        DB::connection('mysql')->beginTransaction();
+
+        try {
+            
+            if($request->hasFile('files')){
+
+                $paths = [];
+    
+                foreach($request->file('files') as $file){
+                    $path = Storage::putFile('pengumuman', $request->file('files'));
+                    array_push($paths, $path);
+                }
+    
+                DB::connection('mysql')->table('tb_pengumuman')
+                    ->where('id', $request->id)
+                    ->update([
+                        'title' => $request->title,
+                        'desc' => $request->desc,
+                    ]);
+                
+                foreach($paths as $p){
+    
+                    $det_pengumuman = DB::connection('mysql')->table('tb_det_pengumuman')
+                                        ->insert([
+                                            'id_pengumuman' => $request->id,
+                                            'link' => $p,
+                                            'status' => 1,
+                                            'created_at' => date('Y-m-d H:i:s'),
+                                        ]);
+    
+                } 
+    
+            } else {
+    
+                DB::connection('mysql')->table('tb_pengumuman')
+                    ->where('id', $request->id)
+                    ->update([
+                        'title' => $request->title,
+                        'desc' => $request->desc,
+                    ]);
+
+            }
+
+            DB::connection('mysql')->commit();
+        } catch (\Throwable $th) {
+            DB::connection('mysql')->rollback();
+            dd($th);
+        }
+
     }
 
-    public function deletePengumuman(Request $request)
+    public function disablePengumuman(Request $request)
     {
-        # code...
+        DB::connection('mysql')->table('tb_pengumuman')
+            ->where('id', $request->id)
+            ->update(['status' => 0]);
+    }
+
+    public function disableFile(Request $request)
+    {
+        DB::connection('mysql')->table('tb_det_pengumuman')
+            ->where('id', $request->id)
+            ->update(['status' => 0]);
     }
 
     //list hotspot user

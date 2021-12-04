@@ -72,7 +72,21 @@ Route::group(['middleware' => 'auth:web'], function() {
     
     // Dashboard
     Route::get('/admin/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
+
+    // List Pengumuman
+    Route::get('/admin/pengumuman', [AdminController::class, 'listPengumuman'])->name('admin.pengumuman');
+
+    // Create Pengumuman
+    Route::get('/admin/pengumuman/create', [AdminController::class, 'createPengumuman'])->name('admin.pengumuman.create.view');
+    Route::post('/admin/pengumuman/create', [AdminController::class, 'postPengumuman'])->name('admin.pengumuman.create');
     
+    // Edit Pengumuman
+    Route::get('/admin/pengumuman/edit/{id}', [AdminController::class, 'editPengumuman'])->name('admin.pengumuman.edit');
+    Route::post('/admin/pengumuman/update', [AdminController::class, 'updatePengumuman'])->name('admin.pengumuman.update');
+
+    // Disable Pengumuman
+    Route::get('/admin/pengumuman/disable/{id}', [AdminController::class, 'disablePengumuman'])->name('admin.pengumuman.disable');
+
     // List Admin Account
     Route::get('/admin/account', [AdminController::class, 'listAccount'])->name('admin.account');
 

@@ -17,6 +17,8 @@ class TbDetPengumuman extends Migration
             $table->id();
             $table->foreignId('id_pengumuman')->nullable()->constrained('tb_pengumuman');
             $table->string('link');
+            $table->string('status');
+            $table->datetime('created_at');
         });
     }
 

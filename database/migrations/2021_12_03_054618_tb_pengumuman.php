@@ -19,6 +19,7 @@ class TbPengumuman extends Migration
             $table->string('title');
             $table->string('desc');
             $table->string('status');
+            $table->datetime('created_at');
         });
     }
 

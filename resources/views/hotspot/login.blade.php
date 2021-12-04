@@ -51,7 +51,7 @@
 
 					<div class="alert alert-info" role="alert">
 						<p class="text-center">
-							<b>PENGUMUMAN</b>, bagi yang sudah membuat akun tapi usernamenya berisi spasi, <b> harap membuat akun kembali </b>. Terima Kasih
+							<b>PENGUMUMAN</b>, bagi yang sudah membuat akun <b> harap membuat akun kembali </b>. dikarenakan ada perubahan database. Terima Kasih
 						</p>
 					</div>
 

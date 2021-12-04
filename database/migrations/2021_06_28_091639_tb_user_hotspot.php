@@ -15,12 +15,12 @@ class TbUserHotspot extends Migration
     {
         Schema::connection('mysql')->create('tb_user_hotspot', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('nik_id')->constrained('tb_nik');
+            $table->foreignId('nik_id')->nullable()->constrained('tb_nik');
             $table->string('username');
             // $table->string('password');
             $table->string('kategori');
-            $table->string('mac');
-            $table->string('ip');
+            $table->string('mac')->nullable();
+            $table->string('ip')->nullable();
             $table->date('created_at');
             $table->string('isDeleted')->default(0);
         });

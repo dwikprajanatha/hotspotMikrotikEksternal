@@ -182,26 +182,12 @@
 
           
           <li class="nav-item {{Request::segment(2) == 'pengumuman' ? 'menu-open' : ''}}">
-            <a href="#" class="nav-link {{Request::segment(2) == 'pengumuman' ? 'active' : ''}}">
+            <a href="{{route('admin.pengumuman')}}" class="nav-link {{Request::segment(2) == 'pengumuman' ? 'active' : ''}}">
               <i class="nav-icon fas fa-bullhorn"></i>
               <p>
                 Pengumuman
               </p>
             </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="#" class="nav-link {{Request::segment(3) == 'aktif' ? 'active' : ''}}">
-                  <i class="fas fa-users nav-icon"></i>
-                  <p>Aktif</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="#" class="nav-link {{Request::segment(3) == 'nonaktif' ? 'active' : ''}}">
-                  <i class="fas fa-users nav-icon"></i>
-                  <p>Tidak Aktif</p>
-                </a>
-              </li>
-            </ul>
           </li>
 
           <li class="nav-item {{Request::segment(2) == 'account' ? 'menu-open' : ''}}">

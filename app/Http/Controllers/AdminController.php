@@ -192,7 +192,7 @@ class AdminController extends Controller
     {
         $list_pengumuman = DB::connection('mysql')->table('tb_pengumuman')
                             ->select('tb_pengumuman.*', 'users.nama')
-                            ->join('users','tb_users.id', '=', 'tb_pengumuman.id_users')
+                            ->join('users','users.id', '=', 'tb_pengumuman.id_users')
                             ->get();
 
         return view('admin.pengumuman.listPengumuman', ['pengumuman' => $list_pengumuman]);

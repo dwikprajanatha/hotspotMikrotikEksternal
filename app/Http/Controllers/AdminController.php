@@ -312,7 +312,7 @@ class AdminController extends Controller
                 $paths = [];
     
                 foreach($request->file('files') as $file){
-                    $path = Storage::putFile('pengumuman', $request->file('files'));
+                    $path = Storage::disk('public')->putFile('pengumuman', $request->file('files'));
                     array_push($paths, $path);
                 }
     
@@ -361,6 +361,8 @@ class AdminController extends Controller
         DB::connection('mysql')->table('tb_pengumuman')
             ->where('id', $request->id)
             ->update(['status' => 0]);
+
+        return redirect(route('admin.pengumuman')->with('success', 'Pengumuman Berhasil di nonaktifkan!'));
     }
 
     public function disableFile(Request $request)
@@ -368,6 +370,9 @@ class AdminController extends Controller
         DB::connection('mysql')->table('tb_det_pengumuman')
             ->where('id', $request->id)
             ->update(['status' => 0]);
+
+        return redirect()->back()->with('success', 'Gambar Berhasil di nonaktifkan!');
+
     }
 
     public function enablePengumuman(Request $request)
@@ -375,6 +380,8 @@ class AdminController extends Controller
         DB::connection('mysql')->table('tb_pengumuman')
             ->where('id', $request->id)
             ->update(['status' => 1]);
+
+        return redirect(route('admin.pengumuman')->with('success', 'Pengumuman Berhasil di aktifkan!'));
     }
 
     public function enableFile(Request $request)
@@ -382,6 +389,7 @@ class AdminController extends Controller
         DB::connection('mysql')->table('tb_det_pengumuman')
             ->where('id', $request->id)
             ->update(['status' => 1]);
+        return redirect()->back()->with('success', 'Gambar Berhasil di aktifkan!');
     }
 
 

@@ -10,7 +10,7 @@
 
         
             <div class="row">
-
+                <div class="col-md-7">
                     <div class="card card-primary">
                         <div class="card-header">
                             <h3 class="card-title">Edit Pengumuman</h3>
@@ -77,6 +77,7 @@
                             </form>
                         </div>
                     </div>
+                </div>
 
             </div> <!-- /.row -->
 

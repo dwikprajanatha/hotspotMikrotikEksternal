@@ -57,6 +57,8 @@ class LoginController extends Controller
             array_push($arr_pengumuman, $p);
         }
 
+        dd((object)$arr_pengumuman);
+
         return view('hotspot/login', ['request' => $request->all(), 'pengumuman' => (object)$arr_pengumuman]);
     }
 

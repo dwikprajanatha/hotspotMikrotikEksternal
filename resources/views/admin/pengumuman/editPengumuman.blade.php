@@ -65,7 +65,7 @@
                                 <!-- UPLOAD GAMBAR -->
                                 <div class="form-group">
                                     <label for="file">Upload Gambar</label>
-                                    <input type="file" name="files" class="form-control" multiple>
+                                    <input type="file" name="files[]" id="file" class="form-control" multiple>
                                 </div>
 
 

@@ -10,7 +10,7 @@
 
         
             <div class="row">
-                <div class="col-md-7">
+                <div class="col-md-12">
                     <div class="card card-primary">
                         <div class="card-header">
                             <h3 class="card-title">Edit Pengumuman</h3>
@@ -31,8 +31,7 @@
                                     <textarea rows="3" name="desc" id="desc" class="form-control">{{isset($pengumuman->desc) ? $pengumuman->desc : '-'}}</textarea>
                                 </div>
 
-                                <!-- Carousel Gambar Lama -->
-                                <table>
+                                <table class="table table-bordered">
                                     <thead>
                                         <tr>
                                             <th>No.</th>

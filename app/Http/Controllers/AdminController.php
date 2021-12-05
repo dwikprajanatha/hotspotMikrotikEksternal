@@ -209,7 +209,7 @@ class AdminController extends Controller
             'title' => ['required'],
             'desc' => ['required'],
             'files' => ['array', 'min:1'],
-            'files.*' => ['image', 'size:3072'],
+            'files.*' => ['image', 'max:3072'],
         ]);
 
         DB::connection('mysql')->beginTransaction();

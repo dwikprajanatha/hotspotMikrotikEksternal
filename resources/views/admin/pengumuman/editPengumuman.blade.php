@@ -28,7 +28,7 @@
 
                                 <div class="form-group">
                                     <label for="desc">Deskripsi</label>
-                                    <textarea rows="3" name="desc" id="desc" class="form-control">{{isset($pengumuman->desc) ?$pengumuman->desc : '-'}}</textarea>
+                                    <textarea rows="3" name="desc" id="desc" class="form-control">{{isset($pengumuman->desc) ? $pengumuman->desc : '-'}}</textarea>
                                 </div>
 
                                 <!-- Carousel Gambar Lama -->
@@ -69,7 +69,6 @@
                                 <div class="form-group">
                                         <input type="submit" class="btn btn-primary" value="Submit">
                                 </div>
-                                @endif
 
                             </form>
                         </div>

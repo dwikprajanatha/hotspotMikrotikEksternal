@@ -11,6 +11,7 @@ use DateTime;
 use Hash;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
 
 class AdminController extends Controller
 {
@@ -205,12 +206,24 @@ class AdminController extends Controller
 
     public function postPengumuman(Request $request)
     {
-        $data = $request->validate([
-            'title' => ['required'],
-            'desc' => ['required'],
-            'files' => ['array', 'min:1'],
-            'files.*' => ['image', 'max:3072'],
+        // $data = $request->validate([
+        //     'title' => ['required'],
+        //     'desc' => ['required'],
+        //     'files' => ['array', 'min:1'],
+        //     'files.*' => ['image', 'max:3072'],
+        // ]);
+
+        $validator = Validator::make($request->all(), [
+            'title' => 'required',
+            'desc' => 'required',
+            'files' => 'array|min:1',
+            'files.*' => 'image|max:3072',
         ]);
+
+        if($validator->fails()){
+            dd($validator->failed());
+        }
+
 
         DB::connection('mysql')->beginTransaction();
         $paths = [];

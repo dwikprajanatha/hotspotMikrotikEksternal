@@ -62,7 +62,7 @@ class LoginController extends Controller
 
         // dd((object)$arr_pengumuman);
 
-        return view('hotspot.logintest', ['request' => $request->all(), 'pengumuman' => (object)$arr_pengumuman]);
+        return view('hotspot.logintest', ['request' => $request->all(), 'pengumuman' => $arr_pengumuman]);
     }
 
     public function redirectStatus()

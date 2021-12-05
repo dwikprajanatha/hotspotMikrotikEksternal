@@ -122,15 +122,17 @@
 					<!-- Carousel -->
 					<div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
 						<div class="carousel-inner">
-							@foreach($pengumuman->images as $image)
-							<div class="carousel-item {{$loop->iteration == 1 ? ' active' : ''}}" >
-								<img class="d-block w-100" src="{{asset('storage/'.$image->link)}}">
+                        @foreach($pengumuman as $p)
+							@foreach($p['images'] as $image)
+							<div class="carousel-item">
+								<img class="d-block w-100" src="{{asset('storage/'.$image['link'])}}">
                                 <div class="carousel-caption d-none d-md-block">
-                                    <h5>{{$pengumuman->title}}</h5>
-                                    <p>{{$pengumuman->desc}}</p>
+                                    <h5>{{$pengumuman['title']}}</h5>
+                                    <p>{{$pengumuman['desc']}}</p>
                                 </div>
 							</div>
 							@endforeach
+                        @endforeach
 						</div>
 						<a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
 							<span class="carousel-control-prev-icon" aria-hidden="true"></span>

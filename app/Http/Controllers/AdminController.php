@@ -870,7 +870,9 @@ class AdminController extends Controller
                     $penggunaanTotal = DB::connection('mysql_radius')->table('data_usage_by_period')
                                             ->select(DB::raw('(SUM(acctinputoctets)/1000/1000/1000) + (SUM(acctoutputoctets)/1000/1000/1000) as GB_total'))
                                             ->whereNotNull('period_end')
-                                            ->whereBetween('period_start',[$senin,$minggu])
+                                            // ->whereBetween('period_start',[$senin,$minggu])
+                                            ->whereDate('period_start', '>=', $senin)
+                                            ->whereDate('period_start', '<=', $minggu)
                                             ->groupBy(DB::raw('WEEK(period_start)'))->get();
 
                     array_push($arr_data, $penggunaanTotal->isEmpty() ? 0 : number_format(floatval($penggunaanTotal[0]->GB_total) , 2 ,'.' , '') );
@@ -1144,7 +1146,9 @@ class AdminController extends Controller
                 $users_radius = DB::connection('mysql_radius')->table('data_usage_by_period')
                         ->select('username', DB::raw('(SUM(acctinputoctets)/1000/1000/1000) + (SUM(acctoutputoctets)/1000/1000/1000) AS GB_total'))
                         ->whereNotNull('period_end')
-                        ->whereBetween('period_start',[$senin,$minggu])
+                        // ->whereBetween('period_start',[$senin,$minggu])
+                        ->whereDate('period_start', '>=', $senin)
+                        ->whereDate('period_start', '<=', $minggu)
                         ->groupBy('username')
                         ->orderBy('GB_total', 'desc')->get();
 

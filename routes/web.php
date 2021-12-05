@@ -28,6 +28,9 @@ use App\Http\Controllers\API\MikrotikController;
 
 Route::post('/loginHotspot', [LoginController::class, 'index'])->name('hotspot.login');
 
+// Login Test
+Route::get('/logintest', [LoginController::class, 'loginTest']);
+
 Route::get('user/statusHotspot', [LoginController::class, 'redirectStatus'])->name('hotspot.redirect.status');
 Route::post('user/statusHotspot', [LoginController::class, 'status'])->name('hotspot.status');
 
@@ -86,6 +89,16 @@ Route::group(['middleware' => 'auth:web'], function() {
 
     // Disable Pengumuman
     Route::get('/admin/pengumuman/disable/{id}', [AdminController::class, 'disablePengumuman'])->name('admin.pengumuman.disable');
+
+    // Disable Gambar Pengumuman
+    Route::get('/admin/pengumuman/pic/disable/{id}', [AdminController::class, 'disableFile'])->name('admin.pengumuman.pic.disable');
+
+    // Enable Pengumuman
+    Route::get('/admin/pengumuman/enable/{id}', [AdminController::class, 'enablePengumuman'])->name('admin.pengumuman.enable');
+    
+    // Enable Gambar Pengumuman 
+    Route::get('/admin/pengumuman/pic/enable/{id}', [AdminController::class, 'enableFile'])->name('admin.pengumuman.pic.enable');
+
 
     // List Admin Account
     Route::get('/admin/account', [AdminController::class, 'listAccount'])->name('admin.account');

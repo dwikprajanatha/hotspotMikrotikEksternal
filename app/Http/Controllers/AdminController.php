@@ -340,6 +340,21 @@ class AdminController extends Controller
             ->update(['status' => 0]);
     }
 
+    public function enablePengumuman(Request $request)
+    {
+        DB::connection('mysql')->table('tb_pengumuman')
+            ->where('id', $request->id)
+            ->update(['status' => 1]);
+    }
+
+    public function enableFile(Request $request)
+    {
+        DB::connection('mysql')->table('tb_det_pengumuman')
+            ->where('id', $request->id)
+            ->update(['status' => 1]);
+    }
+
+
     //list hotspot user
     public function hotspotUser(Request $request, $user)
     {

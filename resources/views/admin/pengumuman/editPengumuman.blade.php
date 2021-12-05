@@ -45,7 +45,7 @@
                                     @foreach($files as $file)
                                     <tr>
                                         <td>{{$loop->iteration}}</td>
-                                        <td><img src="{{asset(storage_path($file->link))}}" style="display:block;" width="100%" height="100%"></td>
+                                        <td><img src="{{asset('storage/'.$file->link))}}" style="display:block;" width="100%" height="100%"></td>
                                         <td>{{$file->status == 1 ? 'Aktif' : 'Non-Aktif'}}</td>
                                         <td>
                                             @if($file->status == 1)

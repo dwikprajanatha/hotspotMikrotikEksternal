@@ -259,7 +259,7 @@ class AdminController extends Controller
             }
 
             DB::connection('mysql')->commit();
-            return redirect(route('admin.pengumuman')->with('success', 'Pengumuman Berhasil dibuat!'));
+            return redirect(route('admin.pengumuman'))->with('success', 'Pengumuman Berhasil dibuat!');
 
         } catch (\Throwable $th) {
             DB::connection('mysql')->rollback();
@@ -347,7 +347,7 @@ class AdminController extends Controller
             }
 
             DB::connection('mysql')->commit();
-            return redirect(route('admin.pengumuman')->with('success', 'Pengumuman Berhasil diubah!'));
+            return redirect(route('admin.pengumuman'))->with('success', 'Pengumuman Berhasil diubah!');
 
         } catch (\Throwable $th) {
             DB::connection('mysql')->rollback();

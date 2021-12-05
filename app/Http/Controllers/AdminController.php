@@ -1114,7 +1114,7 @@ class AdminController extends Controller
 
                     } else {
 
-                        $platform = "Organik";
+                        $platform = "Masyarakat Desa";
                         $kategori = $detail->kategori ;
 
                     }

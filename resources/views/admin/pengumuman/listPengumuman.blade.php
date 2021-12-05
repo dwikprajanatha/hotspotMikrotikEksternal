@@ -25,7 +25,7 @@
               
               <div class="card-body">
               <!-- <button class="btn btn-primary"><i class="fas fa-plus"></i>Tambah Akun</button> -->
-              <a href="{{route('admin.account.create.view')}}" class="btn btn-primary"><i class="fas fa-plus" style="padding-right: 5px;"></i>Tambah Akun</a>
+              <a href="{{route('admin.pengumuman.create.view')}}" class="btn btn-primary"><i class="fas fa-plus" style="padding-right: 5px;"></i>Buat Pengumuman</a>
                 <table id="datatables1" class="table table-bordered table-hover">
                 
                     <thead>

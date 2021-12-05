@@ -25,7 +25,7 @@
 
                                 <div class="form-group">
                                     <label for="desc">Deskripsi</label>
-                                    <textarea rows="3" name="desc" id="desc" class="form-control">
+                                    <textarea rows="3" name="desc" id="desc" class="form-control"></textarea>
                                 </div>
 
                                 <!-- UPLOAD GAMBAR -->

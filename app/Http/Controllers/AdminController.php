@@ -310,9 +310,10 @@ class AdminController extends Controller
             if($request->hasFile('files')){
 
                 $paths = [];
-    
+                
+
                 foreach($request->file('files') as $file){
-                    $path = Storage::disk('public')->putFile('pengumuman', $request->file('files'));
+                    $path = Storage::disk('public')->putFile('pengumuman', $file);
                     array_push($paths, $path);
                 }
     

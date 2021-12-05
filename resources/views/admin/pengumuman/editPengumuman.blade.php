@@ -49,9 +49,9 @@
                                         <td>{{$file->status == 1 ? 'Aktif' : 'Non-Aktif'}}</td>
                                         <td>
                                             @if($file->status == 1)
-                                            <a href="{{route('admin.pengumuman.pic.disable', ['id' => $p->id])}}" class="btn btn-danger"><i class="fas fa-times" style="padding-right:5px"></i>Matikan</a>
+                                            <a href="{{route('admin.pengumuman.pic.disable', ['id' => $file->id])}}" class="btn btn-danger"><i class="fas fa-times" style="padding-right:5px"></i>Matikan</a>
                                             @else
-                                            <a href="{{route('admin.pengumuman.pic.enable', ['id' => $p->id])}}" class="btn btn-success"><i class="fas fa-check" style="padding-right:5px"></i>Aktifkan</a>
+                                            <a href="{{route('admin.pengumuman.pic.enable', ['id' => $file->id])}}" class="btn btn-success"><i class="fas fa-check" style="padding-right:5px"></i>Aktifkan</a>
                                             @endif
                                         </td>
                                     </tr>

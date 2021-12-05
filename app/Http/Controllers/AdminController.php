@@ -270,11 +270,11 @@ class AdminController extends Controller
 
     public function editPengumuman(Request $request)
     {
-        $pengumuman = DB::connectionn('mysql')->table('tb_pengumuman')
+        $pengumuman = DB::connection('mysql')->table('tb_pengumuman')
                         ->where('id', $request->id)
                         ->first();
 
-        $files = DB::connectionn('mysql')->table('tb_det_pengumuman')
+        $files = DB::connection('mysql')->table('tb_det_pengumuman')
                     ->where('id_pengumuman', $pengumuman->id)
                     ->where('status', 1)
                     ->get();

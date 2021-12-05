@@ -50,7 +50,7 @@
 
                             <td>
                                 <a href="{{route('admin.pengumuman.edit', ['id' => $p->id])}}" class="btn btn-primary"><i class="fas fa-edit" style="padding-right:5px"></i>Edit</a>
-                                @if($p->status == 0)
+                                @if($p->status == 1)
                                 <a href="{{route('admin.pengumuman.disable', ['id' => $p->id])}}" class="btn btn-danger"><i class="fas fa-times" style="padding-right:5px"></i>Matikan</a>
                                 @else
                                 <a href="{{route('admin.pengumuman.enable', ['id' => $p->id])}}" class="btn btn-success"><i class="fas fa-check" style="padding-right:5px"></i>Aktifkan</a>

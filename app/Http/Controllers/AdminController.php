@@ -362,7 +362,7 @@ class AdminController extends Controller
             ->where('id', $request->id)
             ->update(['status' => 0]);
 
-        return redirect(route('admin.pengumuman')->with('success', 'Pengumuman Berhasil di nonaktifkan!'));
+        return redirect(route('admin.pengumuman'))->with('success', 'Pengumuman Berhasil di nonaktifkan!');
     }
 
     public function disableFile(Request $request)
@@ -381,7 +381,7 @@ class AdminController extends Controller
             ->where('id', $request->id)
             ->update(['status' => 1]);
 
-        return redirect(route('admin.pengumuman')->with('success', 'Pengumuman Berhasil di aktifkan!'));
+        return redirect(route('admin.pengumuman'))->with('success', 'Pengumuman Berhasil di aktifkan!');
     }
 
     public function enableFile(Request $request)

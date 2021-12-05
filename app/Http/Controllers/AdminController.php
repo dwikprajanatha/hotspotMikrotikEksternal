@@ -232,7 +232,7 @@ class AdminController extends Controller
 
             if($request->hasFile('files')){
                 foreach($request->file('files') as $file){
-                    $path = Storage::putFile('pengumuman', $file);
+                    $path = Storage::disk('public')->putFile('pengumuman', $file);
                     array_push($paths, $path);
                 }
             }
@@ -259,7 +259,7 @@ class AdminController extends Controller
             }
 
             DB::connection('mysql')->commit();
-
+            return redirect(route('admin.pengumuman')->with('success', 'Pengumuman Berhasil dibuat!'));
 
         } catch (\Throwable $th) {
             DB::connection('mysql')->rollback();
@@ -284,11 +284,24 @@ class AdminController extends Controller
 
     public function updatePengumuman(Request $request)
     {
-        $data = $request->validate([
-            'title' => ['required'],
-            'desc' => ['required'],
-            'files.*' => ['array', 'image'],
+        // $data = $request->validate([
+        //     'title' => ['required'],
+        //     'desc' => ['required'],
+        //     'files.*' => ['array', 'image'],
+        // ]);
+
+        
+        $validator = Validator::make($request->all(), [
+            'title' => 'required',
+            'desc' => 'required',
+            'files' => 'array|min:1',
+            'files.*' => 'image|max:3072',
         ]);
+
+        if($validator->fails()){
+            dd($validator->failed());
+        }
+
 
         DB::connection('mysql')->beginTransaction();
 
@@ -334,6 +347,8 @@ class AdminController extends Controller
             }
 
             DB::connection('mysql')->commit();
+            return redirect(route('admin.pengumuman')->with('success', 'Pengumuman Berhasil diubah!'));
+
         } catch (\Throwable $th) {
             DB::connection('mysql')->rollback();
             dd($th);

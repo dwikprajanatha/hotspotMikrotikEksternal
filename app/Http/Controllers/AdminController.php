@@ -232,7 +232,7 @@ class AdminController extends Controller
 
             if($request->hasFile('files')){
                 foreach($request->file('files') as $file){
-                    $path = Storage::putFile('pengumuman', $file);
+                    $path = Storage::disk('public')->putFile('pengumuman', $file);
                     array_push($paths, $path);
                 }
             }

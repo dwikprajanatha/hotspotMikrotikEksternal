@@ -44,9 +44,10 @@
                                     @foreach($files as $file)
                                     <tr>
                                         <td>{{$loop->iteration}}</td>
-                                        <td><img src="{{asset('storage/'.$file->link)}}" style="display:block;" width="100%" height="100%"></td>
+                                        <td><img src="{{asset('storage/'.$file->link)}}" style="display:block;" width="30%" height="30%"></td>
                                         <td>{{$file->status == 1 ? 'Aktif' : 'Non-Aktif'}}</td>
                                         <td>
+                                            <a href="#">Lihat Gambar</a>
                                             @if($file->status == 1)
                                             <a href="{{route('admin.pengumuman.pic.disable', ['id' => $file->id])}}" class="btn btn-danger"><i class="fas fa-times" style="padding-right:5px"></i>Matikan</a>
                                             @else

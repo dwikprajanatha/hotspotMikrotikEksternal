@@ -1177,7 +1177,7 @@ class AdminController extends Controller
                                 ->select(DB::raw('(SUM(download_speed) / SUM(count)) as download_speed, (SUM(upload_speed) / SUM(count)) as upload_speed'))
                                 ->where('username',$user->username)
                                 ->whereBetween('created_at',[$senin,$minggu])
-                                ->groupBy('username')
+                                // ->groupBy('username')
                                 ->get();
 
                     // dd($speed);

@@ -122,9 +122,13 @@
 					<!-- Carousel -->
 					<div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
 						<div class="carousel-inner">
-							@foreach($pengumuman as $p)
+							@foreach($pengumuman->images as $image)
 							<div class="carousel-item {{$loop->iteration == 1 ? ' active' : ''}}" >
-								<img class="d-block w-100" src="{{asset('storage/'.$p->link)}}">
+								<img class="d-block w-100" src="{{asset('storage/'.$image->link)}}">
+                                <div class="carousel-caption d-none d-md-block">
+                                    <h5>{{$pengumuman->title}}</h5>
+                                    <p>{{$pengumuman->desc}}</p>
+                                </div>
 							</div>
 							@endforeach
 						</div>
@@ -165,7 +169,7 @@
 
 		$(document).ready(function(){
 
-			// $('#pengumumanModal').modal('show');
+			$('#pengumumanModal').modal('show');
 
 			var base_url = window.location.origin;
 

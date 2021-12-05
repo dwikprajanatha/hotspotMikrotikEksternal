@@ -276,7 +276,6 @@ class AdminController extends Controller
 
         $files = DB::connection('mysql')->table('tb_det_pengumuman')
                     ->where('id_pengumuman', $pengumuman->id)
-                    ->where('status', 1)
                     ->get();
         
         return view('admin.pengumuman.editPengumuman', ['pengumuman' => $pengumuman, 'files' => $files]);

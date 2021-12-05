@@ -33,7 +33,7 @@ class LoginController extends Controller
         //     array_push($arr_pengumuman, $p);
         // }
 
-        return view('hotspot/login', ['request' => $request->all()]);
+        return view('hotspot.login', ['request' => $request->all()]);
     }
 
     public function loginTest(Request $request)
@@ -59,7 +59,7 @@ class LoginController extends Controller
 
         dd((object)$arr_pengumuman);
 
-        return view('hotspot/login', ['request' => $request->all(), 'pengumuman' => (object)$arr_pengumuman]);
+        return view('hotspot.logintest', ['request' => $request->all(), 'pengumuman' => (object)$arr_pengumuman]);
     }
 
     public function redirectStatus()
@@ -103,7 +103,7 @@ class LoginController extends Controller
     
     public function create(Request $request)
     {
-        return view('hotspot/register',['request' => $request]);
+        return view('hotspot.register',['request' => $request]);
     }
 
     public function daftar(Request $request)

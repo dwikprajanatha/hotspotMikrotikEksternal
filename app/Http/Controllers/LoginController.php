@@ -50,11 +50,14 @@ class LoginController extends Controller
             $files = DB::connection('mysql')->table('tb_det_pengumuman')
                         ->where('id_pengumuman', $p->id)
                         ->where('status', 1)
-                        ->get();
+                        ->get()->toArray();
 
-            $p->images = $files;
-
-            array_push($arr_pengumuman, $p);
+            array_push($arr_pengumuman, [
+                'title' => $p->title, 
+                'desc' => $p->desc, 
+                'created_at' => $p->created_at,
+                'images' => $files,
+            ]);
         }
 
         // dd((object)$arr_pengumuman);

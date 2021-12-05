@@ -226,6 +226,7 @@ class AdminController extends Controller
 
             $id_pengumuman = DB::connection('mysql')->table('tb_pengumuman')
                                 ->insertGetId([
+                                    'id_users' => Auth::id(),
                                     'title' => $request->title,
                                     'desc' => $request->desc,
                                     'status' => 1,

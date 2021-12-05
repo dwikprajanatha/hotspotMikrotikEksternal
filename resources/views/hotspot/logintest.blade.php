@@ -125,7 +125,7 @@
                         @foreach($pengumuman as $p)
 							@foreach($p['images'] as $image)
 							<div class="carousel-item">
-								<img class="d-block w-100" src="{{asset('storage/'.$image['link'])}}">
+								<img class="d-block w-100" src="{{asset('storage/'.$image->link)}}">
                                 <div class="carousel-caption d-none d-md-block">
                                     <h5>{{$pengumuman['title']}}</h5>
                                     <p>{{$pengumuman['desc']}}</p>

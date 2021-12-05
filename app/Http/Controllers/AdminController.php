@@ -208,7 +208,8 @@ class AdminController extends Controller
         $data = $request->validate([
             'title' => ['required'],
             'desc' => ['required'],
-            'files.*' => ['array', 'min:1', 'image'],
+            'files' => ['array', 'min:1'],
+            'files.*' => ['image', 'size:3072'],
         ]);
 
         DB::connection('mysql')->beginTransaction();

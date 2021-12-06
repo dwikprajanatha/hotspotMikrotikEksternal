@@ -68,17 +68,11 @@
 
                     <form action="{{route('hotspot.forgot')}}" method="POST">
 					
-						{{ csrf_field() }}
-
-						@if($error = Session::get('error'))
-							<div class="alert alert-danger" role="alert">
-								{{ $error }}
-							</div>
-						@endif
+						@csrf
 
                         <!-- <input type="hidden" name="id_akun" id="id_akun"> -->
                         <div class="wrap-input100">
-                            <input class="input100" type="text" id="nik" placeholder="NIK">
+                            <input class="input100" type="text" id="nik" name="nik" placeholder="NIK">
                             <span class="focus-input100"></span>
                             <span class="symbol-input100">
                                 <i class="fa fa-id-card-o" aria-hidden="true"></i>
@@ -86,7 +80,7 @@
                         </div>
 
                         <div class="wrap-input100">
-                            <input class="input100" type="text" id="username" placeholder="Username">
+                            <input class="input100" type="text" id="username" name="username" placeholder="Username">
                             <span class="focus-input100"></span>
                             <span class="symbol-input100">
                                 <i class="fa fa-user" aria-hidden="true"></i>
@@ -145,10 +139,11 @@
 			scale: 1.1
 		})
 	</script>
-    <!-- Toastr -->
-    <script src="{{asset('admin/plugins/toastr/toastr.min.js')}}"></script>
+
 <!--===============================================================================================-->
 	<script src="{{asset('login/js/main.js')}}"></script>
+    <!-- Toastr -->
+    <script src="{{asset('admin/plugins/toastr/toastr.min.js')}}"></script>
 
 
     <script>

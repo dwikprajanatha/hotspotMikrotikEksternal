@@ -95,7 +95,7 @@
 						
 	
 						<div class="wrap-input100">
-							<input class="input100" type="text" name="password" placeholder="Password Baru">
+							<input class="input100" type="password" name="password" placeholder="Password Baru">
 							<span class="focus-input100"></span>
 							<span class="symbol-input100">
 								<i class="fa fa-lock" aria-hidden="true"></i>
@@ -103,7 +103,7 @@
 						</div>
 	
 						<div class="wrap-input100">
-							<input class="input100" type="text" name="password_confirmation" placeholder="Konfirmasi Password Baru">
+							<input class="input100" type="password" name="password_confirmation" placeholder="Konfirmasi Password Baru">
 							<span class="focus-input100"></span>
 							<span class="symbol-input100">
 								<i class="fa fa-lock" aria-hidden="true"></i>
@@ -170,6 +170,14 @@
         "showMethod": "fadeIn",
         "hideMethod": "fadeOut"
         }
+
+        $(document).ready(function(){
+            @if(session()->has('error'))
+                toastr['error']('<?php echo session()->pull('error'); ?>')
+            @elseif(session()->has('success'))
+                toastr['success']('<?php echo session()->pull('success'); ?>')
+            @endif
+        });
 
 
         // $(document).ready(function(){

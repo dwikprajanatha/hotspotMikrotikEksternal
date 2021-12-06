@@ -104,38 +104,41 @@
                                 </div>
                                
                             </div>
+
                         </form>
 
-                        <table id="datatables1" class="table table-bordered table-hover">
-                            <thead>
-                            
-                                <tr>
-                                    <th>No.</th>
-                                    <th>Attribute</th>
-                                    <th>Value</th>
-                                    <th>Status</th>
-                                    <th>Action</th>
-                                </tr>
+                        <div class="row">
+                            <table id="datatables1" class="table table-bordered table-hover">
+                                <thead>
+                                
+                                    <tr>
+                                        <th>No.</th>
+                                        <th>Attribute</th>
+                                        <th>Value</th>
+                                        <th>Status</th>
+                                        <th>Action</th>
+                                    </tr>
 
-                            </thead>
+                                </thead>
 
-                            <tbody>
+                                <tbody>
+                                @foreach ($custom_rules as $custom)
 
-                            @foreach ($custom_rules as $custom)
+                                    <tr>
+                                        <td>{{$loop->iteration}}</td>
+                                        <td>{{$custom->attribute}}</td>
+                                        <td>{{$custom->value}}</td>
+                                        <td>{{$custom->status}}</td>
+                                        <td><a href="#" class="btn btn-danger">Disable</a></td>
+                                    </tr>
 
-                                <tr>
-                                    <td>{{$loop->iteration}}</td>
-                                    <td>{{$custom->attribute}}</td>
-                                    <td>{{$custom->value}}</td>
-                                    <td>{{$custom->status}}</td>
-                                    <td><a href="#" class="btn btn-danger">Disable</a></td>
-                                </tr>
+                                @endforeach
+                                </tbody>
+                            </table>
 
-                            @endforeach
+                        </div>
 
-                            </tbody>
-
-                        </table>
+                        
                     </div><!-- /.card-body -->
 
                     </div><!-- /.card -->

@@ -461,6 +461,7 @@ class AdminController extends Controller
                             ->join('tb_det_custom_rule', 'tb_custom_rule.id', '=', 'tb_det_custom_rule.id_custom_rule')
                             ->select('tb_det_custom_rule.attribute', 'tb_det_custom_rule.value')
                             ->where('tb_custom_rule.id_user_hotspot', $request->id)
+                            ->where('tb_custom_rule.status', 1)
                             ->get();
         }
 

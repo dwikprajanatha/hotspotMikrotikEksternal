@@ -116,7 +116,6 @@
                                             <th>No.</th>
                                             <th>Attribute</th>
                                             <th>Value</th>
-                                            <th>Status</th>
                                             <th>Action</th>
                                         </tr>
 
@@ -129,7 +128,6 @@
                                             <td>{{$loop->iteration}}</td>
                                             <td>{{$custom->attribute}}</td>
                                             <td>{{$custom->value}}</td>
-                                            <td>{{$custom->status}}</td>
                                             <td><a href="{{route('admin.custom.rules.disable', ['id' => $custom->id])}}" class="btn btn-danger">Disable</a></td>
                                         </tr>
 

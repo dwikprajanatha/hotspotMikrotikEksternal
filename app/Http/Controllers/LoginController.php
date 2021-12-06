@@ -15,25 +15,28 @@ class LoginController extends Controller
     public function index(Request $request)
     {
         // //get Pengumuman
-        // $arr_pengumuman = [];
+        $arr_pengumuman = [];
 
-        // $pengumuman = DB::connection('mysql')->table('tb_pengumuman')
-        //                 ->where('status', 1)
-        //                 ->get();
+        $pengumuman = DB::connection('mysql')->table('tb_pengumuman')
+                        ->where('status', 1)
+                        ->get();
 
-        // foreach($pengumuman as $p){
+        foreach($pengumuman as $p){
 
-        //     $files = DB::connection('mysql')->table('tb_det_pengumuman')
-        //                 ->where('id_pengumuman', $p->id)
-        //                 ->where('status', 1)
-        //                 ->get();
+            $files = DB::connection('mysql')->table('tb_det_pengumuman')
+                        ->where('id_pengumuman', $p->id)
+                        ->where('status', 1)
+                        ->get();
 
-        //     $p->images = $files;
+            array_push($arr_pengumuman, [
+                'title' => $p->title, 
+                'desc' => $p->desc, 
+                'created_at' => $p->created_at,
+                'images' => $files,
+            ]);
+        }
 
-        //     array_push($arr_pengumuman, $p);
-        // }
-
-        return view('hotspot.login', ['request' => $request->all()]);
+        return view('hotspot.login', ['request' => $request->all(), 'pengumuman' => $arr_pengumuman]);
     }
 
     public function loginTest(Request $request)

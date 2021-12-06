@@ -171,7 +171,10 @@
 
 		$(document).ready(function(){
 
-			$('#pengumumanModal').modal('show');
+            <?php if(!empty($pengumuman)){
+                echo("$('#pengumumanModal').modal('show');");
+            }
+            ?>
 
 			var base_url = window.location.origin;
 

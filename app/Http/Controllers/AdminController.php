@@ -588,7 +588,7 @@ class AdminController extends Controller
         
     }
 
-    public function deleteCustomRules(Request $request)
+    public function disableCustomRules(Request $request)
     {
         DB::connection('mysql')->beginTransaction();
         DB::connection('mysql_radius')->beginTransaction();

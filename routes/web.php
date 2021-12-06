@@ -120,6 +120,9 @@ Route::group(['middleware' => 'auth:web'], function() {
     // Enable Admin Account
     Route::get('/admin/account/enable/{id}', [AdminController::class, 'enableAccount'])->name('admin.account.enable');
 
+
+
+
     // Hotspot User
     Route::get('/admin/hotspot/{user}', [AdminController::class, 'hotspotUser'])->name('admin.user');
 
@@ -132,9 +135,14 @@ Route::group(['middleware' => 'auth:web'], function() {
     // Enable Hotspot User
     Route::get('/admin/hotspot/{user}/enable/{id}', [AdminController::class, 'enableUser'])->name('admin.user.enable');
     
+    // Add Custom Rules
+    Route::post('/admin/hotspot/custom_rules/add', [AdminController::class, 'addCustomRules'])->name('admin.custom.rules.add');
+
+    // Delete Custom Rules
+    Route::get('/admin/hotspot/custom_rules/delete/{id}', [AdminController::class, 'disableCustomRules'])->name('admin.custom.rules.disable');
+    
     // Report
     Route::get('/admin/report/{range}', [AdminController::class, 'reportUsage'])->name('admin.report.usage');
-    
 
     //Mikrotik (admin Network & Root admin)
 

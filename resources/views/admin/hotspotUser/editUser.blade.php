@@ -80,7 +80,7 @@
                     
                     <div class="card-body">
 
-                        <form action="#" method="post">
+                        <form action="{{route('admin.custom.rules.add')}}" method="post">
                             @csrf
                             <div class="row">
 
@@ -129,7 +129,7 @@
                                         <td>{{$custom->attribute}}</td>
                                         <td>{{$custom->value}}</td>
                                         <td>{{$custom->status}}</td>
-                                        <td><a href="#" class="btn btn-danger">Disable</a></td>
+                                        <td><a href="{{route('admin.custom.rules.disable', ['id' => $custom->id])}}" class="btn btn-danger">Disable</a></td>
                                     </tr>
 
                                 @endforeach
@@ -177,7 +177,7 @@
     $('#datatables1').DataTable({
       "paging": true,
       "lengthChange": false,
-      "searching": true,
+      "searching": false,
       "ordering": true,
       "info": true,
       "autoWidth": false,

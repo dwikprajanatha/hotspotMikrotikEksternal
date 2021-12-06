@@ -442,7 +442,7 @@ class AdminController extends Controller
             $kategori_user_all = DB::connection('mysql')->table('tb_kategori_user')->get();
 
             $custom_rules = DB::connection('mysql')->table('tb_custom_rule')
-                            ->select('tb_custom_rule.nama_custom_role as attribute', 'tb_custom_rule.value_custom_rule as value', 'tb_custom_rule.id as id')
+                            ->select('tb_custom_rule.nama_custom_rule as attribute', 'tb_custom_rule.value_custom_rule as value', 'tb_custom_rule.id as id')
                             ->where('tb_custom_rule.id_user_hotspot', $request->id)
                             ->where('tb_custom_rule.status', 1)
                             ->get();
@@ -458,7 +458,7 @@ class AdminController extends Controller
             $kategori_user_all = DB::connection('mysql')->table('tb_kategori_user')->get();
 
             $custom_rules = DB::connection('mysql')->table('tb_custom_rule')
-                            ->select('tb_custom_rule.nama_custom_role as attribute', 'tb_custom_rule.value_custom_rule as value', 'tb_custom_rule.id as id')
+                            ->select('tb_custom_rule.nama_custom_rule as attribute', 'tb_custom_rule.value_custom_rule as value', 'tb_custom_rule.id as id')
                             ->where('tb_custom_rule.id_user_social', $request->id)
                             ->where('tb_custom_rule.status', 1)
                             ->get();

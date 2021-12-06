@@ -598,12 +598,24 @@ class AdminController extends Controller
             DB::connection('mysql')->table('tb_custom_rule')
                 ->where('id', $request->id)
                 ->update(['status' => 0]);
-            
-            $user = DB::connection('mysql')->table('tb_custom_rule')
+
+            if($request->user == 'organik'){
+
+                $user = DB::connection('mysql')->table('tb_custom_rule')
                         ->select('tb_user_hotspot.username')
                         ->join('tb_user_hotspot', 'tb_custom_rule.id_user_hotspot','=','tb_user_hotspot.id')
                         ->where('tb_custom_rule.id', $request->id)
                         ->first();
+
+            } else {
+
+                $user = DB::connection('mysql')->table('tb_custom_rule')
+                        ->select('tb_user_social.username')
+                        ->join('tb_user_social', 'tb_custom_rule.id_user_social','=','tb_user_social.id')
+                        ->where('tb_custom_rule.id', $request->id)
+                        ->first();
+            }
+
 
             // Delete attribute on RADIUS DB
             DB::connection('mysql_radius')->table('radreply')

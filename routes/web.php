@@ -122,13 +122,15 @@ Route::group(['middleware' => 'auth:web'], function() {
 
 
 
-
     // Hotspot User
     Route::get('/admin/hotspot/{user}', [AdminController::class, 'hotspotUser'])->name('admin.user');
 
     // Edit Hotspot User
     Route::get('/admin/hotspot/{user}/edit/{id}', [AdminController::class, 'editUser'])->name('admin.user.edit');
     
+    // Update Hotspot User
+    Route::post('/admin/hotspot/update', [AdminController::class, 'updateUser'])->name('admin.user.update');
+
     // Disable Hotspot User
     Route::get('/admin/hotspot/{user}/delete/{id}', [AdminController::class, 'deleteUser'])->name('admin.user.delete');
 

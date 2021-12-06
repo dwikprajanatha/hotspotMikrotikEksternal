@@ -614,7 +614,10 @@ class AdminController extends Controller
             DB::connection('mysql_radius')->commit();
 
         } catch (\Throwable $th) {
-            //throw $th;
+            DB::connection('mysql')->rollback();
+            DB::connection('mysql_radius')->rollback();
+
+            dd($th);
         }
     }
 

@@ -23,7 +23,7 @@
                             <h3 class="card-title">Akun User Hotspot</h3>
                         </div>
                         <div class="card-body">
-                            <form action="#" method="POST">
+                            <form action="{{route('admin.user.update')}}" method="POST">
                                 @csrf
 
                                 <input type="hidden" name="user_id" value="{{$user->user_id}}">
@@ -108,34 +108,35 @@
                         </form>
 
                         <div class="row">
-                            <table id="datatables1" class="table table-bordered table-hover">
-                                <thead>
-                                
-                                    <tr>
-                                        <th>No.</th>
-                                        <th>Attribute</th>
-                                        <th>Value</th>
-                                        <th>Status</th>
-                                        <th>Action</th>
-                                    </tr>
+                            <div class="col-12">
+                                <table id="datatables1" class="table table-bordered table-hover">
+                                    <thead>
+                                    
+                                        <tr>
+                                            <th>No.</th>
+                                            <th>Attribute</th>
+                                            <th>Value</th>
+                                            <th>Status</th>
+                                            <th>Action</th>
+                                        </tr>
 
-                                </thead>
+                                    </thead>
 
-                                <tbody>
-                                @foreach ($custom_rules as $custom)
+                                    <tbody>
+                                    @foreach ($custom_rules as $custom)
 
-                                    <tr>
-                                        <td>{{$loop->iteration}}</td>
-                                        <td>{{$custom->attribute}}</td>
-                                        <td>{{$custom->value}}</td>
-                                        <td>{{$custom->status}}</td>
-                                        <td><a href="{{route('admin.custom.rules.disable', ['id' => $custom->id])}}" class="btn btn-danger">Disable</a></td>
-                                    </tr>
+                                        <tr>
+                                            <td>{{$loop->iteration}}</td>
+                                            <td>{{$custom->attribute}}</td>
+                                            <td>{{$custom->value}}</td>
+                                            <td>{{$custom->status}}</td>
+                                            <td><a href="{{route('admin.custom.rules.disable', ['id' => $custom->id])}}" class="btn btn-danger">Disable</a></td>
+                                        </tr>
 
-                                @endforeach
-                                </tbody>
-                            </table>
-
+                                    @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
 
                         

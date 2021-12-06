@@ -96,7 +96,7 @@
                                 </div>
 
                                 <div class="col-3">
-                                    <input type="text" class="form-control" name="value" placeholder="Value">
+                                    <input type="text" class="form-control" name="value" placeholder="Value in GB">
                                 </div>
 
                                 <div class="col-2">

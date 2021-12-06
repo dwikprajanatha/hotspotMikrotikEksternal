@@ -526,7 +526,6 @@ class AdminController extends Controller
                     'id_user_social' => $request->platform != 'organik' ? $request->user_id : null,
                     'id_user_hotspot' => $request->platform == 'organik' ? $request->user_id : null,
                     'nama_custom_rule' => $request->attribute,
-                    'value_custom_rule' => $request->value,
                     'status' => 1,
                 ]);
 

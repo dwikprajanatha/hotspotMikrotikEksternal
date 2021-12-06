@@ -122,11 +122,17 @@
 					<!-- Carousel -->
 					<div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
 						<div class="carousel-inner">
-							@foreach($pengumuman as $p)
-							<div class="carousel-item {{$loop->iteration == 1 ? ' active' : ''}}" >
-								<img class="d-block w-100" src="{{asset('storage/'.$p->link)}}">
+						@php $i = 0; @endphp
+                        @foreach($pengumuman as $p)
+							@foreach($p['images'] as $image)
+                            @php $i++; @endphp
+
+							<div class="carousel-item {{$i == 1 ? 'active' : ''}}">
+								<img class="d-block w-100" src="{{asset('storage/'.$image->link)}}">
 							</div>
+
 							@endforeach
+                        @endforeach
 						</div>
 						<a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
 							<span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -165,7 +171,10 @@
 
 		$(document).ready(function(){
 
-			// $('#pengumumanModal').modal('show');
+            <?php if(!empty($pengumuman)){
+                echo("$('#pengumumanModal').modal('show');");
+            }
+            ?>
 
 			var base_url = window.location.origin;
 

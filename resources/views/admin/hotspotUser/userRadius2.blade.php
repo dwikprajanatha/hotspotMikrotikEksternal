@@ -50,7 +50,8 @@
                             <td>{{$u->group}}</td>
                             <td>{{$u->isDeleted == 0 ? 'Aktif' : 'Non-Aktif'}}</td>
                             <td>
-                            @if($u->isDeleted == 0)
+                              <a href="{{route('admin.user.edit',['user' => $u->platform, 'id' => $u->id])}}" class="btn btn-primary">Edit</a>
+                              @if($u->isDeleted == 0)
                               <a href="{{route('admin.user.delete',['user' => $u->platform, 'id' => $u->id])}}" class="btn btn-danger"><i class="fas fa-times" style="padding-right:1px"></i> Matikan</a>
                               @else
                               <a href="{{route('admin.user.enable',['user' => $u->platform, 'id' => $u->id])}}" class="btn btn-success"><i class="fas fa-check" style="padding-right:5px"></i>Aktifkan</a>

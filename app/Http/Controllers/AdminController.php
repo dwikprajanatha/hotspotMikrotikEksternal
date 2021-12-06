@@ -576,7 +576,7 @@ class AdminController extends Controller
             DB::connection('mysql')->commit();
             DB::connection('mysql_radius')->commit();
 
-            return redirect(route('admin.user.edit',['user' => $request->platform, 'id' => $request->user_id]));
+            return redirect(route('admin.user.edit',['user' => $request->platform, 'id' => $request->user_id]))->with('success', 'Custom Rules berhasil dibuat!');
             
         } catch (\Throwable $th) {
             //throw $th;
@@ -612,6 +612,8 @@ class AdminController extends Controller
                         
             DB::connection('mysql')->commit();
             DB::connection('mysql_radius')->commit();
+
+            return redirect()->back()->with('success', 'Custom Rules berhasil dinonaktifkan!');
 
         } catch (\Throwable $th) {
             DB::connection('mysql')->rollback();

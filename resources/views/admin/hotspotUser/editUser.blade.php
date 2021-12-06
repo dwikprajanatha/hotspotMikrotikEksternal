@@ -128,7 +128,7 @@
                                             <td>{{$loop->iteration}}</td>
                                             <td>{{$custom->attribute}}</td>
                                             <td>{{$custom->value}}{{$custom->attribute == 'quota' ? ' GB' : ''}}</td>
-                                            <td><a href="{{route('admin.custom.rules.disable', ['id' => $custom->id])}}" class="btn btn-danger">Disable</a></td>
+                                            <td><a href="{{route('admin.custom.rules.disable', [ 'user' => $platform, 'id' => $custom->id])}}" class="btn btn-danger">Disable</a></td>
                                         </tr>
 
                                     @endforeach

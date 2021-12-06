@@ -141,7 +141,7 @@ Route::group(['middleware' => 'auth:web'], function() {
     Route::post('/admin/hotspot/custom_rules/add', [AdminController::class, 'addCustomRules'])->name('admin.custom.rules.add');
 
     // Delete Custom Rules
-    Route::get('/admin/hotspot/custom_rules/delete/{id}', [AdminController::class, 'disableCustomRules'])->name('admin.custom.rules.disable');
+    Route::get('/admin/hotspot/custom_rules/{user}/delete/{id}', [AdminController::class, 'disableCustomRules'])->name('admin.custom.rules.disable');
     
     // Report
     Route::get('/admin/report/{range}', [AdminController::class, 'reportUsage'])->name('admin.report.usage');

@@ -18,6 +18,7 @@ class TbCustomRole extends Migration
             $table->foreignId('id_user_social')->nullable()->constrained('tb_user_social');
             $table->foreignId('id_user_hotspot')->nullable()->constrained('tb_user_hotspot');
             $table->string('nama_custom_rule');
+            $table->string('value_custom_rule');
             $table->string('status');
         });
     }

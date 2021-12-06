@@ -270,20 +270,37 @@ class LoginController extends Controller
     public function forgotPassword(Request $request)
     {
         $request->validate([
-            'password' => ['required', 'min:8', 'confirmed']
+            'nik' => ['required'],
+            'username' => ['required'],
+            'password' => ['required', 'min:8', 'confirmed'],
         ]);
 
         //change password 
         DB::connection('mysql_radius')->beginTransaction();
         try {
-            $user = DB::connection('mysql')->table('tb_user_hotspot')->where('id', $request->id_akun)->first();
 
-            DB::connection('mysql_radius')->table('radcheck')->where('username', $user->username)
-                        ->update([
-                            'value' => $request->password,
-                        ]);
+            //cek NIK
+            $user = DB::connection('mysql')->table('tb_user_hotspot')
+                    ->join('tb_nik', 'tb_user_hotspot.nik_id', '=', 'tb_nik.id')
+                    ->where('tb_nik.nik', $request->nik)
+                    ->where('tb_user_hotspot.username', $request->username)
+                    ->first();
             
-            DB::connection('mysql_radius')->commit();
+            if(empty($user)){
+
+                return redirect()->back()->with('error', 'Username dan NIK tidak sesuai!');
+
+            } else {
+
+                DB::connection('mysql_radius')->table('radcheck')
+                    ->where('username', $user->username)
+                    ->update([
+                        'value' => $request->password,
+                    ]);
+
+                DB::connection('mysql_radius')->commit();
+                return redirect()->back()->with('success', 'Password berhasil diubah!');
+            }
 
         } catch (\Throwable $th) {
 

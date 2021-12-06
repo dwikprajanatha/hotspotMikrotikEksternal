@@ -38,9 +38,9 @@
 							Pemulihan Akun Hotspot
 	            </span>
 	
-                <div id="cari-akun">
+                <!-- <div id="cari-akun"> -->
 
-                    <div class="wrap-input100">
+                    <!-- <div class="wrap-input100">
                         <input class="input100" type="text" id="nik" placeholder="NIK">
                         <span class="focus-input100"></span>
                         <span class="symbol-input100">
@@ -54,17 +54,17 @@
                         <span class="symbol-input100">
                             <i class="fa fa-user" aria-hidden="true"></i>
                         </span>
-                    </div>
+                    </div> -->
 
-                    <div class="container-login100-form-btn">
+                    <!-- <div class="container-login100-form-btn">
                         <button class="login100-form-btn" id="cariAkun">
                             Cari Akun
                         </button>
-                    </div>
+                    </div> -->
 
-                </div>
+                <!-- </div> -->
 
-                <div id="ubah-akun">
+                <!-- <div id="ubah-akun"> -->
 
                     <form action="{{route('hotspot.forgot')}}" method="POST">
 					
@@ -76,7 +76,22 @@
 							</div>
 						@endif
 
-                        <input type="hidden" name="id_akun" id="id_akun">
+                        <!-- <input type="hidden" name="id_akun" id="id_akun"> -->
+                        <div class="wrap-input100">
+                            <input class="input100" type="text" id="nik" placeholder="NIK">
+                            <span class="focus-input100"></span>
+                            <span class="symbol-input100">
+                                <i class="fa fa-id-card-o" aria-hidden="true"></i>
+                            </span>
+                        </div>
+
+                        <div class="wrap-input100">
+                            <input class="input100" type="text" id="username" placeholder="Username">
+                            <span class="focus-input100"></span>
+                            <span class="symbol-input100">
+                                <i class="fa fa-user" aria-hidden="true"></i>
+                            </span>
+                        </div>
 						
 	
 						<div class="wrap-input100">
@@ -97,13 +112,13 @@
 	
 						<div class="container-login100-form-btn">
 							<button class="login100-form-btn">
-								Cari Akun
+								Ganti Password
 							</button>
 						</div>
 	
 					</form>
 
-                </div>
+                <!-- </div> -->
 
 					
 
@@ -157,45 +172,45 @@
         }
 
 
-        $(document).ready(function(){
+        // $(document).ready(function(){
 
-            $('#ubah-akun').css("visibility", "hidden");
+        //     $('#ubah-akun').css("visibility", "hidden");
 
-            var base_url = window.location.origin;
+        //     var base_url = window.location.origin;
 
-            $('#cariAkun').click(function(){
+        //     $('#cariAkun').click(function(){
 
-                var nik = $("#nik").val();
-                var username = $("#username").val();
+        //         var nik = $("#nik").val();
+        //         var username = $("#username").val();
 
-                $.get(base_url + '/api/user/checkUser', {'nik': nik, 'username': username})
-                    .done(function(data){
+        //         $.get(base_url + '/api/user/checkUser', {'nik': nik, 'username': username})
+        //             .done(function(data){
 
-                        var d = JSON.parse(data);
-                        console.log(d);
+        //                 var d = JSON.parse(data);
+        //                 console.log(d);
 
-                        if(d.status == 200){
-                            $("#nik").prop('disabled', true);
-                            $("#username").prop('disabled', true);
-                            $('#cariAkun').hide();
+        //                 if(d.status == 200){
+        //                     $("#nik").prop('disabled', true);
+        //                     $("#username").prop('disabled', true);
+        //                     $('#cariAkun').hide();
 
-                            $('#ubah-akun').fadeIn();
-                            $('#ubah-akun').css("visibility", "visible");
+        //                     $('#ubah-akun').fadeIn();
+        //                     $('#ubah-akun').css("visibility", "visible");
 
-                            $('#id_akun').val(data.id_akun);
+        //                     $('#id_akun').val(data.id_akun);
 
-                            toastr['success']('Data Valid!');
+        //                     toastr['success']('Data Valid!');
 
-                        } else {
+        //                 } else {
 
-                            toastr['error'](data.message)
+        //                     toastr['error'](data.message)
 
-                        }
-                    });
+        //                 }
+        //             });
 
-            });
+        //     });
 
-        });
+        // });
 
 
     </script>

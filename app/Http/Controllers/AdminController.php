@@ -596,7 +596,7 @@ class AdminController extends Controller
         try {
             
             DB::connection('mysql')->table('tb_custom_rule')
-                ->where($request->id)
+                ->where('id', $request->id)
                 ->update(['status' => 0]);
             
             $user = DB::connection('mysql')->table('tb_custom_rule')

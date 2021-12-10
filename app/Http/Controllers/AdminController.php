@@ -103,7 +103,6 @@ class AdminController extends Controller
             ]);
 
             if($admin){
-                // $request->session()->flash('success', 'Sukses bos!');
                 return redirect(route('admin.account'))->with('success', 'Akun berhasil dibuat!');
             }
         });

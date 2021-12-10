@@ -1,6 +1,10 @@
 @extends('admin.template')
 
-@section('header', "Create Account")
+
+@if (Request::segment(1) == 'admin' && Request::segment(2) == 'account' && Request::segment(3) == 'edit')
+    @section('header', "Update Akun Admin")
+@else
+    @section('header', "Buat Akun Admin")
 
 @push('css')
 @endpush

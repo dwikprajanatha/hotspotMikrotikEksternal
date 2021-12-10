@@ -141,12 +141,6 @@ class LoginController extends Controller
                         ->withInput();
         }
 
-        // $request->validate([
-        //     'nik' => ['required', 'numeric'],
-        //     'username' => ['required', 'alpha_num'],
-        //     'password' => ['required', 'alpha_num', 'min:8'],
-        // ]);
-
         
         DB::connection('mysql')->beginTransaction();
         DB::connection('mysql_radius')->beginTransaction();
@@ -237,19 +231,10 @@ class LoginController extends Controller
 
             
 
-                //    $radreply = DB::connection('mysql_radius')->table('radreply')->insert([
-                //        'username' => $request->username,
-                //        'attribute' => 'Mikrotik-Rate-Limit',
-                //        'op' => ':=',
-                //        'value' => '8M/8M 0/0 0/0 0/0 4 4M/4M',
-                //    ]);
-
             DB::connection('mysql')->commit();
             DB::connection('mysql_radius')->commit();
 
             return view('hotspot/loginAfterRegister',['username' => $request->username, 'password' => $request->password]);
-            // $request->session()->put('userSuccess', 'Akun Berhasil dibuat!, Silahkan Login');
-            // return redirect()->intended('http://10.0.0.1/');
 
         } catch (\Throwable $th) {
             DB::connection('mysql')->rollback();

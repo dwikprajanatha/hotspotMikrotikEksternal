@@ -537,7 +537,7 @@ $(document).ready(function(){
 
     $('#datepickerBulan').datetimepicker({
         viewMode : "years",
-        format  : 'MM'
+        format  : 'MM/YYYY'
     });
 
     $('#datepickerTahun').datetimepicker({

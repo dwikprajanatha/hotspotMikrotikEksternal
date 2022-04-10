@@ -49,7 +49,7 @@
                                     <input type="text" name="username" id="username" class="form-control" disabled value="{{isset($user->username) ? $user->username : ''}}">
                                 </div>
 
-                                @if($platform == "organik")
+                                @if($platform == "organik" && $user->path != null)
                                 <div class="form-group">
                                     <label for="group">User Profiles</label>
                                     <select class="custom-select form-control-border" name="group" id="group">
@@ -58,6 +58,39 @@
                                         <option value="{{$g->id}}" {{$user->group_id == $g->id ? 'selected' : ''}}>{{$g->group}}</option>
                                         @endforeach
 
+                                    </select>
+                                </div>
+
+                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#ktpModal">
+                                    Lihat KTP
+                                </button>
+
+                                <!-- MODAL View KTP -->
+                                <div class="modal fade" id="ktpModal" tabindex="-1" role="dialog" aria-labelledby="ktpModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="ktpModalLabel">Foto KTP</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <img src="{{asset('storage/'.$user->path)}}" style="display:block;" width="100%" height="100%">
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                        </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="group">Status Identitas</label>
+                                    <select class="custom-select form-control-border" name="status_validasi" id="group">
+                                        <option selected value="0">Belum Valid</option>
+                                        <option value="1">Valid</option>
+                                        <option value="2">Tidak Valid</option>
                                     </select>
                                 </div>
 

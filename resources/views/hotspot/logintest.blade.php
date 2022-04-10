@@ -81,13 +81,13 @@
 						</button>
 					</div>
 
-					<div class="text-center p-t-14">
+					<div class="text-center p-t-10">
 						<a class="txt3" href="{{route('hotspot.forgot.view')}}">
 							Lupa  Password?
 						</a>
 					</div>
 
-					<div class="text-center p-t-50">
+					<div class="text-center p-t-20">
 						<span class="txt1">
 							Belum Punya akun?
 						</span>
@@ -97,6 +97,18 @@
 
 						<a class="txt2" href="{{route('hotspot.register.view')}}">
 							Buat Akun disini
+							<i class="fa fa-long-arrow-right m-l-5" aria-hidden="true"></i>
+						</a>
+					</div>
+
+					<div class="text-center p-t-2">
+						<span class="txt1">
+							Punya keluhan, kritik atau saran?
+						</span>
+						<br>
+
+						<a class="txt2" href="{{route('hotspot.keluhan.view')}}">
+							Sampaikan Disini
 							<i class="fa fa-long-arrow-right m-l-5" aria-hidden="true"></i>
 						</a>
 					</div>
@@ -207,12 +219,7 @@
 										e.preventDefault();
 									});
 
-								} else {
-
-									console.log(response);
-									$('#formLogin').submit();
-									
-								}
+								} 
 
 							} else {
 
@@ -225,6 +232,44 @@
 
 								
 						},
+					complete: function(){
+						
+						console.log("MASUK ELSE");
+						var url = base_url + '/api/user/cekValidasi';
+
+						console.log(url);
+						//Cek status validasi
+						$.ajax({
+							url: base_url + '/api/user/cekValidasi',
+							type: 'GET',
+							async: false,
+							dataType : "JSON",
+							headers: {'Accept': 'application/json'},
+							data: { 'username': input_user.toString() },
+							success: function(response){
+								var result = response.data;
+								console.log(result);
+
+								if(result.status == 2){
+									
+									$('#errorKategori').append('<div class="alert alert-danger" role="alert"><p><b>ERROR</b>, Akun anda tidak valid, harap upload ulang foto KTP/KK anda pada link berikut <a href="'+ result.link +'"><em>Klik disini</em></a></div>');
+									$('#formLogin').submit(function(e){
+										e.preventDefault();
+									});
+
+								} else {
+
+									$('#formLogin').submit();
+									
+								}
+							},
+							error: function(jqXHR, textStatus, errorThrown){
+									console.log(textStatus);
+									console.log(errorThrown);
+							}
+						});
+
+					},
 					error: function(jqXHR, textStatus, errorThrown){
 							console.log(textStatus);
 							console.log(errorThrown);

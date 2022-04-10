@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<title>Forgot Password</title>
+	<title>Cari Username</title>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 <!--===============================================================================================-->	
@@ -24,109 +24,54 @@
 <!--===============================================================================================-->
 </head>
 <body>
-
-	<div class="limiter">
-		<div class="container-login100">
-			<div class="wrap-login100">
-				<div class="login100-pic js-tilt" data-tilt>
-					<img src="{{asset('login/images/logo-punggul.png')}}" alt="IMG">
-				</div>
-
-				<div class="login100-form validate-form">
-
-                <span class="login100-form-title">
-							Pemulihan Akun Hotspot
-	            </span>
-	
-                <!-- <div id="cari-akun"> -->
-
-                    <!-- <div class="wrap-input100">
-                        <input class="input100" type="text" id="nik" placeholder="NIK">
-                        <span class="focus-input100"></span>
-                        <span class="symbol-input100">
-                            <i class="fa fa-id-card-o" aria-hidden="true"></i>
-                        </span>
+    <form action="{{route('hotspot.forgot.username.post')}}" method="post">
+        @csrf
+        <div class="limiter">
+            <div class="container-login100">
+                <div class="wrap-login101">
+                    <div class="login101-pic js-tilt" data-tilt>
+                        <img src="{{asset('login/images/logo-punggul.png')}}" alt="IMG">
                     </div>
 
-                    <div class="wrap-input100">
-                        <input class="input100" type="text" id="username" placeholder="Username">
-                        <span class="focus-input100"></span>
-                        <span class="symbol-input100">
-                            <i class="fa fa-user" aria-hidden="true"></i>
-                        </span>
-                    </div> -->
+                    <div class="login100-form validate-form">
 
-                    <!-- <div class="container-login100-form-btn">
-                        <button class="login100-form-btn" id="cariAkun">
-                            Cari Akun
-                        </button>
-                    </div> -->
+                    <span class="login100-form-title">
+                                Cari Username
+                    </span>
 
-                <!-- </div> -->
-
-                <!-- <div id="ubah-akun"> -->
-
-                    <form action="{{route('hotspot.forgot')}}" method="POST">
-					
-						@csrf
-
-                        <!-- <input type="hidden" name="id_akun" id="id_akun"> -->
                         <div class="wrap-input100">
-                            <input class="input100" type="text" id="nik" name="nik" placeholder="NIK">
+                            <input class="input100" type="text" name="nik" placeholder="NIK" value="{{empty($nik) ?  '' : $nik}}" {{empty($nik) ? '' : 'disabled'}}>
                             <span class="focus-input100"></span>
                             <span class="symbol-input100">
                                 <i class="fa fa-id-card-o" aria-hidden="true"></i>
                             </span>
                         </div>
 
+                        @if(!isset($nik))
+                        <div class="container-login100-form-btn">
+                            <input type="submit" class="login100-form-btn" value="Cari Akun">
+                        </div>
+                        @endif
+
+                        @isset($username)
                         <div class="wrap-input100">
-                            <input class="input100" type="text" id="username" name="username" placeholder="Username">
+                            <input class="input100" type="text" id="username" placeholder="NIK" value="{{empty($username) ?  '' : $username}}" disabled>
                             <span class="focus-input100"></span>
                             <span class="symbol-input100">
-                                <i class="fa fa-user" aria-hidden="true"></i>
+                                <i class="fa fa-id-card-o" aria-hidden="true"></i>
                             </span>
                         </div>
+                        @endisset
+                        
 
-                        <div class="text-center m-t-1 p-b-10">
-                            <a class="txt3" href="{{route('hotspot.forgot.username')}}">
-                                Lupa  Username?
-                            </a>
-					    </div>
-						
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </form>
 	
-						<div class="wrap-input100">
-							<input class="input100" type="password" name="password" placeholder="Password Baru">
-							<span class="focus-input100"></span>
-							<span class="symbol-input100">
-								<i class="fa fa-lock" aria-hidden="true"></i>
-							</span>
-						</div>
-	
-						<div class="wrap-input100">
-							<input class="input100" type="password" name="password_confirmation" placeholder="Konfirmasi Password">
-							<span class="focus-input100"></span>
-							<span class="symbol-input100">
-								<i class="fa fa-lock" aria-hidden="true"></i>
-							</span>
-						</div>
-	
-						<div class="container-login100-form-btn">
-							<button class="login100-form-btn">
-								Ganti Password
-							</button>
-						</div>
-	
-					</form>
-
-                <!-- </div> -->
-
-					
-
-
-				</div>
-			</div>
-		</div>
-	</div>
 	
 	
 
@@ -180,46 +125,6 @@
             @endif
         });
 
-
-        // $(document).ready(function(){
-
-        //     $('#ubah-akun').css("visibility", "hidden");
-
-        //     var base_url = window.location.origin;
-
-        //     $('#cariAkun').click(function(){
-
-        //         var nik = $("#nik").val();
-        //         var username = $("#username").val();
-
-        //         $.get(base_url + '/api/user/checkUser', {'nik': nik, 'username': username})
-        //             .done(function(data){
-
-        //                 var d = JSON.parse(data);
-        //                 console.log(d);
-
-        //                 if(d.status == 200){
-        //                     $("#nik").prop('disabled', true);
-        //                     $("#username").prop('disabled', true);
-        //                     $('#cariAkun').hide();
-
-        //                     $('#ubah-akun').fadeIn();
-        //                     $('#ubah-akun').css("visibility", "visible");
-
-        //                     $('#id_akun').val(data.id_akun);
-
-        //                     toastr['success']('Data Valid!');
-
-        //                 } else {
-
-        //                     toastr['error'](data.message)
-
-        //                 }
-        //             });
-
-        //     });
-
-        // });
 
 
     </script>

@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\DB;
 use Session;
 use Laravel\Socialite\Facades\Socialite;
 use Validator;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\File;
 
 class LoginController extends Controller
 {
@@ -120,6 +122,7 @@ class LoginController extends Controller
             'nik' => ['required', 'numeric'],
             'username' => ['required', 'alpha_num'],
             'password' => ['required', 'alpha_num', 'min:8'],
+            'foto_ktp' => ['required', 'file', 'image', 'max:6000']
         ];
 
         $messages = [
@@ -131,6 +134,7 @@ class LoginController extends Controller
             'password.alpha_num' => 'Password harus berupa angka atau huruf atau kombinasi tanpa spasi',
             'password.min' => 'Password harus minimal 8 karakter',
         ];
+
 
         //validasi
         $validator = Validator::make($request->all(), $rules, $messages);
@@ -146,7 +150,6 @@ class LoginController extends Controller
         DB::connection('mysql_radius')->beginTransaction();
 
         try {
-            
             //verifikasi nik
             $cek = DB::connection('mysql')->table('tb_nik')->select('id')->where('nik',$request->nik)->first();
             
@@ -191,6 +194,24 @@ class LoginController extends Controller
                 $kategori = "Anak";
             }
 
+            if($request->hasFile('foto_ktp')){
+
+                $folder = public_path('storage/ktp/'.date('d_m_Y'));
+                
+                if(!File::exists($folder)) {
+                    File::makeDirectory($path, 0777, true, true);
+                }
+
+                $file = $request->file('foto_ktp');
+
+                $dir = 'ktp/'.date('d_m_Y');
+                $path = Storage::disk('public')->putFile($dir, $file);
+
+                // $file = $request->file('foto_ktp');
+                // $path = Storage::disk('public')->putFile('ktp', $file);
+            }
+            
+
             //buat akun di DB local
             $user_local = DB::connection('mysql')->table('tb_user_hotspot')
                             ->insertGetId([
@@ -200,8 +221,9 @@ class LoginController extends Controller
                                     'kategori' => $kategori,
                                     'mac' => $request->mac,
                                     'ip' => $request->ip,
-                                    'created_at' => date('Y-m-d'),
                                     'isDeleted' => 0,
+                                    'path' => $path,
+                                    'created_at' => date('Y-m-d'),
                                 ]);
 
             $kategori_umum = DB::connection('mysql')->table('tb_kategori_user')
@@ -230,7 +252,6 @@ class LoginController extends Controller
             ]);
 
             
-
             DB::connection('mysql')->commit();
             DB::connection('mysql_radius')->commit();
 
@@ -246,11 +267,46 @@ class LoginController extends Controller
     }
 
 
+    public function createKeluhan(Request $request)
+    {
+        return view('hotspot.keluhan');
+    }
+
+    public function postKeluhan(Request $request)
+    {
+        $request->validate([
+            'nik' => ['required'],
+            'nama' => ['required'],
+            'isi' => ['required'],
+        ]);
+
+        //cek NIK
+        $cek = DB::connection('mysql')->table('tb_nik')->select('id')->where('nik',$request->nik)->first();
+        
+        if($cek == null){
+            Session::flash('error', 'NIK Tidak Terdaftar!');
+            return redirect()->back();
+
+        } else {
+            // Insert to DB
+            DB::connection('mysql')->table('tb_keluhan')->insert([
+                'nik_id' => $cek->id,
+                'nama' => $request->nama,
+                'isi' => $request->isi,
+                'read' => 0,
+            ]);
+
+            Session::flash('success', 'Pesan sudah dikirim!');
+            return redirect()->back();
+        }
+        
+    }
+
+
     public function showforgotPassword(Request $request)
     {
         return view('hotspot.forgotPassword');
     }
-
     
     public function forgotPassword(Request $request)
     {
@@ -295,78 +351,107 @@ class LoginController extends Controller
         }
     }
 
-    public function getUsername(Request $request)
+    public function showForgetUsername(Request $request)
     {
-    
-        return json_encode([
-            'status' => 200,
-            'message' => 'valid',
-            'nik' => $request->nik,
-            'username' => $request->username,
+        return view('hotspot.findUsername');
+    }
+
+    public function findUsername(Request $request)
+    {
+        $request->validate([
+            'nik' => ['required'],
         ]);
 
-
-        //cek nik
-        $nik = DB::connection('mysql')->table('tb_nik')->where('nik',$request->nik)->first();
-
-        if(isset($nik)){
+        $username = DB::connection('mysql')->table('tb_user_hotspot')
+                        ->join('tb_nik','tb_user_hotspot.nik_id', '=', 'tb_nik.id')
+                        ->select('tb_user_hotspot.username')
+                        ->where('tb_nik.nik', $request->nik)
+                        ->first();
+        
+        $username = $username->username;
+        
+        if(isset($username)){
+            $mask_username = str_repeat('*', strlen($username) - 4) . substr($username, -4);
+            return view('hotspot.findUsername', ['username' => $mask_username, 'nik' => $request->nik]);
             
-            $user = DB::connection('mysql')->table('tb_user_hotspot')->where('nik_id', $nik->id)->first();
-
-            if($user->username == $request->username){
-
-                return json_encode([
-                    'status' => 200,
-                    'message' => 'valid',
-                    'id_akun' => $user->id,
-                ]);
-
-            }
-            
-            return json_encode([
-                'status' => 500,
-                'message' => 'Username Salah',
-            ]);
-
+        } else {
+            Session::flash('error', 'Username tidak ditemukan!');
+            return view('hotspot.findUsername', ['nik' => $request->nik]);
         }
 
-        return json_encode([
-            'status' => 500,
-            'message' => 'User tidak ada',
-        ]);
-
-
+        
     }
 
 
-    public function getKategori(Request $request)
+
+
+    public function resubmitForm(Request $request)
+    {    
+        //cek link
+        $rejected = DB::connection('mysql')->table('tb_link_rejected')->where('token', $request->tokenID)->first();
+        
+        if(!is_null($rejected)){
+
+            $data = DB::connection('mysql')->table('tb_user_hotspot')->where('id', $rejected->id_user_hotspot)->first();
+
+            //return view nya
+            return view('hotspot/resubmit',['user' => $data]);
+
+        } else {
+
+            //error
+            return redirect()->back()->with('error', 'Link tidak valid!');
+
+        }
+    }
+
+
+    public function resubmit(Request $request)
     {
-        // Get Kategori
-
-        $user = DB::connection('mysql')->table('tb_user_hotspot')->select('kategori', 'isDeleted')->where('username', $request->username)->first();
-
-        return json_encode([
-            'status' => 200,
-            'data' => [
-                'kategori' => $user->kategori,
-                'isDeleted' => $user->isDeleted,
-            ],
+        //upload foto
+        $data = $request->validate([
+            'id_user' => ['required'],
+            'foto_ktp' => ['required', 'file', 'image', 'max:6000'],
         ]);
 
+        try {
+
+            if($request->hasFile('foto_ktp')){
+
+                $folder = public_path('storage/ktp/'.date('d_m_Y'));
+                
+                if(!File::exists($folder)) {
+                    File::makeDirectory($path, 0777, true, true);
+                }
+
+                $file = $request->file('foto_ktp');
+
+                $dir = 'ktp/'.date('d_m_Y');
+                $path = Storage::disk('public')->putFile($dir, $file);
+                
+                DB::connection('mysql')->table('tb_user_hotspot')
+                    ->where('id', $request->id_user)
+                    ->update([
+                        'path' => $path,
+                        'status' => 0,
+                    ]);
+                
+            }
+
+        } catch (\Throwable $th) {
+            dd($th);
+        }
 
     }
 
-    public function getSocialStatus(Request $request)
+    public function test()
     {
-        $user = DB::connection('mysql')->table('tb_user_social')->select('isDeleted')->where('username', $request->username)->first();
-
-        return json_encode([
-            'status' => 200,
-            'data' => [
-                'isDeleted' => $user->isDeleted,
-            ],
-        ]);
+        $folder = public_path('storage/ktp/'.date('d_m_Y'));
+        dd($folder);
     }
+
+
+    
 
     public function redirect($provider)
     {
@@ -607,5 +692,109 @@ class LoginController extends Controller
         // return view('hotspot.deletion', ['$data' => $data]);
         return view('hotspot.deletion');
     }
+
+
+    // API START HERE //
+    public function getUsername(Request $request)
+    {
+    
+        return json_encode([
+            'status' => 200,
+            'message' => 'valid',
+            'nik' => $request->nik,
+            'username' => $request->username,
+        ]);
+
+
+        //cek nik
+        $nik = DB::connection('mysql')->table('tb_nik')->where('nik',$request->nik)->first();
+
+        if(isset($nik)){
+            
+            $user = DB::connection('mysql')->table('tb_user_hotspot')->where('nik_id', $nik->id)->first();
+
+            if($user->username == $request->username){
+
+                return json_encode([
+                    'status' => 200,
+                    'message' => 'valid',
+                    'id_akun' => $user->id,
+                ]);
+
+            }
+            
+            return json_encode([
+                'status' => 500,
+                'message' => 'Username Salah',
+            ]);
+
+        }
+
+        return json_encode([
+            'status' => 500,
+            'message' => 'User tidak ada',
+        ]);
+
+
+    }
+
+
+    public function getKategori(Request $request)
+    {
+        // Get Kategori
+
+        $user = DB::connection('mysql')->table('tb_user_hotspot')->select('kategori', 'isDeleted')->where('username', $request->username)->first();
+
+        return json_encode([
+            'status' => 200,
+            'data' => [
+                'kategori' => $user->kategori,
+                'isDeleted' => $user->isDeleted,
+            ],
+        ]);
+
+
+    }
+
+    public function getSocialStatus(Request $request)
+    {
+        $user = DB::connection('mysql')->table('tb_user_social')->select('isDeleted')->where('username', $request->username)->first();
+
+        return json_encode([
+            'status' => 200,
+            'data' => [
+                'isDeleted' => $user->isDeleted,
+            ],
+        ]);
+    }
+
+    public function cekValidasi(Request $request)
+    {
+        $user = DB::connection('mysql')->table('tb_user_hotspot')
+                ->where('username', $request->username)
+                ->first();
+
+        if($user->status == 2){
+            $data = DB::connection('mysql')->table('tb_link_rejected')
+                ->where('id_user_hotspot', $user->id)
+                ->where('status', 1)
+                ->first();
+            $link = $data->link;
+        } else {
+            $link = null;
+        }
+
+
+        return json_encode([
+            'status' => 200,
+            'data' => [
+                'status' => $user->status,
+                'link' => $link,
+            ],
+        ]);
+
+    }
+
+
 
 }

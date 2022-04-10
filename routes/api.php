@@ -32,6 +32,7 @@ use App\Http\Controllers\LoginController;
 Route::get('user/checkUser',[LoginController::class, 'getUsername']);
 Route::get('user/cekKategori',[LoginController::class, 'getKategori']);
 Route::get('user/cekSocialStatus',[LoginController::class, 'getSocialStatus']);
+Route::get('user/cekValidasi',[LoginController::class, 'cekValidasi']);
 
 // Route::group(['middleware' => 'auth:api'], function() {
 
@@ -54,5 +55,8 @@ Route::get('user/cekSocialStatus',[LoginController::class, 'getSocialStatus']);
     Route::get('report/umur/{range}/{tgl?}', [AdminController::class, 'apiProporsiUmur']);
     Route::get('report/penggunaan/{range}/{tgl}', [AdminController::class, 'apiPenggunaanPerUser']);
     Route::get('report/waktupenggunaan/{range}/{tgl}',[AdminController::class, 'apiWaktuPenggunaan']);
+
+    // Keluhan
+    Route::get('keluhan/get', [AdminController::class, 'apiGetKeluhan']);
 
 // });

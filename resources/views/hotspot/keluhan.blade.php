@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<title>Buat Akun Baru</title>
+	<title>Form Keluhan</title>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 <!--===============================================================================================-->	
@@ -71,19 +71,18 @@
 <body>
 
 		@php
-		if(session()->has('request')){
-			$request = session()->get('request');
-			
-			if(empty($request['mac']) || empty($request['mac'])){
-				exit("ERROR : Anda tidak terhubung jaringan Free Wifi Desa Punggul");
+			if(session()->has('request')){
+				$request = session()->get('request');
+				
+				if(empty($request['mac']) && empty($request['mac'])){
+					$request = ['mac' => '00:00:00:00:00', 'ip' => '0.0.0.0'];
+				}
+
+			} else {
+				$request = ['mac' => '00:00:00:00:00', 'ip' => '0.0.0.0'];
 			}
-
-		} else {
-			exit("ERROR : Anda tidak terhubung jaringan Free Wifi Desa Punggul");
-		}
+			
 		@endphp
-
-
 
 	<div class="limiter">
 		<div class="container-login100">
@@ -92,21 +91,25 @@
 					<img src="{{asset('login/images/logo-punggul.png')}}" alt="IMG">
 				</div>
 
-				<div class="login100-form validate-form">
+				<div class="login100-form validate-form p-t-90">
 
-
-					<form id="formDaftar" action="{{route('hotspot.register')}}" method="POST" enctype="multipart/form-data">
+ 
+					<form id="formKeluhan" action="{{route('hotspot.keluhan.post')}}" method="POST" enctype="multipart/form-data">
 					
 						{{ csrf_field() }}
 	
 	
-						<span class="login100-form-title">
-							Registrasi Akun Hotspot
+						<span class="login100-form-title m-b-50">
+							Form Keluhan, Kritik, atau Saran
 						</span>
 	
 						@if($error = Session::get('error'))
 							<div class="alert alert-danger" role="alert">
 								{{ $error }}
+							</div>
+						@elseif($success = Session::get('success'))
+							<div class="alert alert-success" role="alert">
+								{{ $success }}
 							</div>
 						@endif
 	
@@ -124,71 +127,34 @@
 						@foreach ($errors->get('nik') as $err)
 						<p class="text-danger">{{$err}}</p>
 						@endforeach
-	
+
 						<div class="wrap-input100">
 							<span class="focus-input100"></span>
 							<span class="symbol-input100">
-								<i class="fa fa-user" aria-hidden="true"></i>
+								<i class="fa fa-id-card-o" aria-hidden="true"></i>
 							</span>
-							<input class="input100" type="text" name="username" placeholder="Username" value="{{old('username')}}">
+							<input class="input100" type="text" name="nama" placeholder="Nama" value="{{old('nama')}}">
+						</div>
+						@foreach ($errors->get('nama') as $err)
+						<p class="text-danger">{{$err}}</p>
+						@endforeach
+	
+						<div class="form-control m-t-30">
+							<!-- <span class="focus-input100"></span> -->
+							<!-- <input class="input100" type="text" name="text" placeholder="Isian" value="{{old('username')}}"> -->
+                            <textarea name="isi" class="form-control" placeholder="Isi.." rows="3"></textarea>
 						</div>
 						@foreach ($errors->get('username') as $err)
 							<p class="text-danger">{{$err}}</p>
 						@endforeach
-	
-						<div class="wrap-input100">
-							<span class="focus-input100"></span>
-							<span class="symbol-input100">
-								<i class="fa fa-lock" aria-hidden="true"></i>
-							</span>
-							<input class="input100" type="password" name="password" placeholder="Password">
-						</div>
-						@foreach ($errors->get('password') as $err)
-						<p class="text-danger">{{$err}}</p>
-						@endforeach
 						
-						<div class="wrap-input100">
-							<div class="form-group">
-								<label>Foto KTP/KK atau kartu dengan NIK lainnya</label>
-								<input type="file" class="form-control-file" name="foto_ktp" id="foto_ktp" accept="image/*" capture>
-							</div>
-						</div>
-						<div class="form-group">
-							<img id="img_ktp" style="display:block;" width="100%" height="100%">
-						</div>
-
-						<div class="container-login100-form-btn">
+						<div class="container-login100-form-btn m-b-40">
 							<button class="login100-form-btn" type="submit">
-								Buat Akun
+								Kirim
 							</button>
 						</div>
 	
 					</form>
-
-					<hr class="border-top: 3px solid #bbb">
-							<span class="socialmedia-text">
-								Bukan warga desa Punggul? <br> Login pakai Social Media aja!
-							</span>
-							
-							<a href="{{url('auth/facebook')}}">
-								<div class="container-login-social-form-btn">
-									<button id="facebook-btn" class="login-form-btn-facebook">
-										Login with Facebook
-									</button>
-								</div>
-							</a>
-							
-							<a href="{{url('auth/google')}}">
-								<div class="container-login-social-form-btn">
-									<button id="google-btn" class="login-form-btn-google">
-										Login with Google
-									</button>
-								</div>
-							</a>
-
-	
-						<div class="text-center p-t-20">
-
 				</div>
 			</div>
 		</div>
@@ -213,22 +179,6 @@
 	</script>
 <!--===============================================================================================-->
 	<script src="{{asset('login/js/main.js')}}"></script>
-	<script>
 
-		$('#foto_ktp').change(function(){
-			var file = $("#foto_ktp").get(0).files[0];
-
-			if(file){
-				var reader = new FileReader();
- 
-				reader.onload = function(){
-					$("#img_ktp").attr("src", reader.result);
-				}
-	
-				reader.readAsDataURL(file);
-			}
-		})
-
-	</script>
 </body>
 </html>

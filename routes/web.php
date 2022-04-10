@@ -37,8 +37,14 @@ Route::post('user/statusHotspot', [LoginController::class, 'status'])->name('hot
 Route::get('/forgotPassword', [LoginController::class, 'showforgotPassword'])->name('hotspot.forgot.view');
 Route::post('/forgotPassword', [LoginController::class, 'forgotPassword'])->name('hotspot.forgot');
 
+Route::get('/forgotUsername', [LoginController::class, 'showForgetUsername'])->name('hotspot.forgot.username');
+Route::post('/forgotUsername', [LoginController::class, 'findUsername'])->name('hotspot.forgot.username.post');
+
 Route::get('/daftar', [LoginController::class, 'create'])->name('hotspot.register.view');
 Route::post('/daftar', [LoginController::class, 'daftar'])->name('hotspot.register');
+
+Route::get('/keluhan', [LoginController::class, 'createKeluhan'])->name('hotspot.keluhan.view');
+Route::post('/post/keluhan', [LoginController::class, 'postKeluhan'])->name('hotspot.keluhan.post');
 
 //SOCIAL MEDIA LOGIN
 Route::get('auth/{provider}', [LoginController::class, 'redirect']);
@@ -63,8 +69,13 @@ Route::get('user/facebook/delete/track/{code}',[LoginController::class, 'deleteT
 Route::get('/admin/login', [AdminController::class, 'showFormLogin'])->name('admin.login.view');
 Route::post('/admin/login', [AdminController::class, 'loginAdmin'])->name('admin.login');
 
+// Rejected Hotspot User Organik Form Resubmit 
+Route::get('/user/resubmit/{tokenID}', [LoginController::class, 'resubmitForm'])->name('user.resubmit.form');
+Route::post('/user/resubmit/post', [LoginController::class, 'resubmit'])->name('user.resubmit.post');
 
 
+
+Route::get('test',  [LoginController::class, 'test']);
 /**
  * 
  * ADMIN START HERE
@@ -99,6 +110,10 @@ Route::group(['middleware' => 'auth:web'], function() {
     // Enable Gambar Pengumuman 
     Route::get('/admin/pengumuman/pic/enable/{id}', [AdminController::class, 'enableFile'])->name('admin.pengumuman.pic.enable');
 
+    // Keluhan
+    Route::get('/admin/keluhan', [AdminController::class, 'listKeluhan'])->name('admin.listKeluhan');
+    Route::get('/admin/keluhan/{id}', [AdminController::class, 'readKeluhan'])->name('admin.readKeluhan');
+    Route::get('/admin/keluhan/delete/{id}', [AdminController::class, 'deleteKeluhan'])->name('admin.deleteKeluhan');
 
     // List Admin Account
     Route::get('/admin/account', [AdminController::class, 'listAccount'])->name('admin.account');
@@ -167,4 +182,20 @@ Route::group(['middleware' => 'auth:web'], function() {
 
     // Show Hotspot Control
     Route::get('/admin/mikrotik/hotspot', [MikrotikController::class, 'getHotspot'])->name('admin.mikrotik.getHotspot');
+
+    // List Load Balancing
+    Route::get('/admin/mikrotik/loadBalancing', [MikrotikController::class, 'listLoadBalancing'])->name('admin.mikrotik.listLoadBalancing');
+    // Form Load Balancing
+    Route::get('/admin/mikrotik/loadBalancing/create', [MikrotikController::class, 'showLoadBalancing'])->name('admin.mikrotik.show.loadBalancing');
+    // Create Load Balancing
+    Route::post('/admin/mikrotik/loadBalancing/create', [MikrotikController::class, 'createLoadBalancing'])->name('admin.mikrotik.post.loadBalancing');
+    // Edit Load Balancing
+    Route::get('/admin/mikrotik/loadBalancing/edit/{id}', [MikrotikController::class, 'editLoadBalancing'])->name('admin.mikrotik.edit.loadBalancing');
+    // Update Load Balancing
+    Route::post('/admin/mikrotik/loadBalancing/update', [MikrotikController::class, 'createLoadBalancing'])->name('admin.mikrotik.update.loadBalancing');
+    // Disable Load Balancing
+    Route::get('/admin/mikrotik/loadBalancing/disable/{id}', [MikrotikController::class, 'disableLoadBalancing'])->name('admin.mikrotik.disable.loadBalancing');
+    // Enable Load Balancing
+    Route::get('/admin/mikrotik/loadBalancing/enable/{id}', [MikrotikController::class, 'enableLoadBalancing'])->name('admin.mikrotik.enable.loadBalancing');
+
 });

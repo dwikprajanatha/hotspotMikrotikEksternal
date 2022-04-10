@@ -100,12 +100,11 @@ class AdminController extends Controller
                 'email' => $data['email'],
                 'password' => Hash::make($data['password']),
                 'role' => $data['role'],
-            ]);
+                ]);
 
-            if($admin){
-                return redirect(route('admin.account'))->with('success', 'Akun berhasil dibuat!');
-            }
         });
+
+        return redirect(route('admin.account'))->with('success', 'Akun berhasil dibuat!');
 
     }
 
@@ -392,6 +391,39 @@ class AdminController extends Controller
     }
 
 
+
+    // Keluhan
+    public function listKeluhan()
+    {
+        $keluhan = DB::connection('mysql')->table('tb_keluhan')->limit(20)->get();
+        
+        return view('admin.keluhan.listKeluhan', ['keluhan' => $keluhan]); 
+    }
+
+    public function readKeluhan(Request $request)
+    {
+        $det_keluhan = DB::connection('mysql')->table('tb_keluhan')->where('id', $request->id)->first();
+        
+        $nik = DB::connection('mysql')->table('tb_nik')->where('id', $det_keluhan->nik_id)->first();
+
+        $det_keluhan->nik = $nik->nik;
+        // ganti status
+        DB::connection('mysql')->table('tb_keluhan')->where('id', $request->id)
+            ->update([
+                'read' => 1,
+            ]);
+
+        return view('admin.keluhan.bacaKeluhan', ['det_keluhan' => $det_keluhan]); 
+    }
+
+    public function deleteKeluhan(Request $request)
+    {
+        DB::connection('mysql')->table('tb_keluhan')->where('id', $request->id)
+        ->update([
+            'status' => 0,
+        ]);
+    }
+
     //list hotspot user
     public function hotspotUser(Request $request, $user)
     {
@@ -431,7 +463,7 @@ class AdminController extends Controller
         if($request->user == 'organik'){
 
             $user = DB::connection('mysql')->table('tb_user_hotspot')
-                    ->select('tb_user_hotspot.id as user_id','tb_user_hotspot.username','tb_user_hotspot.kategori','tb_kategori_user.id as group_id','tb_kategori_user.group','tb_nik.nama', 'tb_nik.alamat')
+                    ->select('tb_user_hotspot.id as user_id','tb_user_hotspot.username', 'tb_user_hotspot.path', 'tb_user_hotspot.status','tb_user_hotspot.kategori','tb_kategori_user.id as group_id','tb_kategori_user.group','tb_nik.nama', 'tb_nik.alamat')
                     ->join('tb_nik', 'tb_user_hotspot.nik_id', '=', 'tb_nik.id')
                     ->join('tb_det_kategori_user', 'tb_user_hotspot.id', '=', 'tb_det_kategori_user.id_user_hotspot')
                     ->join('tb_kategori_user','tb_det_kategori_user.id_kategori_user', '=', 'tb_kategori_user.id')
@@ -480,6 +512,28 @@ class AdminController extends Controller
                     'id_kategori_user' => $request->group,
                 ]);
             
+            DB::connection('mysql')->table('tb_user_hotspot')
+                ->where('id', $request->user_id)
+                ->update([
+                    'status' => $request->status_validasi,
+                ]);
+            
+            if($request->status_validasi == 2){
+
+                $token = time();
+
+                DB::connection('mysql')->table('tb_link_rejected')
+                    ->insert([
+                        'id_user_hotspot' => $request->user_id,
+                        'link' => url('/user/resubmit/'. $token),
+                        'token' => $token,
+                        'status' => 1,
+                        'created_at' => date('Y-m-d H:i:s'),
+                    ]);
+
+            }
+
+
             $user = DB::connection('mysql')->table('tb_user_hotspot')
                         ->where('id', $request->user_id)
                         ->first();
@@ -795,6 +849,8 @@ class AdminController extends Controller
                     $week++;
 
                 }
+
+                // dd($arr_data,$arr_label);
 
             } elseif($range == 'yearly'){
 
@@ -1395,5 +1451,6 @@ class AdminController extends Controller
 
 
     }
+
 
 }

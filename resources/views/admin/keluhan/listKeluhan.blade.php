@@ -1,6 +1,6 @@
 @extends('admin.template')
 
-@section('header', "Hotspot User")
+@section('header', "List Keluhan")
 
 @push('css')
 <!-- DataTables -->
@@ -20,7 +20,7 @@
 
             <div class="card">
               <div class="card-header">
-                <h3 class="card-title">Hotspot User <b>RADIUS</b></h3>
+                <h3 class="card-title">List Keluhan <b>Pengguna</b></h3>
               </div><!-- /.card-header -->
               
               <div class="card-body">
@@ -30,11 +30,7 @@
                         <tr>
                             <th>No.</th>
                             <th>Nama</th>
-                            <th>Alamat</th>
-                            <th>Kategori</th>
-                            <th>User Profile</th>
-                            <th>Status</th>
-                            <th>Valid</th>
+                            <th>Keluhan</th>
                             <th>Action</th>
                         </tr>
 
@@ -42,32 +38,14 @@
 
                     <tbody>
 
-                    @foreach ($users as $u)
+                    @foreach ($keluhan as $kel)
 
                         <tr>
                             <td>{{$loop->iteration}}</td>
-                            <td>{{$u->nama}}</td>
-                            <td>{{$u->alamat}}</td>
-                            <td>{{$u->kategori}}</td>
-                            <td>{{$u->group}}</td>
-                            <td>{{$u->isDeleted == 0 ? 'Aktif' : 'Non-Aktif'}}</td>
-
-                            @if($u->status == 0)
-                            <td>Belum Valid</td>
-                            @elseif($u->status == 1)
-                            <td>Valid</td>
-                            @elseif($u->status == 2)
-                            <td>Tidak Valid</td>
-                            @endif
-
+                            <td><a href="{{route('admin.readKeluhan', ['id' => $kel->id])}}">{{$kel->nama}}</a></td>
+                            <td>{{$kel->isi}}</td>
                             <td>
-                              <a href="{{route('admin.user.edit',['user' => 'organik', 'id' => $u->id])}}" class="btn btn-primary">Edit</a>
-                              
-                              @if($u->isDeleted == 0)
-                              <a href="{{route('admin.user.delete',['user' => 'organik', 'id' => $u->id])}}" class="btn btn-danger">Matikan</a>
-                              @else
-                              <a href="{{route('admin.user.enable',['user' => 'organik', 'id' => $u->id])}}" class="btn btn-success">Aktifkan</a>
-                              @endif
+                              <a href="{{route('admin.deleteKeluhan',['id' => $kel->id])}}" class="btn btn-danger">Hapus</a>
                             </td>
                         </tr>
 

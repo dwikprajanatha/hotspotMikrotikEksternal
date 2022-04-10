@@ -18,15 +18,15 @@ class MikrotikController extends Controller
     {
         try {
 
-            $host = '192.168.10.1';
-            $user = 'admin';
-            $password = 'dwik1234';
+            // $host = '192.168.10.1';
+            // $user = 'admin';
+            // $password = 'dwik1234';
             
             $client = new RouterOS\Client([
-                'host' => $host,
-                'user' => $user,
-                'pass' => $password,
-                'port' => 8728,
+                'host' => env('MIKROTIK_HOST'),
+                'user' => env('MIKROTIK_USER'),
+                'pass' => env('MIKROTIK_PASS'),
+                'port' => (int)env('MIKROTIK_PORT'),
             ]);
 
             // $client = RouterOS::client($config);
@@ -585,6 +585,141 @@ class MikrotikController extends Controller
      */
 
 
+    /**
+     *  START LOAD BALANCING 
+     */
+
+    public function listLoadBalancing(Request $request)
+    {
+        $data = DB::connection('mysql')->table('tb_load_balancing')->get();
+
+        // foreach ($d as $data) {
+        //     $detail = DB::connection('mysql')->table('tb_det_load_balancing')->where('id', $d->id)->where('status', 1)->get();
+        //     $arr_data = [
+        //         'target' => $d->target,
+        //         'deskripsi' => $d->deskripsi,
+        //     ]    
+        // }
+
+        return view('admin.mikrotik.load_balancing.listLoadBalancing', ['loadBalancing' => $data] );
+    }
+
+    
+
+    public function showLoadBalancing(Request $request)
+    {
+        
+        $client = $this->connectRouterOS();
+        $query = (new Query('/interface/print'));
+        
+        $list_interface = $client->query($query)->read();
+
+        // dd($list_interface);
+        
+        return view('admin.mikrotik.load_balancing.createLoadBalancing', ['interfaces' => $list_interface]);
+        
+    }
+
+    public function createLoadBalancing(Request $request)
+    {
+
+
+        $data = $request->validate([
+            'nama' => ['string'],
+            'interface' => ['array', 'min:2'],
+            'ip_address' => ['array', 'min:2'],
+            'ip_address.*' => ['ip'],
+            'network' => ['array', 'min:2'],
+            'network.*' => ['ip'],
+            'gateway' => ['array', 'min:2'],
+            'gateway.*' => ['ip'],
+            'dns' => ['array', 'min:2'],
+            'dns.*' => ['ip'],
+            'bandwidth' => ['array'],
+            'bandwidth.*' => ['alpha_num'],
+        ]);
+
+        $client = $this->connectRouterOS();
+
+        $arr_data = [];
+
+        for($i = 0; $i < sizeof($request->bandwidth); $i++){
+            
+            $arr_data[$i] = [
+                                'nama' => $request->nama, 
+                                'interface' => $request->interface[$i], 
+                                'ip_address' => $request->ip_address[$i], 
+                                'network' => $request->network[$i], 
+                                'gateway' => $request->gateway[$i], 
+                                'dns' => $request->dns[$i], 
+                                'bandwidth' => $request->bandwidth[$i], 
+                            ];
+
+        }
+        
+
+        //sort array dari bandwidth terkecil ke terbesar
+        for($i = 0; $i < sizeof($arr_data); $i++){
+
+            for($i = 0; $i < (sizeof($arr_data) - 1); $i++){
+
+                if($arr_data[$i]['bandwidth'] > $arr_data[$i + 1]['bandwidth']){
+
+                    $arr_data_sementara = [];
+
+                    $arr_data_sementara = $arr_data[$i];
+                    $arr_data[$i] = $arr_data[$i + 1];
+                    $arr_data[$i + 1] = $arr_data_sementara;
+
+                }
+                
+            }
+            
+        }
+
+
+        foreach($arr_data as $data){
+
+            $new_ip = (new Query('/ip/address/add'))
+                        ->equal('interface', $data['interface'])
+                        ->equal('network', $data['network'])
+                        ->equal('address', $data['ip_address']);
+
+            $response_new_ip = $client->query($new_ip)->read();
+            
+            
+        }
+        //add IP on interface
+
+
+
+
+    }
+    
+    public function editLoadBalancing(Request $request)
+    {
+        # code...
+    }
+
+    public function updateLoadBalancing(Request $request)
+    {
+        # code...
+    }
+
+    public function disableLoadBalancing(Request $request)
+    {
+        # code...
+    }
+
+    
+    public function enableLoadBalancing(Request $request)
+    {
+        # code...
+    }
+
+    /**
+     *  END LOAD BALANCING
+     */
 
 
 

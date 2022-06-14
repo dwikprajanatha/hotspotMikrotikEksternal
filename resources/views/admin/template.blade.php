@@ -120,7 +120,7 @@
             <a href="{{route('admin.listKeluhan')}}" class="nav-link {{Request::segment(2) == 'keluhan' ? 'active' : ''}}">
               <i class="nav-icon fas fa-envelope"></i>
               <p>
-                Keluhan
+                Keluhan <span class="badge badge-light right">{{App\Http\Controllers\AdminController::countKeluhan();}}</span>
               </p>
             </a>
           </li>
@@ -206,7 +206,7 @@
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-server"></i>
               <p>
-                Mikrotik Management
+                Mikrotik Bandwidth Management
                 <i class="right fas fa-angle-left"></i>
               </p>
             </a>
@@ -215,28 +215,28 @@
               <li class="nav-item">
                 <a href="{{route('admin.mikrotik.listGroupUser')}}" class="nav-link {{Request::segment(3) == 'kategori_user' ? 'active' : ''}}">
                   <i class="fas fa-user nav-icon"></i>
-                  <p>Kategori User</p>
+                  <p>User Management</p>
                 </a>
               </li>
               
               <li class="nav-item">
                 <a href="{{route('admin.mikrotik.showActive')}}" class="nav-link {{Request::segment(3) == 'activeUser' ? 'active' : ''}}">
                   <i class="fas fa-users-cog nav-icon"></i>
-                  <p>Hotspot User Active</p>
+                  <p>Hotspot User Aktif</p>
                 </a>
               </li>
 
               <li class="nav-item">
                 <a href="{{route('admin.mikrotik.getQueue')}}" class="nav-link {{Request::segment(3) == 'queue' ? 'active' : ''}}">
                   <i class="fab fa-buffer nav-icon"></i>
-                  <p>Queue</p>
+                  <p>Queue Aktif</p>
                 </a>
               </li>
 
               <li class="nav-item">
                 <a href="{{route('admin.mikrotik.getHotspot')}}" class="nav-link {{Request::segment(3) == 'hotspot' ? 'active' : ''}}">
                   <i class="fas fa-wifi nav-icon"></i>
-                  <p>Hotspot</p>
+                  <p>Hotspot Server</p>
                 </a>
               </li>
 
@@ -328,17 +328,7 @@
                 <div class="col-sm-6">
                     <h1 class="m-0">@yield('header')</h1>
                 </div><!-- /.col -->
-                
-                @if (Request::segment(1) != 'user')
-
-                <div class="col-sm-6">
-                  <ol class="breadcrumb float-sm-right">
-                  <li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}">Home</a></li>
-                  <li class="breadcrumb-item active">Dashboard v1</li>
-                  </ol>
-                </div><!-- /.col -->
-                  
-                @endif
+              
                
             </div><!-- /.row -->
         </div><!-- /.container-fluid -->

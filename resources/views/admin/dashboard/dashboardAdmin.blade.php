@@ -26,9 +26,6 @@
               <div class="icon">
                 <i class="fas fa-user"></i>
               </div>
-              <a href="#" class="small-box-footer">
-                More info <i class="fas fa-arrow-circle-right"></i>
-              </a>
             </div><!-- /.small-box bg-info -->
           </div><!-- /.col-lg-3 col-6 -->
 
@@ -43,9 +40,6 @@
               <div class="icon">
                 <i class="fas fa-users"></i>
               </div>
-              <a href="#" class="small-box-footer">
-                More info <i class="fas fa-arrow-circle-right"></i>
-              </a>
             </div><!-- /.small-box bg-info -->
           </div><!-- /.col-lg-3 col-6 -->
         
@@ -63,9 +57,6 @@
             <div class="icon">
               <i class="fas fa-globe"></i>
             </div>
-            <a href="#" class="small-box-footer">
-              More info <i class="fas fa-arrow-circle-right"></i>
-            </a>
           </div><!-- /.small-box bg-info -->
         </div><!-- /.col-lg-3 col-6 -->
 
@@ -73,7 +64,7 @@
           <!-- small card -->
           <div class="small-box bg-warning">
             <div class="inner">
-              <h3>15</h3>
+              <h3>{{$data['keluhan']}}</h3>
 
               <p>Laporan Baru</p>    
 
@@ -81,9 +72,6 @@
             <div class="icon">
               <i class="fas fa-exclamation-circle"></i>
             </div>
-            <a href="#" class="small-box-footer">
-              More info <i class="fas fa-arrow-circle-right"></i>
-            </a>
           </div><!-- /.small-box bg-info -->
         </div><!-- /.col-lg-3 col-6 -->
 

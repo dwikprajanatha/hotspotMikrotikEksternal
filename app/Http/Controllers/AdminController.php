@@ -37,13 +37,29 @@ class AdminController extends Controller
         $response = json_decode($response);
         $totalAktif = count($response->data->users);
 
+        $keluhan = DB::connection('mysql')->table('tb_keluhan')
+                    ->where('read', 0)
+                    ->where('status', 1)
+                    ->count();
+
         $data = [
             'userBaru' => $userBaruOrganik + $userBaruSocial,
             'totalUser' => $userOrganik + $userSocial,
             'totalAktif' => $totalAktif,
+            'keluhan' => $keluhan,
         ];
 
         return view('admin.dashboard.dashboardAdmin', ['data' => $data]);
+    }
+
+    public static function countKeluhan()
+    {
+        $keluhan = DB::connection('mysql')->table('tb_keluhan')
+        ->where('read', 0)
+        ->where('status', 1)
+        ->count();
+
+        return $keluhan;
     }
 
     public function showFormLogin()
@@ -395,7 +411,7 @@ class AdminController extends Controller
     // Keluhan
     public function listKeluhan()
     {
-        $keluhan = DB::connection('mysql')->table('tb_keluhan')->limit(20)->get();
+        $keluhan = DB::connection('mysql')->table('tb_keluhan')->limit(30)->get();
         
         return view('admin.keluhan.listKeluhan', ['keluhan' => $keluhan]); 
     }
@@ -494,6 +510,7 @@ class AdminController extends Controller
                             ->where('tb_custom_rule.status', 1)
                             ->get();
         }
+
 
        return view('admin.hotspotUser.editUser', ['user' => $user, 'groups' => $kategori_user_all, 'custom_rules' => $custom_rules, 'platform' => $request->user]);
     }

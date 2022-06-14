@@ -49,7 +49,7 @@
                                     <input type="text" name="username" id="username" class="form-control" disabled value="{{isset($user->username) ? $user->username : ''}}">
                                 </div>
 
-                                @if($platform == "organik" && $user->path != null)
+                                @if($platform == "organik")
                                 <div class="form-group">
                                     <label for="group">User Profiles</label>
                                     <select class="custom-select form-control-border" name="group" id="group">

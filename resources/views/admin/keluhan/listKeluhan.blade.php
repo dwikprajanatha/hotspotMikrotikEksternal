@@ -42,9 +42,10 @@
 
                         <tr>
                             <td>{{$loop->iteration}}</td>
-                            <td><a href="{{route('admin.readKeluhan', ['id' => $kel->id])}}">{{$kel->nama}}</a></td>
+                            <td>{{$kel->nama}} {!! $kel->read == 0 ? '<span class="badge badge-warning right">New!</span>' : '' !!}</a></td>
                             <td>{{$kel->isi}}</td>
                             <td>
+                              <a href="{{route('admin.readKeluhan', ['id' => $kel->id])}}" class="btn btn-primary">Buka</a>
                               <a href="{{route('admin.deleteKeluhan',['id' => $kel->id])}}" class="btn btn-danger">Hapus</a>
                             </td>
                         </tr>

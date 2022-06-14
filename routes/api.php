@@ -56,7 +56,5 @@ Route::get('user/cekValidasi',[LoginController::class, 'cekValidasi']);
     Route::get('report/penggunaan/{range}/{tgl}', [AdminController::class, 'apiPenggunaanPerUser']);
     Route::get('report/waktupenggunaan/{range}/{tgl}',[AdminController::class, 'apiWaktuPenggunaan']);
 
-    // Keluhan
-    Route::get('keluhan/get', [AdminController::class, 'apiGetKeluhan']);
 
 // });
